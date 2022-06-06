@@ -31,7 +31,7 @@ const HomeNavbarItem = styled(NavLink)`
     transition: 0.3s ease-in;
     border-radius: 50%;
     position: absolute;
-    bottom: 0px;
+    bottom: 0;
     left: calc(50% - 2.5px);
   }
   &.active {

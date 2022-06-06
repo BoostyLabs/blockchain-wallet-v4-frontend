@@ -23,6 +23,7 @@ import { MediaContextProvider } from 'providers/MatchMediaProvider'
 import ThemeProvider from 'providers/ThemeProvider'
 import TranslationsProvider from 'providers/TranslationsProvider'
 import { getTracking } from 'services/tracking'
+
 import ExtensionRoutes from '../routes/extensionRoutes'
 
 const queryClient = new QueryClient()

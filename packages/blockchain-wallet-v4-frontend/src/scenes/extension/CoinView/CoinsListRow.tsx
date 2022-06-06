@@ -1,16 +1,10 @@
-import React from 'react';
-import styled from "styled-components";
+import React from 'react'
+import styled from 'styled-components'
 
-const Wrapper = styled.div`
-  
-`
+const Wrapper = styled.div``
 
 const CoinsListRow = () => {
-  return (
-    <div>
-      
-    </div>
-  );
-};
+  return <Wrapper />
+}
 
-export default CoinsListRow;
+export default CoinsListRow

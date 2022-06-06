@@ -17,7 +17,7 @@ const Cell = styled.div`
   color: #ffffff;
 `
 
-const ListRow = memo(({ data, index, style }: any) => {
+const ListRow = memo(({ index, style }: { index: number; style: { height: number } }) => {
   return (
     <ListRowStyled style={style}>
       <Cell>{index}</Cell>
@@ -29,7 +29,6 @@ const ListRow = memo(({ data, index, style }: any) => {
 
 const CoinsList = () => {
   return (
-    // eslint-disable-next-line sort-keys
     <AutoSizer style={{ height: '100%', width: '100%' }}>
       {({ height, width }: { height: number; width: number }) => (
         <List

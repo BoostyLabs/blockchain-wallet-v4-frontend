@@ -1,5 +1,6 @@
-import React from 'react';
+import React from 'react'
 import styled from 'styled-components'
+
 import { extensionHeight, extensionWidth } from '../../routes/extensionRoutes'
 
 const Wrapper = styled.div`
@@ -26,11 +27,11 @@ const Footer = styled.div`
 `
 
 type Props = {
-  footer: JSX.Element
   children: JSX.Element
+  footer: JSX.Element
 }
 
-const BottomBarLayout = ({ footer, children }: Props): JSX.Element => {
+const BottomBarLayout = ({ children, footer }: Props): JSX.Element => {
   return (
     <Wrapper>
       <Content>{children}</Content>

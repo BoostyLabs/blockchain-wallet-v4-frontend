@@ -1,7 +1,8 @@
-import React from 'react';
-import { Switch, Route } from 'react-router-dom'
-import HomeRoutes from './HomeRoutes'
+import React from 'react'
+import { Route, Switch } from 'react-router-dom'
 import styled from 'styled-components'
+
+import HomeRoutes from './HomeRoutes'
 
 export const extensionHeight = 600
 export const extensionWidth = 800
@@ -21,8 +22,6 @@ const InnerWrapper = styled.div`
 
 const ExtensionRoutes = (props) => {
   const { path } = props.match
-  // eslint-disable-next-line no-console
-  console.log(window)
   return (
     <Wrapper>
       <InnerWrapper>
@@ -31,7 +30,7 @@ const ExtensionRoutes = (props) => {
         </Switch>
       </InnerWrapper>
     </Wrapper>
-  );
-};
+  )
+}
 
-export default ExtensionRoutes;
+export default ExtensionRoutes
