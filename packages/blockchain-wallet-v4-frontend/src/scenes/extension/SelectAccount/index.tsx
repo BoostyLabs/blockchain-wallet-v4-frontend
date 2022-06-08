@@ -1,4 +1,4 @@
-import React, { MouseEvent, useState } from 'react'
+import React, { useState } from 'react'
 import { IconClose } from '@blockchain-com/icons'
 import styled from 'styled-components'
 
@@ -20,23 +20,18 @@ const IconWrapper = styled.div`
 `
 // TODO: Mock SwapAccount entity.
 export class SwapAccountType {
-  public balance: number | string = ''
-
-  public baseCoin: string
-
-  public coin: CoinType
-
-  public label: string
-
-  public type: SwapBaseCounterTypes
-
-  public accountIndex: number
-
-  public address: number | string
-
-  public archived?: boolean
-
-  public index?: number
+  // eslint-disable-next-line no-useless-constructor
+  public constructor(
+    public balance: number | string = '',
+    public baseCoin: string,
+    public coin: CoinType,
+    public label: string,
+    public type: SwapBaseCounterTypes,
+    public accountIndex: number,
+    public address: number | string,
+    public archived?: boolean,
+    public index?: number
+  ) {}
 }
 
 const SelectAccount = () => {
@@ -70,7 +65,7 @@ const SelectAccount = () => {
   return (
     <Wrapper>
       <IconWrapper>
-        <IconClose color='#ffffff' style={{ height: '24px', width: '24px' }} />
+        <IconClose color='#ffffff' height='24px' width='24px' />
       </IconWrapper>
       <Text
         size='20px'

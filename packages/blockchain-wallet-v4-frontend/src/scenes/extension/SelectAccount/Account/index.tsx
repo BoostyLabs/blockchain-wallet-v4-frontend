@@ -64,7 +64,7 @@ export const Account: React.FC<AccountProps> = ({
           <Text size='14px' color='white' weight={500} style={{ lineHeight: '150%' }}>
             {shortingAddress(account.address)}
           </Text>
-          <IconCopy color='#ffffff' style={{ height: '12px', paddingLeft: '5px', width: '12px' }} />
+          <IconCopy color='#ffffff' height='12px' width='12px' style={{ paddingLeft: '5px' }} />
         </WalletBlock>
         <Text size='14px' color='white' weight={500} style={{ lineHeight: '150%' }}>
           {account.balance} {account.coin}
@@ -74,7 +74,7 @@ export const Account: React.FC<AccountProps> = ({
         </Text>
       </AccountInfo>
       {activeAccountIndex === account.accountIndex && (
-        <IconCheckCircle style={{ fill: '#65A5FF', height: '24px', width: '24px' }} />
+        <IconCheckCircle height='24px' width='24px' style={{ fill: '#65A5FF' }} />
       )}
     </AccountBlock>
   )
