@@ -8,7 +8,7 @@ import IconBitcoin from '../../../../icons/IconBitcoin'
 import IconEthereum from '../../../../icons/IconEthereum'
 import { SwapAccountType } from '..'
 
-const AccountBlock = styled.div`
+export const AccountBlock = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -25,14 +25,13 @@ const WalletBlock = styled.div`
   align-items: center;
   cursor: copy;
 `
-
 type AccountProps = {
   account: SwapAccountType
   activeAccountIndex: number
   setActiveAccountIndex: (activeAccountIndex: number) => void
 }
 
-export const Account: React.FC<AccountProps> = ({
+const Account: React.FC<AccountProps> = ({
   account,
   activeAccountIndex,
   setActiveAccountIndex
@@ -52,6 +51,7 @@ export const Account: React.FC<AccountProps> = ({
     <AccountBlock
       key={account.accountIndex}
       onClick={() => setActiveAccountIndex(account.accountIndex)}
+      className='account'
     >
       {account.coin === 'ETH' ? <IconEthereum /> : <IconBitcoin />}
       <AccountInfo>
@@ -60,6 +60,7 @@ export const Account: React.FC<AccountProps> = ({
         </Text>
         <WalletBlock
           onClick={(event: MouseEvent<HTMLDivElement>) => copyAddress(event, account.address)}
+          className='wallet-address'
         >
           <Text size='14px' color='white' weight={500} style={{ lineHeight: '150%' }}>
             {shortingAddress(account.address)}

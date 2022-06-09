@@ -6,7 +6,7 @@ import { CoinType } from '@core/types'
 import { Button, Text } from 'blockchain-info-components'
 import { SwapBaseCounterTypes } from 'data/components/swap/types'
 
-import { Account } from './Account'
+import Account from './Account'
 
 const Wrapper = styled.div`
   padding: 27px 24px;
