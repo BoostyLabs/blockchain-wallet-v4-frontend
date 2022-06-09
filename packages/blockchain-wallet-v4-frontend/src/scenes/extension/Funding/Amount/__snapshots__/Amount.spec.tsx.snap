@@ -7,6 +7,7 @@ exports[`Amount renders correctly 1`] = `
   </Styled(Text)>
   <styled.div>
     <styled.input
+      id="amountInput"
       onChange={[Function]}
       type="number"
       value="0"
@@ -18,7 +19,9 @@ exports[`Amount renders correctly 1`] = `
       <SvgIconChevronDown />
     </styled.span>
   </styled.div>
-  <styled.div>
+  <styled.div
+    id="exchangedAmount"
+  >
     0 ETH
   </styled.div>
   <styled.div

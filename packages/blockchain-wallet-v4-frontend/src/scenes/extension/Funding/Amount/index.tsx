@@ -98,6 +98,7 @@ export const Amount = () => {
         <AmountInput
           type='number'
           value={fundingAmount}
+          id='amountInput'
           onChange={(e) => setFundingAmount(e.target.value)}
         />
         <AmountCurrency onClick={changeCurrency}>
@@ -105,7 +106,7 @@ export const Amount = () => {
           <IconChevronDown />
         </AmountCurrency>
       </AmountInputWrapper>
-      <ExchangedValue>{exchangeCurrency()}</ExchangedValue>
+      <ExchangedValue id='exchangedAmount'>{exchangeCurrency()}</ExchangedValue>
       {mockedFees.map((gasFee: MockGasFee) => (
         <ListItem style={{ margin: '30px 0' }} key={gasFee.label}>
           <Text size='16px' lineHeight='24px' color='#fff'>
