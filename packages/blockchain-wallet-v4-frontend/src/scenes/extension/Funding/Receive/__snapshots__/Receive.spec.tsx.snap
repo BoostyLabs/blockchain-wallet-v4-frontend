@@ -9,9 +9,9 @@ exports[`Receive renders correctly 1`] = `
     <Styled(Text)>
       0xF351db55d029F4A56E744afE1adA81dad4284c1D
     </Styled(Text)>
-    <Styled(Styled(Component))>
+    <Styled(Component)>
       Copy
-    </Styled(Styled(Component))>
+    </Styled(Component)>
   </styled.div>
   <styled.div>
     <QRCode

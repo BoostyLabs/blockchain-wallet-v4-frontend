@@ -173,12 +173,11 @@ exports[`SelectAccount renders correctly 1`] = `
     </li>
   </styled.ul>
   <styled.div>
-    <Styled(Component)
-      color="black"
-      onClick={[Function]}
+    <Styled(Link)
+      to="/extension/funding/amount"
     >
       Continue
-    </Styled(Component)>
+    </Styled(Link)>
   </styled.div>
 </Fragment>
 `;

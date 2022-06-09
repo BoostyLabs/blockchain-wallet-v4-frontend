@@ -6,8 +6,7 @@ import { SelectAccount } from '.'
 
 describe('SelectAccount', (): void => {
   it('renders correctly', () => {
-    const mockSetState = jest.fn()
-    const component = shallow(<SelectAccount setFundingStep={mockSetState} />)
+    const component = shallow(<SelectAccount />)
     const tree = toJson(component)
     expect(tree).toMatchSnapshot()
   })

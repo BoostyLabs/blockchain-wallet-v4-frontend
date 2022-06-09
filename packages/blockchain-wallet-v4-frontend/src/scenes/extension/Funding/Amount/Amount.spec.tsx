@@ -6,8 +6,7 @@ import { Amount } from '.'
 
 describe('Amount', (): void => {
   it('renders correctly', () => {
-    const mockSetState = jest.fn()
-    const component = shallow(<Amount setFundingStep={mockSetState} />)
+    const component = shallow(<Amount />)
     const tree = toJson(component)
     expect(tree).toMatchSnapshot()
   })

@@ -33,8 +33,15 @@ exports[`Success renders correctly 1`] = `
       Your funds are now available
     </Text>
   </styled.div>
-  <Styled(Component)>
+  <Styled(Link)
+    style={
+      Object {
+        "width": "unset",
+      }
+    }
+    to="/extension/home"
+  >
     Continue
-  </Styled(Component)>
+  </Styled(Link)>
 </Fragment>
 `;
