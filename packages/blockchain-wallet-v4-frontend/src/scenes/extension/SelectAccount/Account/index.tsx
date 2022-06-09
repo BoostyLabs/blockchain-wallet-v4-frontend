@@ -61,15 +61,15 @@ export const Account: React.FC<AccountProps> = ({
         <WalletBlock
           onClick={(event: MouseEvent<HTMLDivElement>) => copyAddress(event, account.address)}
         >
-          <Text size='14px' color='white' weight={500} style={{ lineHeight: '150%' }}>
+          <Text size='14px' color='white' weight={500} lineHeight='150%'>
             {shortingAddress(account.address)}
           </Text>
           <IconCopy color='#ffffff' height='12px' width='12px' style={{ paddingLeft: '5px' }} />
         </WalletBlock>
-        <Text size='14px' color='white' weight={500} style={{ lineHeight: '150%' }}>
+        <Text size='14px' color='white' weight={500} lineHeight='150%'>
           {account.balance} {account.coin}
         </Text>
-        <Text size='12px' weight={500} style={{ color: '#98A1B2', lineHeight: '150%' }}>
+        <Text size='12px' weight={500} lineHeight='150%' style={{ color: '#98A1B2' }}>
           $5,225.01
         </Text>
       </AccountInfo>

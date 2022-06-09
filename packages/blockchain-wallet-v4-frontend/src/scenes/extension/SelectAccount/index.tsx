@@ -18,6 +18,15 @@ const IconWrapper = styled.div`
   justify-content: flex-end;
   cursor: pointer;
 `
+const HeaderText = styled(Text)`
+  margin: 30px 0 36px;
+`
+const ImportButton = styled(Button)`
+  background-color: #65a5ff;
+  border: none;
+  margin-top: 158px;
+`
+
 // TODO: Mock SwapAccount entity.
 export class SwapAccountType {
   // eslint-disable-next-line no-useless-constructor
@@ -67,14 +76,9 @@ const SelectAccount = () => {
       <IconWrapper>
         <IconClose color='#ffffff' height='24px' width='24px' />
       </IconWrapper>
-      <Text
-        size='20px'
-        style={{ marginBottom: '36px', marginTop: '30px' }}
-        color='white'
-        weight={500}
-      >
+      <HeaderText size='20px' color='white' weight={500}>
         Select account
-      </Text>
+      </HeaderText>
       {accounts.length &&
         accounts.map((account: SwapAccountType) => (
           <Account
@@ -84,17 +88,9 @@ const SelectAccount = () => {
             activeAccountIndex={activeAccountIndex}
           />
         ))}
-      <Button
-        capitalize
-        data-e2e='s'
-        color='#0E121B'
-        height='48px'
-        fullwidth
-        size='16px'
-        style={{ backgroundColor: '#65A5FF', border: 'none', marginTop: '158px' }}
-      >
+      <ImportButton capitalize data-e2e='s' color='#0E121B' height='48px' fullwidth size='16px'>
         Import account
-      </Button>
+      </ImportButton>
     </Wrapper>
   )
 }
