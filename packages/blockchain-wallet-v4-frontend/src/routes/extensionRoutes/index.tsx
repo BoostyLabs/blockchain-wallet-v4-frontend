@@ -1,5 +1,6 @@
 import React from 'react'
 import { Route, Switch } from 'react-router-dom'
+import Send from 'blockchain-wallet-v4-frontend/src/scenes/extension/Send'
 import styled from 'styled-components'
 
 import HomeRoutes from './HomeRoutes'
@@ -27,6 +28,7 @@ const ExtensionRoutes = (props) => {
       <InnerWrapper>
         <Switch>
           <Route path={`${path}/home`} component={HomeRoutes} />
+          <Route path={`${path}/send`} component={Send} />
         </Switch>
       </InnerWrapper>
     </Wrapper>

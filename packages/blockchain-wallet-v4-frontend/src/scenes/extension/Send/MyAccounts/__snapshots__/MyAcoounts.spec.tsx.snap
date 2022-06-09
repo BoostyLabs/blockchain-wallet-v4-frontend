@@ -1,0 +1,14 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`My accounts extension tab My accounts tab renders correctly 1`] = `
+<styled.div>
+  <WalletItem
+    key="A4Pd7dB08D75679bbE90b7B1eDfB8BE3a16897Ee77"
+    walletAddress="A4Pd7dB08D75679bbE90b7B1eDfB8BE3a16897Ee77"
+  />
+  <WalletItem
+    key="B4Ad7dB08D75679bbE90b7B1eDfB8BE3a16897Ee77"
+    walletAddress="B4Ad7dB08D75679bbE90b7B1eDfB8BE3a16897Ee77"
+  />
+</styled.div>
+`;

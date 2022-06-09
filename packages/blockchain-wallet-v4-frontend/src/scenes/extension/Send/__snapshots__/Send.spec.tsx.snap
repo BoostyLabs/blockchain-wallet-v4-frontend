@@ -1,0 +1,73 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Send extension scene Send scene renders correctly 1`] = `
+<styled.div>
+  <styled.div>
+    <SvgIconClose
+      color="white"
+      cursor="pointer"
+      height="24px"
+      width="24px"
+    />
+  </styled.div>
+  <Text
+    altFont={false}
+    capitalize={false}
+    color="white"
+    cursor="inherit"
+    italic={false}
+    lineHeight="30px"
+    opacity={1}
+    size="20px"
+    uppercase={false}
+    weight={500}
+  >
+    Send to
+  </Text>
+  <styled.div>
+    <styled.input
+      className=""
+      id="sendToWalletAddress"
+      onChange={[Function]}
+      placeholder="|Search, public address (0x), or ENS "
+      value=""
+    />
+  </styled.div>
+  <styled.div>
+    <Link
+      replace={false}
+      to="/extension/send/recent"
+    >
+      <styled.button
+        className=""
+        id="recentTab"
+        onClick={[Function]}
+      >
+        Recent
+      </styled.button>
+    </Link>
+    <Link
+      replace={false}
+      to="/extension/send/my-accounts"
+    >
+      <styled.button
+        className=""
+        id="myAccountsTab"
+        onClick={[Function]}
+      >
+        My accounts
+      </styled.button>
+    </Link>
+  </styled.div>
+  <Switch>
+    <Route
+      component={[Function]}
+      path="/extension/send/recent"
+    />
+    <Route
+      component={[Function]}
+      path="/extension/send/my-accounts"
+    />
+  </Switch>
+</styled.div>
+`;
