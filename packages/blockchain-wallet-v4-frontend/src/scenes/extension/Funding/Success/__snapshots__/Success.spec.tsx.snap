@@ -1,0 +1,40 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Success renders correctly 1`] = `
+<Fragment>
+  <styled.div>
+    <Memo()
+      color="blue300"
+      label="icon Check"
+      size="lg"
+    >
+      <SvgIconCheck />
+    </Memo()>
+    <Text
+      altFont={false}
+      capitalize={false}
+      color="grey700"
+      cursor="inherit"
+      italic={false}
+      lineHeight="inherit"
+      opacity={1}
+      size="16px"
+      style={
+        Object {
+          "marginTop": "20px",
+          "textAlign": "center",
+        }
+      }
+      uppercase={false}
+      weight={400}
+    >
+      Success! 
+      <br />
+      Your funds are now available
+    </Text>
+  </styled.div>
+  <Styled(Component)>
+    Continue
+  </Styled(Component)>
+</Fragment>
+`;

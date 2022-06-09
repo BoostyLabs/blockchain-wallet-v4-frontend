@@ -1,0 +1,184 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SelectAccount renders correctly 1`] = `
+<Fragment>
+  <Styled(Text)
+    style={
+      Object {
+        "marginBottom": 0,
+      }
+    }
+  >
+    Add crypto
+  </Styled(Text)>
+  <Text
+    altFont={false}
+    capitalize={false}
+    color="grey700"
+    cursor="inherit"
+    italic={false}
+    lineHeight="20px"
+    opacity={1}
+    size="14px"
+    style={
+      Object {
+        "color": "#98A1B2",
+        "marginTop": "12px",
+      }
+    }
+    uppercase={false}
+    weight={400}
+  >
+    You can transfer crypto from your Blockchain account or another wallet
+    <Link
+      replace={false}
+      style={
+        Object {
+          "display": "block",
+        }
+      }
+      to="/"
+    >
+      Learn more
+    </Link>
+  </Text>
+  <styled.ul>
+    <li
+      style={
+        Object {
+          "cursor": "pointer",
+        }
+      }
+    >
+      <button
+        className="item"
+        onClick={[Function]}
+        type="button"
+      >
+        <CheckBox
+          innerColor="#619FF7"
+          outerColor="#619FF7"
+        />
+        <styled.div>
+          <Text
+            altFont={false}
+            capitalize={false}
+            color="white"
+            cursor="inherit"
+            italic={false}
+            lineHeight="inherit"
+            opacity={1}
+            size="16px"
+            uppercase={false}
+            weight={400}
+          >
+            Trading Account
+          </Text>
+          <Text
+            altFont={false}
+            capitalize={false}
+            color="white"
+            cursor="inherit"
+            italic={false}
+            lineHeight="inherit"
+            opacity={1}
+            size="16px"
+            style={
+              Object {
+                "textAlign": "right",
+              }
+            }
+            uppercase={false}
+            weight={400}
+          >
+            $3,225.01
+          </Text>
+          <Text
+            altFont={false}
+            capitalize={false}
+            color="grey700"
+            cursor="inherit"
+            italic={false}
+            lineHeight="20px"
+            opacity={1}
+            size="14px"
+            style={
+              Object {
+                "textAlign": "left",
+              }
+            }
+            uppercase={false}
+            weight={400}
+          >
+            Ethereum
+          </Text>
+          <Text
+            altFont={false}
+            capitalize={false}
+            color="grey700"
+            cursor="inherit"
+            italic={false}
+            lineHeight="20px"
+            opacity={1}
+            size="14px"
+            style={
+              Object {
+                "textAlign": "right",
+              }
+            }
+            uppercase={false}
+            weight={400}
+          >
+            5.3655 ETH
+          </Text>
+        </styled.div>
+      </button>
+    </li>
+    <li
+      style={
+        Object {
+          "cursor": "pointer",
+        }
+      }
+    >
+      <button
+        className="item"
+        onClick={[Function]}
+        type="button"
+      >
+        <CheckBox
+          innerColor="transparent"
+          outerColor="#98A1B2"
+        />
+        <Text
+          altFont={false}
+          capitalize={false}
+          color="white"
+          cursor="inherit"
+          italic={false}
+          lineHeight="inherit"
+          opacity={1}
+          size="16px"
+          style={
+            Object {
+              "marginLeft": "16px",
+            }
+          }
+          uppercase={false}
+          weight={400}
+        >
+          Another wallet
+        </Text>
+      </button>
+    </li>
+  </styled.ul>
+  <styled.div>
+    <Styled(Component)
+      color="black"
+      onClick={[Function]}
+    >
+      Continue
+    </Styled(Component)>
+  </styled.div>
+</Fragment>
+`;

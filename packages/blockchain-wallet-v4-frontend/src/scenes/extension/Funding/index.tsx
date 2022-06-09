@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
-import { Button, Icon } from '@blockchain-com/constellation'
+import { Icon } from '@blockchain-com/constellation'
 import { IconArrowLeft } from '@blockchain-com/icons'
 import styled from 'styled-components'
 

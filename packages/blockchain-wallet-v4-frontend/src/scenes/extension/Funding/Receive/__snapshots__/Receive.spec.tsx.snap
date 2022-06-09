@@ -1,0 +1,42 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Receive renders correctly 1`] = `
+<Fragment>
+  <Styled(Text)>
+    Receive tokens and NFTs
+  </Styled(Text)>
+  <styled.div>
+    <Styled(Text)>
+      0xF351db55d029F4A56E744afE1adA81dad4284c1D
+    </Styled(Text)>
+    <Styled(Styled(Component))>
+      Copy
+    </Styled(Styled(Component))>
+  </styled.div>
+  <styled.div>
+    <QRCode
+      bgColor="#FFFFFF"
+      fgColor="#000000"
+      includeMargin={false}
+      level="L"
+      renderAs="canvas"
+      size={85}
+      value="0xF351db55d029F4A56E744afE1adA81dad4284c1D"
+    />
+  </styled.div>
+  <Text
+    altFont={false}
+    capitalize={false}
+    color="grey700"
+    cursor="inherit"
+    italic={false}
+    lineHeight="18px"
+    opacity={1}
+    size="12px"
+    uppercase={false}
+    weight={500}
+  >
+    By depositing tokens to this address, you agree to our terms of service. Depositing tokens other than ETH to this address may result in your funds being lost. See all compatible tokens with this wallet.
+  </Text>
+</Fragment>
+`;
