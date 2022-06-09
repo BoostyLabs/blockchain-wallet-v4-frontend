@@ -53,7 +53,11 @@ export const Account: React.FC<AccountProps> = ({
       key={account.accountIndex}
       onClick={() => setActiveAccountIndex(account.accountIndex)}
     >
-      {account.coin === 'ETH' ? <IconEthereum /> : <IconBitcoin />}
+      {account.coin === 'ETH' ? (
+        <IconEthereum size={24} color='none' />
+      ) : (
+        <IconBitcoin size={24} color='none' />
+      )}
       <AccountInfo>
         <Text size='12px' weight={500} style={{ color: '#98A1B2', lineHeight: '150%' }}>
           {account.label}

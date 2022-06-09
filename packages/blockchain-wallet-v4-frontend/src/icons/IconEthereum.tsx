@@ -1,6 +1,6 @@
 import React from 'react'
 
-const IconEthereum = ({ color = 'none', size = 32 }: { color?: string; size?: number }) => {
+const IconEthereum = ({ color = '#000', size = 24 }: { color?: string; size?: number }) => {
   return (
     <svg
       width={size}
