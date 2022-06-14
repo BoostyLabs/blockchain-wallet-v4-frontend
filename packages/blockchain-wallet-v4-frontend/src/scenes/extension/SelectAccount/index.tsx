@@ -50,6 +50,7 @@ export class SwapAccountType {
 
 const SelectAccount = () => {
   const [activeAccountIndex, setActiveAccountIndex] = useState<number>(0)
+  const [copiedWalletAddress, setCopiedWalletAddress] = useState<string | number>('')
   // TODO: Mock accounts data.
   const accounts: SwapAccountType[] = [
     new SwapAccountType(
@@ -70,7 +71,7 @@ const SelectAccount = () => {
       'Bitcoin account',
       SwapBaseCounterTypes.CUSTODIAL,
       1,
-      '0xb0106c26a6CfbAFB372e317f1a535304F69D3968',
+      '0xb0106c26a6CfbAFB372e317f1a535304F69D3967',
       false,
       0
     )
@@ -94,6 +95,8 @@ const SelectAccount = () => {
             account={account}
             setActiveAccountIndex={setActiveAccountIndex}
             activeAccountIndex={activeAccountIndex}
+            setCopiedWalletAddress={setCopiedWalletAddress}
+            copiedWalletAddress={copiedWalletAddress}
           />
         ))}
       <ImportButton capitalize data-e2e='s' height='48px' fullwidth size='16px'>

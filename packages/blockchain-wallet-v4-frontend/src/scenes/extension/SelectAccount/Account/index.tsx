@@ -14,9 +14,22 @@ const AccountBlock = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 16px 0;
+  padding: 22px 0;
   cursor: pointer;
 `
+
+const CheckBlock = styled.div`
+  position: relative;
+  #tooltip {
+    display: none;
+  }
+  &:hover {
+    #tooltip {
+      display: block;
+    }
+  }
+`
+
 const AccountInfo = styled.div`
   position: relative;
   display: flex;
@@ -31,7 +44,7 @@ const AccountInfo = styled.div`
     }
   }
 `
-const IconCircle = styled.div`
+const IconUncheckCircle = styled.div`
   width: 24px;
   height: 24px;
   border-radius: 50%;
@@ -44,41 +57,68 @@ const WalletBlock = styled.div`
   cursor: copy;
 `
 class TooltipProperties {
+  public backgroundColor: string
+
   public index: number
+
+  public leftBlockPosition: number
+
+  public leftTrianglePosition: number
 
   public text: string
 
   public textColor: string
 
-  public backgroundColor: string
-
-  public constructor(index, text, textColor, backgroundColor) {
+  public constructor(
+    backgroundColor,
+    index,
+    leftBlockPosition,
+    leftTrianglePosition,
+    text,
+    textColor
+  ) {
+    this.backgroundColor = backgroundColor
     this.index = index
+    this.leftBlockPosition = leftBlockPosition
+    this.leftTrianglePosition = leftTrianglePosition
     this.text = text
     this.textColor = textColor
-    this.backgroundColor = backgroundColor
   }
 }
 
 type AccountProps = {
   account: SwapAccountType
   activeAccountIndex: number
+  copiedWalletAddress: string | number
   setActiveAccountIndex: (activeAccountIndex: number) => void
+  setCopiedWalletAddress: (copiedWalletAddress: string | number) => void
 }
 
 export const Account: React.FC<AccountProps> = ({
   account,
   activeAccountIndex,
-  setActiveAccountIndex
+  copiedWalletAddress,
+  setActiveAccountIndex,
+  setCopiedWalletAddress
 }) => {
   const [copyTooltipProperties, setCopyTooltipProperties] = useState<TooltipProperties>(
-    new TooltipProperties(0, 'Copy to clipboard', '#98A1B2', '#2C3038')
+    new TooltipProperties('#2C3038', 0, 50, 50, 'Copy to clipboard', '#98A1B2')
   )
+  const defaultCopyTooltipProperties = new TooltipProperties(
+    '#2C3038',
+    0,
+    50,
+    50,
+    'Copy to clipboard',
+    '#98A1B2'
+  )
+
   const copyAddress = (event: MouseEvent<HTMLDivElement>, address: string | number): void => {
     event.stopPropagation()
     navigator.clipboard.writeText(address.toString())
+    setCopiedWalletAddress(address)
     setCopyTooltipProperties(
-      new TooltipProperties(account.accountIndex, 'Copied!', '#0E121B', '#0C6CF2')
+      new TooltipProperties('#0C6CF2', account.accountIndex, 50, 50, 'Copied!', '#0E121B')
     )
   }
 
@@ -86,8 +126,6 @@ export const Account: React.FC<AccountProps> = ({
     const addressString: string = address.toString()
     return `${addressString.slice(0, 4)}...${addressString.slice(-4)}`
   }
-
-  const defaultTooltip = new TooltipProperties(0, 'Copy to clipboard', '#98A1B2', '#2C3038')
 
   return (
     <AccountBlock
@@ -100,10 +138,10 @@ export const Account: React.FC<AccountProps> = ({
         <IconBitcoin size={24} color='none' />
       )}
       <AccountInfo>
-        {account.accountIndex === copyTooltipProperties.index ? (
+        {account.address === copiedWalletAddress ? (
           <Tooltip copyTooltipProperties={copyTooltipProperties} />
         ) : (
-          <Tooltip copyTooltipProperties={defaultTooltip} />
+          <Tooltip copyTooltipProperties={defaultCopyTooltipProperties} />
         )}
         <WalletBlock
           onClick={(event: MouseEvent<HTMLDivElement>) => copyAddress(event, account.address)}
@@ -124,9 +162,30 @@ export const Account: React.FC<AccountProps> = ({
         </Text>
       </AccountInfo>
       {activeAccountIndex === account.accountIndex ? (
-        <IconCheckCircle height='24px' width='24px' style={{ fill: '#65A5FF' }} />
+        <CheckBlock>
+          <IconCheckCircle height='24px' width='24px' style={{ fill: '#65A5FF' }} />
+          <Tooltip
+            copyTooltipProperties={
+              new TooltipProperties(
+                '#0C6CF2',
+                account.accountIndex,
+                70,
+                65,
+                'Connected!',
+                '#0E121B'
+              )
+            }
+          />
+        </CheckBlock>
       ) : (
-        <IconCircle />
+        <CheckBlock>
+          <IconUncheckCircle />
+          <Tooltip
+            copyTooltipProperties={
+              new TooltipProperties('#2C3038', account.accountIndex, 50, 50, 'Connect', '#98A1B2')
+            }
+          />
+        </CheckBlock>
       )}
     </AccountBlock>
   )
