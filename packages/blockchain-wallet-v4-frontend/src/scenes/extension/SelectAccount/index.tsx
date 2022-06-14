@@ -18,13 +18,18 @@ const IconWrapper = styled.div`
   justify-content: flex-end;
   cursor: pointer;
 `
+const SubHeaderText = styled(Text)`
+  margin: 0px 0 36px;
+  color: #98a1b2;
+`
 const HeaderText = styled(Text)`
-  margin: 30px 0 36px;
+  margin: 30px 0 12px;
 `
 const ImportButton = styled(Button)`
-  background-color: #65a5ff;
-  border: none;
+  background-color: ${(props) => props.theme.exchangeLogin};
+  border: 1px solid #0c6cf2;
   margin-top: 158px;
+  color: #0c6cf2;
 `
 
 // TODO: Mock SwapAccount entity.
@@ -79,6 +84,9 @@ const SelectAccount = () => {
       <HeaderText size='20px' color='white' weight={500}>
         Select account
       </HeaderText>
+      <SubHeaderText size='14px' weight={500}>
+        Total Balance 9,775.89 USD
+      </SubHeaderText>
       {accounts.length &&
         accounts.map((account: SwapAccountType) => (
           <Account
@@ -88,8 +96,8 @@ const SelectAccount = () => {
             activeAccountIndex={activeAccountIndex}
           />
         ))}
-      <ImportButton capitalize data-e2e='s' color='#0E121B' height='48px' fullwidth size='16px'>
-        Import account
+      <ImportButton capitalize data-e2e='s' height='48px' fullwidth size='16px'>
+        Add account
       </ImportButton>
     </Wrapper>
   )

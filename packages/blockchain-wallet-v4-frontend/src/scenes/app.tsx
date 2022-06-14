@@ -260,7 +260,7 @@ const App = ({
                           hideMenu={coinViewV2}
                           center={coinViewV2}
                         />
-                        {isAuthenticated ? <Redirect to='/home' /> : <Redirect to='/login' />}
+                        {/* {isAuthenticated ? <Redirect to='/home' /> : <Redirect to='/login' />} */}
                       </Switch>
                     </Suspense>
                   </ConnectedRouter>
