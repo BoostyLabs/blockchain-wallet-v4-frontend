@@ -1,0 +1,30 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`WalletItem component Wallet item component renders correctly 1`] = `
+<styled.div
+  id="walletItem"
+>
+  <SvgIconBlockchainCircle
+    color="#473BCB"
+    height="32px"
+    width="32px"
+  />
+  <styled.div>
+    <Styled(Text)
+      color="white"
+      lineHeight="18px"
+      size="12px"
+      weight={500}
+    >
+      0x0d7dB08D75679bbE90b7B1eDfB8BE3a16897Ee17
+    </Styled(Text)>
+    <Styled(Text)
+      lineHeight="18px"
+      size="12px"
+      weight={500}
+    >
+      Blockchain.com trading account
+    </Styled(Text)>
+  </styled.div>
+</styled.div>
+`;
