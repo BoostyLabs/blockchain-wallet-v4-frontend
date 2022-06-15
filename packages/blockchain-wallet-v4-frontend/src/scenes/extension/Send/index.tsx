@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { Link, Route, Switch } from 'react-router-dom'
-import { IconCheckCircle, IconClose } from '@blockchain-com/icons'
+import { IconClose } from '@blockchain-com/icons'
 import MyAccounts from 'blockchain-wallet-v4-frontend/src/scenes/extension/Send/MyAccounts'
 import Recent from 'blockchain-wallet-v4-frontend/src/scenes/extension/Send/Recent'
 import Tooltip from 'blockchain-wallet-v4-frontend/src/scenes/extension/Send/Tooltip'
@@ -20,18 +20,10 @@ const IconCloseWrapper = styled.div`
   justify-content: flex-end;
   cursor: pointer;
 `
-const IconCheckCircleWrapper = styled.div`
-  position: absolute;
-  right: 15px;
-  top: 30px;
-`
 
 const InputWrapper = styled.div`
   position: relative;
   display: flex;
-  .checked {
-    background: #20242c;
-  }
 `
 
 export const WalletsWrapper = styled.div`
@@ -43,8 +35,7 @@ export const WalletsWrapper = styled.div`
 
 const Input = styled.input`
   margin: 17px auto;
-  padding-left: 16px;
-  height: 45px;
+  padding: 16px 12px;
   width: 100%;
   border-radius: 8px;
   border: 1px solid #619ff7;
@@ -61,20 +52,23 @@ const Tabs = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  color: #98a1b2;
   .active {
-    background: #2c3038;
+    background: #98a1b2;
+    color: black;
   }
 `
 
 const Tab = styled.button`
+  padding: 3px 10px;
+  height: 27px;
   font-size: 14px;
   line-height: 22px;
   color: white;
-  height: 27px;
   border-radius: 8px;
-  padding: 3px 10px;
   background: none;
   border: none;
+  outline: none;
   cursor: pointer;
 `
 
@@ -85,9 +79,7 @@ enum SendTabs {
 
 const Send = () => {
   const [activeTab, setActiveTab] = useState<SendTabs | null>(null)
-
   const [walletAddress, setWalletAddress] = useState<string>('')
-  const [isWalletValid, setIsWalletValid] = useState<boolean>(false)
   const [isTooltipVisible, setIsTooltipVisible] = useState(false)
 
   // changes and validates wallet address
@@ -98,8 +90,8 @@ const Send = () => {
       setIsTooltipVisible(true)
       return
     }
-    setIsWalletValid(true)
     setIsTooltipVisible(false)
+    window.location.replace('/#/extension/sending')
   }
 
   // changes active tab.
@@ -124,15 +116,9 @@ const Send = () => {
           placeholder='|Search, public address (0x), or ENS '
           value={walletAddress}
           onChange={changeWalletAddress}
-          className={isWalletValid ? 'checked' : ''}
           id='sendToWalletAddress'
         />
-        {isWalletValid && (
-          <IconCheckCircleWrapper id='walletAddressChecked'>
-            <IconCheckCircle color='#65A5FF' height='24px' width='24px' />
-          </IconCheckCircleWrapper>
-        )}
-        {isTooltipVisible && <Tooltip />}
+        {isTooltipVisible && <Tooltip message='invalid address' />}
       </InputWrapper>
       <Tabs>
         <Link to='/extension/send/recent'>

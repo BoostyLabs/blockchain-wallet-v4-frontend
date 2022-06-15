@@ -26,7 +26,6 @@ exports[`Send extension scene Send scene renders correctly 1`] = `
   </Text>
   <styled.div>
     <styled.input
-      className=""
       id="sendToWalletAddress"
       onChange={[Function]}
       placeholder="|Search, public address (0x), or ENS "

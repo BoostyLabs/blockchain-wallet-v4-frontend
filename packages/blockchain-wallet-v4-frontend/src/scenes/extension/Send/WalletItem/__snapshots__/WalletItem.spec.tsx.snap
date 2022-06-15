@@ -10,39 +10,26 @@ exports[`WalletItem component Wallet item component renders correctly 1`] = `
     width="32px"
   />
   <styled.div>
-    <Text
-      altFont={false}
-      capitalize={false}
-      color="grey700"
-      cursor="inherit"
-      italic={false}
+    <Styled(Text)
+      color="white"
       lineHeight="18px"
-      opacity={1}
       size="12px"
       style={
         Object {
-          "color": "#98A1B2",
+          "wordBreak": "break-word",
         }
       }
-      uppercase={false}
-      weight={500}
-    >
-      Blockchain.com trading account
-    </Text>
-    <Text
-      altFont={false}
-      capitalize={false}
-      color="white"
-      cursor="inherit"
-      italic={false}
-      lineHeight="21px"
-      opacity={1}
-      size="14px"
-      uppercase={false}
       weight={500}
     >
       0x0d7dB08D75679bbE90b7B1eDfB8BE3a16897Ee17
-    </Text>
+    </Styled(Text)>
+    <Styled(Text)
+      lineHeight="18px"
+      size="12px"
+      weight={500}
+    >
+      Blockchain.com trading account
+    </Styled(Text)>
   </styled.div>
 </styled.div>
 `;

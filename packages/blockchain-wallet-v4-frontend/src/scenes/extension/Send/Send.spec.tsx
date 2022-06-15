@@ -6,7 +6,6 @@ import toJson from 'enzyme-to-json'
 describe('Send extension scene', (): void => {
   const container = shallow(<Send />)
   const walletAddress = '0x0d7dB08D75679bbE90b7B1eDfB8BE3a16897Ee17'
-  const walletPattern = /[a-z0-9]{42}/i
 
   it('Send scene renders correctly', (): void => {
     const tree = toJson(container)
@@ -20,11 +19,6 @@ describe('Send extension scene', (): void => {
       }
     })
     expect(container.find('#sendToWalletAddress').prop('value')).toEqual(walletAddress)
-    let isWalletValid = false
-    if (walletPattern.test(walletAddress)) {
-      isWalletValid = true
-    }
-    expect(container.find('#sendToWalletAddress').hasClass('checked')).toBeTruthy()
   })
 
   it('recent tab should have active className on click', (): void => {

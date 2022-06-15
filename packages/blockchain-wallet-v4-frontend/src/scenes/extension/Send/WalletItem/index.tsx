@@ -18,17 +18,31 @@ const AccountInfo = styled.div`
   flex-direction: column;
 `
 
+const WalletAddressWrapper = styled(Text)`
+  word-break: break-word;
+`
+
+const WalletAddressLabel = styled(Text)`
+  color: '#98A1B2';
+`
+
 const WalletItem: React.FC<{ walletAddress: string }> = ({ walletAddress }) => {
   return (
     <WalletWrapper id='walletItem'>
       <IconBlockchainCircle height='32px' color='#473BCB' width='32px' />
       <AccountInfo>
-        <Text size='12px' lineHeight='18px' style={{ color: '#98A1B2' }} weight={500}>
-          Blockchain.com trading account
-        </Text>
-        <Text size='14px' lineHeight='21px' color='white' weight={500}>
+        <WalletAddressWrapper
+          size='12px'
+          lineHeight='18px'
+          color='white'
+          weight={500}
+          style={{ wordBreak: 'break-word' }}
+        >
           {walletAddress}
-        </Text>
+        </WalletAddressWrapper>
+        <WalletAddressLabel size='12px' lineHeight='18px' weight={500}>
+          Blockchain.com trading account
+        </WalletAddressLabel>
       </AccountInfo>
     </WalletWrapper>
   )
