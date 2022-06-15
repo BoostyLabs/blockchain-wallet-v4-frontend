@@ -5,14 +5,14 @@ import styled from 'styled-components'
 import { Text } from 'blockchain-info-components'
 
 const TooltipWrapper = styled.div`
-  position: absolute;
   top: 90px;
-  border-radius: 8px;
+  position: absolute;
   padding: 17px 40px;
   display: flex;
   align-items: center;
   justify-content: center;
   width: 232px;
+  border-radius: 8px;
   border: 1px solid #ffa133;
   color: white;
   background: none;
