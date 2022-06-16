@@ -1,12 +1,14 @@
 import React, { useState } from 'react'
 import { Link, Route, Switch } from 'react-router-dom'
+import styled from 'styled-components'
+
 import { IconClose } from '@blockchain-com/icons'
+
+import { Text } from 'blockchain-info-components'
+
 import MyAccounts from 'blockchain-wallet-v4-frontend/src/scenes/extension/Send/MyAccounts'
 import Recent from 'blockchain-wallet-v4-frontend/src/scenes/extension/Send/Recent'
 import Tooltip from 'blockchain-wallet-v4-frontend/src/scenes/extension/Send/Tooltip'
-import styled from 'styled-components'
-
-import { Text } from 'blockchain-info-components'
 
 const Wrapper = styled.div`
   padding: 27px 24px;

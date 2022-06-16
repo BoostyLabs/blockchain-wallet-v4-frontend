@@ -1,6 +1,7 @@
 import React from 'react'
-import { IconAlert } from '@blockchain-com/icons'
 import styled from 'styled-components'
+
+import { IconAlert } from '@blockchain-com/icons'
 
 import { Text } from 'blockchain-info-components'
 
