@@ -6,7 +6,7 @@ import SelectAccount from '../../scenes/extension/SelectAccount'
 import HomeRoutes from './HomeRoutes'
 
 export const extensionHeight = 600
-export const extensionWidth = 800
+export const extensionWidth = 360
 
 const Wrapper = styled.div`
   display: flex;

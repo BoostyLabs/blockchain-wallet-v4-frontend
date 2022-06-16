@@ -1,9 +1,13 @@
 import React, { MouseEvent, useState } from 'react'
+import { useSelector } from 'react-redux'
 import { IconCheckCircle } from '@blockchain-com/icons'
 import Tooltip from 'blockchain-wallet-v4-frontend/src/scenes/extension/SelectAccount/Tooltip'
 import styled from 'styled-components'
 
 import { Text } from 'blockchain-info-components'
+import { getBalanceSelector } from 'components/Balances/selectors'
+import FiatDisplay from 'components/Display/FiatDisplay'
+import { RootState } from 'data/rootReducer'
 
 import CopyIcon from '../../../../icons/CopyIcon'
 import IconBitcoin from '../../../../icons/IconBitcoin'
@@ -101,6 +105,9 @@ export const Account: React.FC<AccountProps> = ({
   setActiveAccountIndex,
   setCopiedWalletAddress
 }) => {
+  const state = useSelector((state: RootState) => state)
+  const balance = getBalanceSelector(account.coin)(state).getOrElse(0).valueOf()
+
   const [copyTooltipProperties, setCopyTooltipProperties] = useState<TooltipProperties>(
     new TooltipProperties('#2C3038', 0, 50, 50, 'Copy to clipboard', '#98A1B2')
   )
@@ -158,7 +165,9 @@ export const Account: React.FC<AccountProps> = ({
           <CopyIcon color={`${(props) => props.theme.exchangeLogin}`} size={16} />
         </WalletBlock>
         <Text size='14px' weight={500} lineHeight='150%' style={{ color: '#98A1B2' }}>
-          $5,225.01
+          <FiatDisplay color='grey400' size='12px' weight={500} coin={account.coin}>
+            {balance}
+          </FiatDisplay>
         </Text>
       </AccountInfo>
       {activeAccountIndex === account.accountIndex ? (
@@ -190,5 +199,3 @@ export const Account: React.FC<AccountProps> = ({
     </AccountBlock>
   )
 }
-
-export default Account

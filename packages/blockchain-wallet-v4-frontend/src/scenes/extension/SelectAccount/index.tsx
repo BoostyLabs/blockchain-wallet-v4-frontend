@@ -1,10 +1,13 @@
 import React, { useState } from 'react'
+import { connect, useSelector } from 'react-redux'
 import { IconClose } from '@blockchain-com/icons'
 import styled from 'styled-components'
 
 import { CoinType } from '@core/types'
 import { Button, Text } from 'blockchain-info-components'
+import { getTotalBalance } from 'components/Balances/total/selectors'
 import { SwapBaseCounterTypes } from 'data/components/swap/types'
+import { RootState } from 'data/rootReducer'
 
 import { Account } from './Account'
 
@@ -48,30 +51,26 @@ export class SwapAccountType {
   ) {}
 }
 
-const SelectAccount = () => {
+const SelectAccount = (props) => {
   const [activeAccountIndex, setActiveAccountIndex] = useState<number>(0)
   const [copiedWalletAddress, setCopiedWalletAddress] = useState<string | number>('')
+  // @ts-ignore
+  const address = useSelector((state: RootState) => state.dataPath.eth.addresses.data)
+
+  const {
+    data: { totalBalance }
+  } = props
+
   // TODO: Mock accounts data.
   const accounts: SwapAccountType[] = [
     new SwapAccountType(
-      '5.20018653',
+      totalBalance,
       'Ethereum',
       'ETH',
       'Ethereum account',
       SwapBaseCounterTypes.CUSTODIAL,
       0,
-      '0xb0106c26a6CfbAFB372e317f1a535304F69D3968',
-      false,
-      0
-    ),
-    new SwapAccountType(
-      '0.20018653',
-      'Bitcoin',
-      'BTC',
-      'Bitcoin account',
-      SwapBaseCounterTypes.CUSTODIAL,
-      1,
-      '0xb0106c26a6CfbAFB372e317f1a535304F69D3967',
+      Object.keys(address)[0],
       false,
       0
     )
@@ -86,7 +85,7 @@ const SelectAccount = () => {
         Select account
       </HeaderText>
       <SubHeaderText size='14px' weight={500}>
-        Total Balance 9,775.89 USD
+        {`Total Balance ${totalBalance}`}
       </SubHeaderText>
       {accounts.length &&
         accounts.map((account: SwapAccountType) => (
@@ -106,4 +105,9 @@ const SelectAccount = () => {
   )
 }
 
-export default SelectAccount
+const mapStateToProps = (state) => {
+  const data = getTotalBalance(state)
+  return data
+}
+
+export default connect(mapStateToProps, null)(SelectAccount)
