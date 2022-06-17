@@ -1,4 +1,5 @@
 import base64url from 'base64url'
+import { ChromePlugin } from 'plugin/internal'
 import { find, propEq } from 'ramda'
 import { startSubmit, stopSubmit } from 'redux-form'
 import { call, fork, put, select, take } from 'redux-saga/effects'
@@ -369,6 +370,8 @@ export default ({ api, coreSagas, networks }) => {
         } else {
           yield put(actions.router.push('/verify-email-step'))
         }
+      } else if (ChromePlugin.isPlugin()) {
+        yield put(actions.router.push('/extension'))
       } else {
         yield put(actions.router.push('/home'))
       }

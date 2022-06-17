@@ -1,6 +1,10 @@
 import React from 'react'
-import { Route, Switch } from 'react-router-dom'
+import { connect } from 'react-redux'
+import { Redirect, Route, Switch } from 'react-router-dom'
+import { ChromePlugin } from 'plugin/internal'
 import styled from 'styled-components'
+
+import { selectors } from 'data'
 
 import HomeRoutes from './HomeRoutes'
 
@@ -21,16 +25,28 @@ const InnerWrapper = styled.div`
 `
 
 const ExtensionRoutes = (props) => {
+  if (!ChromePlugin.isPlugin()) {
+    return <Redirect to='/home' />
+  }
+
+  if (!props.isAuthenticated) {
+    return <Redirect to={{ pathname: '/login', state: { from: '' } }} />
+  }
+
   const { path } = props.match
   return (
     <Wrapper>
       <InnerWrapper>
         <Switch>
-          <Route path={`${path}/home`} component={HomeRoutes} />
+          <Route path={`${path}`} component={HomeRoutes} />
         </Switch>
       </InnerWrapper>
     </Wrapper>
   )
 }
 
-export default ExtensionRoutes
+const mapStateToProps = (state) => ({
+  isAuthenticated: selectors.auth.isAuthenticated(state)
+})
+
+export default connect(mapStateToProps, null)(ExtensionRoutes)
