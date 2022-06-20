@@ -11,7 +11,9 @@ import { RootState } from 'data/rootReducer'
 
 import CopyIcon from '../../../../icons/CopyIcon'
 import IconBitcoin from '../../../../icons/IconBitcoin'
+import IconBitcoinCash from '../../../../icons/IconBitcoinCash'
 import IconEthereum from '../../../../icons/IconEthereum'
+import IconStellar from '../../../../icons/IconStellar'
 import { SwapAccountType } from '..'
 
 const AccountBlock = styled.div`
@@ -48,6 +50,13 @@ const AccountInfo = styled.div`
     }
   }
 `
+
+const IconCheckWrapper = styled(IconCheckCircle)`
+  path {
+    fill: #0c6cf2;
+  }
+`
+
 const IconUncheckCircle = styled.div`
   width: 24px;
   height: 24px;
@@ -107,7 +116,6 @@ export const Account: React.FC<AccountProps> = ({
 }) => {
   const state = useSelector((state: RootState) => state)
   const balance = getBalanceSelector(account.coin)(state).getOrElse(0).valueOf()
-
   const [copyTooltipProperties, setCopyTooltipProperties] = useState<TooltipProperties>(
     new TooltipProperties('#2C3038', 0, 50, 50, 'Copy to clipboard', '#98A1B2')
   )
@@ -134,16 +142,29 @@ export const Account: React.FC<AccountProps> = ({
     return `${addressString.slice(0, 4)}...${addressString.slice(-4)}`
   }
 
+  const displayAccountIcon = () => {
+    switch (account.coin) {
+      case 'ETH':
+        return <IconEthereum size={24} color='none' />
+        break
+      case 'BTC':
+        return <IconBitcoin size={24} color='none' />
+        break
+      case 'XLM':
+        return <IconStellar size={24} color='none' />
+        break
+      default:
+        return <IconBitcoinCash size={24} color='none' />
+        break
+    }
+  }
+
   return (
     <AccountBlock
       key={account.accountIndex}
       onClick={() => setActiveAccountIndex(account.accountIndex)}
     >
-      {account.coin === 'ETH' ? (
-        <IconEthereum size={24} color='none' />
-      ) : (
-        <IconBitcoin size={24} color='none' />
-      )}
+      {displayAccountIcon()}
       <AccountInfo>
         {account.address === copiedWalletAddress ? (
           <Tooltip copyTooltipProperties={copyTooltipProperties} />
@@ -172,7 +193,7 @@ export const Account: React.FC<AccountProps> = ({
       </AccountInfo>
       {activeAccountIndex === account.accountIndex ? (
         <CheckBlock>
-          <IconCheckCircle height='24px' width='24px' style={{ fill: '#65A5FF' }} />
+          <IconCheckWrapper height='24px' width='24px' />
           <Tooltip
             copyTooltipProperties={
               new TooltipProperties(
