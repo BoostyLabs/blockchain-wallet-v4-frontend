@@ -10,28 +10,11 @@ exports[`Success renders correctly 1`] = `
     >
       <SvgIconCheck />
     </Memo()>
-    <Text
-      altFont={false}
-      capitalize={false}
-      color="grey700"
-      cursor="inherit"
-      italic={false}
-      lineHeight="inherit"
-      opacity={1}
-      size="16px"
-      style={
-        Object {
-          "marginTop": "20px",
-          "textAlign": "center",
-        }
-      }
-      uppercase={false}
-      weight={400}
-    >
+    <Styled(Text)>
       Success! 
       <br />
       Your funds are now available
-    </Text>
+    </Styled(Text)>
   </styled.div>
   <Styled(Link)
     style={

@@ -1,199 +1,37 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Amount renders correctly 1`] = `
-<Fragment>
-  <Styled(Text)>
-    Enter amount
-  </Styled(Text)>
-  <styled.div>
-    <styled.input
-      id="amountInput"
-      onChange={[Function]}
-      type="number"
-      value="0"
-    />
-    <styled.span
-      onClick={[Function]}
-    >
-      USD 
-      <SvgIconChevronDown />
-    </styled.span>
-  </styled.div>
-  <styled.div
-    id="exchangedAmount"
-  >
-    0 ETH
-  </styled.div>
-  <styled.div
-    key="Gas Fee"
-    style={
-      Object {
-        "margin": "30px 0",
-      }
+<ContextProvider
+  value={
+    Object {
+      "store": Object {
+        "clearActions": [Function],
+        "dispatch": [Function],
+        "getActions": [Function],
+        "getState": [Function],
+        "replaceReducer": [Function],
+        "subscribe": [Function],
+      },
+      "subscription": Subscription {
+        "handleChangeWrapper": [Function],
+        "listeners": Object {
+          "notify": [Function],
+        },
+        "onStateChange": [Function],
+        "parentSub": undefined,
+        "store": Object {
+          "clearActions": [Function],
+          "dispatch": [Function],
+          "getActions": [Function],
+          "getState": [Function],
+          "replaceReducer": [Function],
+          "subscribe": [Function],
+        },
+        "unsubscribe": null,
+      },
     }
-  >
-    <Text
-      altFont={false}
-      capitalize={false}
-      color="#fff"
-      cursor="inherit"
-      italic={false}
-      lineHeight="24px"
-      opacity={1}
-      size="16px"
-      uppercase={false}
-      weight={400}
-    >
-      Gas Fee
-    </Text>
-    <Text
-      altFont={false}
-      capitalize={false}
-      color="#fff"
-      cursor="inherit"
-      italic={false}
-      lineHeight="24px"
-      opacity={1}
-      size="16px"
-      style={
-        Object {
-          "textAlign": "right",
-        }
-      }
-      uppercase={false}
-      weight={400}
-    >
-      5.3655 ETH
-    </Text>
-    <Text
-      altFont={false}
-      capitalize={false}
-      color="grey700"
-      cursor="inherit"
-      italic={false}
-      lineHeight="inherit"
-      opacity={1}
-      size="16px"
-      uppercase={false}
-      weight={400}
-    />
-    <Text
-      altFont={false}
-      capitalize={false}
-      color="grey700"
-      cursor="inherit"
-      italic={false}
-      lineHeight="20px"
-      opacity={1}
-      size="14px"
-      style={
-        Object {
-          "textAlign": "right",
-        }
-      }
-      uppercase={false}
-      weight={400}
-    >
-      5.3655 USD
-    </Text>
-  </styled.div>
-  <styled.div
-    key="Total"
-    style={
-      Object {
-        "margin": "30px 0",
-      }
-    }
-  >
-    <Text
-      altFont={false}
-      capitalize={false}
-      color="#fff"
-      cursor="inherit"
-      italic={false}
-      lineHeight="24px"
-      opacity={1}
-      size="16px"
-      uppercase={false}
-      weight={400}
-    >
-      Total
-    </Text>
-    <Text
-      altFont={false}
-      capitalize={false}
-      color="#fff"
-      cursor="inherit"
-      italic={false}
-      lineHeight="24px"
-      opacity={1}
-      size="16px"
-      style={
-        Object {
-          "textAlign": "right",
-        }
-      }
-      uppercase={false}
-      weight={400}
-    >
-      5.3655 ETH
-    </Text>
-    <Text
-      altFont={false}
-      capitalize={false}
-      color="grey700"
-      cursor="inherit"
-      italic={false}
-      lineHeight="inherit"
-      opacity={1}
-      size="16px"
-      uppercase={false}
-      weight={400}
-    />
-    <Text
-      altFont={false}
-      capitalize={false}
-      color="grey700"
-      cursor="inherit"
-      italic={false}
-      lineHeight="20px"
-      opacity={1}
-      size="14px"
-      style={
-        Object {
-          "textAlign": "right",
-        }
-      }
-      uppercase={false}
-      weight={400}
-    >
-      5.3655 USD
-    </Text>
-  </styled.div>
-  <div
-    style={
-      Object {
-        "display": "flex",
-      }
-    }
-  >
-    <Styled(Link)
-      style={
-        Object {
-          "background": "none",
-          "color": "#65A5FF",
-          "marginRight": "10px",
-        }
-      }
-      to="/extension/funding/select-account"
-    >
-      Cancel
-    </Styled(Link)>
-    <Styled(Link)
-      to="/extension/funding/success"
-    >
-      Confirm
-    </Styled(Link)>
-  </div>
-</Fragment>
+  }
+>
+  <Connect(Amount) />
+</ContextProvider>
 `;

@@ -1,9 +1,16 @@
 import React, { useState } from 'react'
+import { connect, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
+import { bindActionCreators } from 'redux'
 import styled from 'styled-components'
 
 import { Text } from 'blockchain-info-components'
+import { getBalanceSelector } from 'components/Balances/selectors'
+import { getTotalBalance } from 'components/Balances/total/selectors'
+import FiatDisplay from 'components/Display/FiatDisplay'
+import { actions } from 'data'
 
+import { RootState } from '../../../../data/rootReducer'
 import CheckBox from '../../../../icons/BackIcon'
 
 const List = styled.ul`
@@ -20,7 +27,7 @@ const List = styled.ul`
     border: none;
   }
 `
-export const ListItem = styled.div`
+export const ListItemContent = styled.div`
   margin-left: 16px;
   width: 100%;
   display: grid;
@@ -55,19 +62,29 @@ export const FundingHeading = styled(Text)`
   margin: 34px 0 67px;
   color: white;
 `
+export const Subtitle = styled(Text)`
+  font-size: 14px;
+  line-height: 20px;
+  color: #98a1b2;
+`
 
-export const SelectAccount = () => {
+const SelectAccount = (props) => {
+  const state = useSelector((state: RootState) => state)
   const [selectedAccount, setSelectedAccount] = useState<string>('Trading')
+  const {
+    coins: {
+      data: { totalBalance }
+    }
+  } = props
+  const balance = getBalanceSelector('ETH')(state).getOrElse(0).valueOf()
 
   return (
     <>
-      <FundingHeading style={{ marginBottom: 0 }}>Add crypto</FundingHeading>
-      <Text size='14px' lineHeight='20px' style={{ color: '#98A1B2', marginTop: '12px' }}>
-        You can transfer crypto from your Blockchain account or another wallet
-        <Link to='/' style={{ display: 'block' }}>
-          Learn more
-        </Link>
-      </Text>
+      <FundingHeading style={{ marginBottom: '12px' }}>Add crypto</FundingHeading>
+      <Subtitle>
+        You can transfer crypto from your Blockchain account or another wallet <br />
+        <Link to='/'>Learn more</Link>
+      </Subtitle>
       <List>
         <li style={{ cursor: 'pointer' }}>
           <button type='button' className='item' onClick={() => setSelectedAccount('Trading')}>
@@ -75,18 +92,26 @@ export const SelectAccount = () => {
               innerColor={selectedAccount ? '#619FF7' : 'transparent'}
               outerColor={selectedAccount ? '#619FF7' : '#98A1B2'}
             />
-            <ListItem>
+            <ListItemContent>
               <Text color='white'>Trading Account</Text>
-              <Text color='white' style={{ textAlign: 'right' }}>
-                $3,225.01
+              <Text color='white' style={{ display: 'flex', justifyContent: 'right' }}>
+                <FiatDisplay
+                  color='grey400'
+                  size='12px'
+                  weight={500}
+                  coin='ETH'
+                  style={{ textAlign: 'right' }}
+                >
+                  {balance}
+                </FiatDisplay>
               </Text>
               <Text size='14px' lineHeight='20px' style={{ textAlign: 'left' }}>
                 Ethereum
               </Text>
               <Text size='14px' lineHeight='20px' style={{ textAlign: 'right' }}>
-                5.3655 ETH
+                {`ETH ${(balance / 10e18).toFixed(6)}`}
               </Text>
-            </ListItem>
+            </ListItemContent>
           </button>
         </li>
         <li style={{ cursor: 'pointer' }}>
@@ -109,3 +134,13 @@ export const SelectAccount = () => {
     </>
   )
 }
+
+const mapStateToProps = (state) => ({
+  coins: getTotalBalance(state)
+})
+
+const mapDispatchToProps = (dispatch) => ({
+  preferencesActions: bindActionCreators(actions.preferences, dispatch)
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(SelectAccount)
