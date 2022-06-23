@@ -1,19 +1,14 @@
 import React, { MouseEvent, useState } from 'react'
 import { useSelector } from 'react-redux'
-import { IconCheckCircle } from '@blockchain-com/icons'
+import { IconCheckCircle, IconCopy } from '@blockchain-com/icons'
 import Tooltip from 'blockchain-wallet-v4-frontend/src/scenes/extension/SelectAccount/Tooltip'
 import styled from 'styled-components'
 
-import { Text } from 'blockchain-info-components'
+import { Icon, Text } from 'blockchain-info-components'
 import { getBalanceSelector } from 'components/Balances/selectors'
 import FiatDisplay from 'components/Display/FiatDisplay'
 import { RootState } from 'data/rootReducer'
 
-import CopyIcon from '../../../../icons/CopyIcon'
-import IconBitcoin from '../../../../icons/IconBitcoin'
-import IconBitcoinCash from '../../../../icons/IconBitcoinCash'
-import IconEthereum from '../../../../icons/IconEthereum'
-import IconStellar from '../../../../icons/IconStellar'
 import { SwapAccountType } from '..'
 
 const AccountBlock = styled.div`
@@ -23,8 +18,7 @@ const AccountBlock = styled.div`
   padding: 22px 0;
   cursor: pointer;
 `
-
-const CheckBlock = styled.div`
+const ConnectBlock = styled.div`
   position: relative;
   #tooltip {
     display: none;
@@ -35,7 +29,6 @@ const CheckBlock = styled.div`
     }
   }
 `
-
 const AccountInfo = styled.div`
   position: relative;
   display: flex;
@@ -50,18 +43,16 @@ const AccountInfo = styled.div`
     }
   }
 `
-
 const IconCheckWrapper = styled(IconCheckCircle)`
   path {
-    fill: #0c6cf2;
+    fill: ${(props) => props.theme.white};
   }
 `
-
 const IconUncheckCircle = styled.div`
   width: 24px;
   height: 24px;
   border-radius: 50%;
-  border: 2px solid #20242c;
+  border: 2px solid ${(props) => props.theme.grey800};
 `
 const WalletBlock = styled.div`
   position: relative;
@@ -115,25 +106,25 @@ export const Account: React.FC<AccountProps> = ({
   setCopiedWalletAddress
 }) => {
   const state = useSelector((state: RootState) => state)
-  const balance = getBalanceSelector(account.coin)(state).getOrElse(0).valueOf()
-  const [copyTooltipProperties, setCopyTooltipProperties] = useState<TooltipProperties>(
-    new TooltipProperties('#2C3038', 0, 50, 50, 'Copy to clipboard', '#98A1B2')
+  const balance = getBalanceSelector(account.coin)(state).getOrElse(0)
+  const [tooltipProperties, setTooltipProperties] = useState<TooltipProperties>(
+    new TooltipProperties('black', 0, 50, 50, 'Copy to clipboard', 'grey400')
   )
-  const defaultCopyTooltipProperties = new TooltipProperties(
-    '#2C3038',
+  const defaultTooltipProperties = new TooltipProperties(
+    'black',
     0,
     50,
     50,
     'Copy to clipboard',
-    '#98A1B2'
+    'grey400'
   )
 
   const copyAddress = (event: MouseEvent<HTMLDivElement>, address: string | number): void => {
     event.stopPropagation()
     navigator.clipboard.writeText(address.toString())
     setCopiedWalletAddress(address)
-    setCopyTooltipProperties(
-      new TooltipProperties('#0C6CF2', account.accountIndex, 50, 50, 'Copied!', '#0E121B')
+    setTooltipProperties(
+      new TooltipProperties('white', account.accountIndex, 50, 50, 'Copied!', 'black')
     )
   }
 
@@ -145,16 +136,19 @@ export const Account: React.FC<AccountProps> = ({
   const displayAccountIcon = () => {
     switch (account.coin) {
       case 'ETH':
-        return <IconEthereum size={24} color='none' />
+        return <Icon size='24' name={account.coin} />
         break
       case 'BTC':
-        return <IconBitcoin size={24} color='none' />
+        return <Icon size='24' name={account.coin} />
+        break
+      case 'BCH':
+        return <Icon size='24' name={account.coin} />
         break
       case 'XLM':
-        return <IconStellar size={24} color='none' />
+        return <Icon size='24' name={account.coin} />
         break
       default:
-        return <IconBitcoinCash size={24} color='none' />
+        return <Icon size='24' name={account.coin} />
         break
     }
   }
@@ -167,9 +161,9 @@ export const Account: React.FC<AccountProps> = ({
       {displayAccountIcon()}
       <AccountInfo>
         {account.address === copiedWalletAddress ? (
-          <Tooltip copyTooltipProperties={copyTooltipProperties} />
+          <Tooltip tooltipProperties={tooltipProperties} />
         ) : (
-          <Tooltip copyTooltipProperties={defaultCopyTooltipProperties} />
+          <Tooltip tooltipProperties={defaultTooltipProperties} />
         )}
         <WalletBlock
           onClick={(event: MouseEvent<HTMLDivElement>) => copyAddress(event, account.address)}
@@ -183,39 +177,30 @@ export const Account: React.FC<AccountProps> = ({
           >
             {shortingAddress(account.address)}
           </Text>
-          <CopyIcon color={`${(props) => props.theme.exchangeLogin}`} size={16} />
+          <IconCopy color={`${(props) => props.theme.exchangeLogin}`} width={16} height={16} />
         </WalletBlock>
-        <Text size='14px' weight={500} lineHeight='150%' style={{ color: '#98A1B2' }}>
-          <FiatDisplay color='grey400' size='12px' weight={500} coin={account.coin}>
-            {balance}
-          </FiatDisplay>
-        </Text>
+        <FiatDisplay color='grey400' size='12px' weight={500} coin={account.coin}>
+          {balance}
+        </FiatDisplay>
       </AccountInfo>
       {activeAccountIndex === account.accountIndex ? (
-        <CheckBlock>
+        <ConnectBlock>
           <IconCheckWrapper height='24px' width='24px' />
           <Tooltip
-            copyTooltipProperties={
-              new TooltipProperties(
-                '#0C6CF2',
-                account.accountIndex,
-                70,
-                65,
-                'Connected!',
-                '#0E121B'
-              )
+            tooltipProperties={
+              new TooltipProperties('white', account.accountIndex, 70, 65, 'Connected!', 'black')
             }
           />
-        </CheckBlock>
+        </ConnectBlock>
       ) : (
-        <CheckBlock>
+        <ConnectBlock>
           <IconUncheckCircle />
           <Tooltip
-            copyTooltipProperties={
-              new TooltipProperties('#2C3038', account.accountIndex, 50, 50, 'Connect', '#98A1B2')
+            tooltipProperties={
+              new TooltipProperties('black', account.accountIndex, 50, 50, 'Connect', 'grey400')
             }
           />
-        </CheckBlock>
+        </ConnectBlock>
       )}
     </AccountBlock>
   )

@@ -1,10 +1,12 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { connect, useSelector } from 'react-redux'
 import { IconClose } from '@blockchain-com/icons'
+import Failure from 'blockchain-wallet-v4-frontend/src/scenes/Prices/template.failure'
+import Loading from 'blockchain-wallet-v4-frontend/src/scenes/Prices/template.loading'
 import styled from 'styled-components'
 
 import { CoinType } from '@core/types'
-import { Button, Text } from 'blockchain-info-components'
+import { Text } from 'blockchain-info-components'
 import { getTotalBalance } from 'components/Balances/total/selectors'
 import { selectors } from 'data'
 import { SWAP_ACCOUNTS_SELECTOR } from 'data/coins/model/swap'
@@ -25,21 +27,13 @@ const IconWrapper = styled.div`
   justify-content: flex-end;
   cursor: pointer;
 `
-const SubHeaderText = styled(Text)`
+const BalanceText = styled(Text)`
   margin: 0px 0 36px;
-  color: #98a1b2;
+  color: ${(props) => props.theme.grey400};
 `
 const HeaderText = styled(Text)`
   margin: 30px 0 12px;
 `
-const ImportButton = styled(Button)`
-  background-color: ${(props) => props.theme.exchangeLogin};
-  border: 1px solid #0c6cf2;
-  margin: auto auto 0;
-  color: #0c6cf2;
-`
-
-// TODO: Mock SwapAccount entity.
 export class SwapAccountType {
   // eslint-disable-next-line no-useless-constructor
   public constructor(
@@ -59,28 +53,24 @@ const SelectAccount = (props) => {
   const [activeAccountIndex, setActiveAccountIndex] = useState<number>(0)
   const [copiedWalletAddress, setCopiedWalletAddress] = useState<string | number>('')
   const coins = useSelector((state: RootState) => state.dataPath)
+  const { accounts, data } = props
 
   const getWallet = (coin: string) => {
+    if (!coins) return ''
+    // for XML address
     if (!coins[coin].addresses) {
       return Object.keys(coins[coin].data)[0]
     }
+    // for ETH, BTC, BCH addresses
     return Object.keys(coins[coin].addresses.data)[0]
   }
 
   const getAddressType = (coin: string) => {
-    if (!props.accounts) {
-      return null
-    }
-    return props.accounts[coin][0].type
+    if (!accounts) return SwapBaseCounterTypes.CUSTODIAL
+    return accounts[coin][0].typesetTooltipProperties
   }
 
-  const {
-    data: {
-      data: { totalBalance }
-    }
-  } = props
-
-  const accounts: SwapAccountType[] = [
+  const switchAccounts: SwapAccountType[] = [
     new SwapAccountType(
       0,
       'Ethereum',
@@ -127,6 +117,17 @@ const SelectAccount = (props) => {
     )
   ]
 
+  const totalBalance = data.cata({
+    Failure: () => <Failure />,
+    Loading: () => <Loading />,
+    NotAsked: () => <Loading />,
+    Success: (value) => (
+      <BalanceText size='14px' weight={500}>
+        {`Total Balance ${value.totalBalance}`}
+      </BalanceText>
+    )
+  })
+
   return (
     <Wrapper>
       <IconWrapper>
@@ -135,23 +136,17 @@ const SelectAccount = (props) => {
       <HeaderText size='20px' color='white' weight={500}>
         Select account
       </HeaderText>
-      <SubHeaderText size='14px' weight={500}>
-        {`Total Balance ${totalBalance}`}
-      </SubHeaderText>
-      {accounts.length &&
-        accounts.map((account: SwapAccountType) => (
-          <Account
-            key={account.accountIndex}
-            account={account}
-            setActiveAccountIndex={setActiveAccountIndex}
-            activeAccountIndex={activeAccountIndex}
-            setCopiedWalletAddress={setCopiedWalletAddress}
-            copiedWalletAddress={copiedWalletAddress}
-          />
-        ))}
-      <ImportButton capitalize data-e2e='s' height='48px' fullwidth size='16px'>
-        Add account
-      </ImportButton>
+      {totalBalance}
+      {switchAccounts.map((account: SwapAccountType) => (
+        <Account
+          key={account.accountIndex}
+          account={account}
+          setActiveAccountIndex={setActiveAccountIndex}
+          activeAccountIndex={activeAccountIndex}
+          setCopiedWalletAddress={setCopiedWalletAddress}
+          copiedWalletAddress={copiedWalletAddress}
+        />
+      ))}
     </Wrapper>
   )
 }
