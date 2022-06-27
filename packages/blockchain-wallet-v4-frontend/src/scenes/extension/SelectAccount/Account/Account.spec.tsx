@@ -28,11 +28,6 @@ describe('Account', () => {
       setActiveAccountIndex={setActiveAccountIndex}
     />
   )
-
-  it('renders correctly', (): void => {
-    expect(accountComponent).toMatchSnapshot()
-  })
-
   it('Should display the one account block', () => {
     expect(accountComponent.find(AccountBlock)).toHaveLength(1)
   })

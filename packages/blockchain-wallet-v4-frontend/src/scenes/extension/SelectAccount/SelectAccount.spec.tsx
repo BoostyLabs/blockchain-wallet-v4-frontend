@@ -7,10 +7,6 @@ import Account from './Account'
 
 describe('SelectAccount', () => {
   const selectAccount = shallow(<SelectAccount />)
-  it('renders correctly', (): void => {
-    expect(selectAccount).toMatchSnapshot()
-  })
-
   it('Should display the "Select account" title', () => {
     expect(selectAccount.contains('Select account')).toBe(true)
   })
