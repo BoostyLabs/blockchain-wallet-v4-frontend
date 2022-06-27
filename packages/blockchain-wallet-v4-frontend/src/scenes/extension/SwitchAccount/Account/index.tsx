@@ -1,7 +1,7 @@
 import React, { MouseEvent, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { IconCheckCircle, IconCopy } from '@blockchain-com/icons'
-import Tooltip from 'blockchain-wallet-v4-frontend/src/scenes/extension/SelectAccount/Tooltip'
+import Tooltip from 'blockchain-wallet-v4-frontend/src/scenes/extension/SwitchAccount/Tooltip'
 import styled from 'styled-components'
 
 import { Icon, Text } from 'blockchain-info-components'

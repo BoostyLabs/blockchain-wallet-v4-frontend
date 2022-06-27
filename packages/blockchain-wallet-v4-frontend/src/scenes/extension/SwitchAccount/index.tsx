@@ -49,7 +49,7 @@ export class SwapAccountType {
   ) {}
 }
 
-const SelectAccount = (props) => {
+const SwitchAccount = (props) => {
   const [activeAccountIndex, setActiveAccountIndex] = useState<number>(0)
   const [copiedWalletAddress, setCopiedWalletAddress] = useState<string | number>('')
   const coins = useSelector((state: RootState) => state.dataPath)
@@ -128,10 +128,14 @@ const SelectAccount = (props) => {
     )
   })
 
+  const closeSwitchAccountModal = () => {
+    // TODO: Close switch account modal window.
+  }
+
   return (
     <Wrapper>
       <IconWrapper>
-        <IconClose color='#98A1B2' height='24px' width='24px' />
+        <IconClose color='#98A1B2' height='24px' width='24px' onClick={closeSwitchAccountModal} />
       </IconWrapper>
       <HeaderText size='20px' color='white' weight={500}>
         Select account
@@ -158,4 +162,4 @@ const mapStateToProps = (state) => {
   return { accounts, data }
 }
 
-export default connect(mapStateToProps, null)(SelectAccount)
+export default connect(mapStateToProps, null)(SwitchAccount)

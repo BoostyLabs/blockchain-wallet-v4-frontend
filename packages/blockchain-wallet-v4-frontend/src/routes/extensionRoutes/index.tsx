@@ -2,7 +2,7 @@ import React from 'react'
 import { Route, Switch } from 'react-router-dom'
 import styled from 'styled-components'
 
-import SelectAccount from '../../scenes/extension/SelectAccount'
+import SwitchAccount from '../../scenes/extension/SwitchAccount'
 import HomeRoutes from './HomeRoutes'
 
 export const extensionHeight = 600
@@ -28,7 +28,7 @@ const ExtensionRoutes = (props) => {
       <InnerWrapper>
         <Switch>
           <Route path={`${path}/home`} component={HomeRoutes} />
-          <Route path={`${path}/select-account`} component={SelectAccount} />
+          <Route path={`${path}/switch-account`} component={SwitchAccount} />
         </Switch>
       </InnerWrapper>
     </Wrapper>
