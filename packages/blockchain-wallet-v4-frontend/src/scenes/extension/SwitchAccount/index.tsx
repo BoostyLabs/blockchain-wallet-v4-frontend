@@ -67,7 +67,7 @@ const SwitchAccount = (props) => {
 
   const getAddressType = (coin: string) => {
     if (!accounts) return SwapBaseCounterTypes.CUSTODIAL
-    return accounts[coin][0].typesetTooltipProperties
+    return accounts[coin][0].type
   }
 
   const switchAccounts: SwapAccountType[] = [
@@ -114,6 +114,17 @@ const SwitchAccount = (props) => {
       getWallet('xlm'),
       false,
       3
+    ),
+    new SwapAccountType(
+      0,
+      'STX',
+      'STX',
+      'STX account',
+      getAddressType('STX'),
+      4,
+      "getWallet('stx')",
+      false,
+      4
     )
   ]
 
