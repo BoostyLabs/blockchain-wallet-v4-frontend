@@ -27,6 +27,7 @@ import { getTracking } from 'services/tracking'
 
 import CoinsList from './plugin/CoinsList'
 import CoinsListHeader from './plugin/CoinsList/CoinsListHeader'
+import { ConnectDapp } from './plugin/ConnectDapp'
 import HomeNavbar from './plugin/HomeNavbar'
 
 const queryClient = new QueryClient()
@@ -128,6 +129,7 @@ const App = ({
                           footer={<HomeNavbar />}
                           component={CoinsList}
                         />
+                        <PluginLayout path='/plugin/connect-dapp' component={ConnectDapp} />
                         <AuthLayout path='/authorize-approve' component={AuthorizeLogin} />
                         <AuthLayout
                           path='/help'
