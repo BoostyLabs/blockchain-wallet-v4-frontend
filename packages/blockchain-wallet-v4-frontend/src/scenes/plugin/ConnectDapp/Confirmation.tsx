@@ -1,5 +1,6 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
+import { Link } from 'react-router-dom'
 import { Icon } from '@blockchain-com/constellation'
 import {
   IconBlockchainCircle,
@@ -82,14 +83,24 @@ const ConnectButton = styled.button`
   font-size: 16px;
   font-weight: 600;
   line-height: 24px;
-  letter-spacing: 0em;
   text-align: center;
   cursor: pointer;
 `
 
-const DenyButton = styled(ConnectButton)`
+const DenyButton = styled(Link)`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: Inter, sans-serif;
+  height: 48px;
+  flex-grow: 1;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 24px;
+  text-decoration: none;
   background-color: transparent;
   color: ${(props) => props.theme.white};
+  cursor: pointer;
 `
 
 export const Confirmation: React.FC<{
@@ -160,7 +171,7 @@ export const Confirmation: React.FC<{
         </AllowListItem>
       </AllowList>
       <Flex justifyContent='center'>
-        <DenyButton onClick={() => deny()}>
+        <DenyButton to='/plugin/coinslist' onClick={() => deny()}>
           <FormattedMessage id='scenes.plugin.settings.connect_dapp.deny' defaultMessage='Deny' />
         </DenyButton>
         <ConnectButton onClick={() => connect()}>
