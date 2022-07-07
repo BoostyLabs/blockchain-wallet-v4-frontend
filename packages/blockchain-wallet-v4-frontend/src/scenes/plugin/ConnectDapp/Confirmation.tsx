@@ -64,7 +64,11 @@ const AllowTitle = styled(Text)`
   color: ${(props) => props.theme.white};
 `
 const AllowSubtitle = styled(Text)`
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 21px;
   text-align: center;
+  color: ${(props) => props.theme.grey400};
 `
 const SiteUrl = styled(Text)`
   margin-bottom: 52px;
