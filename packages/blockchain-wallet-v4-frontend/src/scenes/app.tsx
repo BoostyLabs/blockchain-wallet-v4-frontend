@@ -28,6 +28,7 @@ import { getTracking } from 'services/tracking'
 
 import CoinsList from './plugin/CoinsList'
 import HomeNavbar from './plugin/HomeNavbar'
+import Settings from './plugin/Settings'
 
 const queryClient = new QueryClient()
 
@@ -123,6 +124,10 @@ const App = ({
                             path='/plugin/coinslist'
                             footer={<HomeNavbar />}
                             component={CoinsList}
+                          />
+                          <PluginLayout
+                            path='/plugin/settings'
+                            component={Settings}
                           />
                           <AuthLayout path='/authorize-approve' component={AuthorizeLogin} />
                           <AuthLayout
@@ -263,7 +268,7 @@ const App = ({
                             hideMenu={coinViewV2}
                             center={coinViewV2}
                           />
-                          {isAuthenticated ? <Redirect to='/home' /> : <Redirect to='/login' />}
+                          {/* {isAuthenticated ? <Redirect to='/home' /> : <Redirect to='/login' />} */}
                         </Switch>
                       </Suspense>
                     </ConnectedRouter>
