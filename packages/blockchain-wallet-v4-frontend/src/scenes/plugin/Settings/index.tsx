@@ -59,7 +59,7 @@ const Settings = (props) => {
             </Icon>
           </Link>
         ) : (
-          <span />
+          <></>
         )}
         <Link to='/extension/home'>
           <Icon color='white600' label='IconClose' size='md'>
