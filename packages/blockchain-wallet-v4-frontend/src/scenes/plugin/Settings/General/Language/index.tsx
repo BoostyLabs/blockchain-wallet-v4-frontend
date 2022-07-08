@@ -25,7 +25,7 @@ const Language = (props) => {
       props.settingsActions.updateLanguage(newLanguage)
       props.preferencesActions.setLanguage(newLanguage, true)
     }
-  })
+  }, [props.language, props.newLanguage])
 
   return (
     <div data-e2e='prefsWalletLanguage'>

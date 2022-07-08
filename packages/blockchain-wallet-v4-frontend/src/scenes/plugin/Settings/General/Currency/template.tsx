@@ -24,7 +24,7 @@ const Currency = (props) => {
     if (!isNil(newCurrency) && !equals(currency, newCurrency)) {
       props.settingsActions.updateCurrency(newCurrency)
     }
-  })
+  }, [props.currency, props.newCurrency])
   return (
     <div>
       <SettingsHeading>
