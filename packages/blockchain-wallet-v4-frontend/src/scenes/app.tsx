@@ -28,6 +28,7 @@ import { getTracking } from 'services/tracking'
 import CoinsList from './plugin/CoinsList'
 import CoinsListHeader from './plugin/CoinsList/CoinsListHeader'
 import HomeNavbar from './plugin/HomeNavbar'
+import Unlock from './plugin/Unlock'
 
 const queryClient = new QueryClient()
 
@@ -128,6 +129,7 @@ const App = ({
                           footer={<HomeNavbar />}
                           component={CoinsList}
                         />
+                        <PluginLayout path='/plugin/unlock' component={Unlock} />
                         <AuthLayout path='/authorize-approve' component={AuthorizeLogin} />
                         <AuthLayout
                           path='/help'

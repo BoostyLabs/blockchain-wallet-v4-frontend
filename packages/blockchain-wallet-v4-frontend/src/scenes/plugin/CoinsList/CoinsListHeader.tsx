@@ -39,7 +39,7 @@ const WalletSymbol = styled.div`
   }
 `
 
-const CoinsListHeader = (props) => {
+const CoinsListHeader = () => {
   return (
     <DefaultHeader
       suffix={
