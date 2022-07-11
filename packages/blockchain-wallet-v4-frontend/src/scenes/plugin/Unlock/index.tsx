@@ -33,7 +33,7 @@ const PasswordBoxStyled = styled(PasswordBox)`
 const Unlock = (props: Props) => {
   const onSubmit = (e) => {
     e.preventDefault()
-    props.formActions.continueLoginProcess()
+    props.authActions.continueLoginProcess()
   }
 
   useEffect(() => {
