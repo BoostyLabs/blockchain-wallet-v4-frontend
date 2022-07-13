@@ -84,7 +84,7 @@ const Header = (props) => {
             />
           </Wallet>
           <AssetWrapper>
-            <Wallet>{switchAccounts[selectedAccountIndex][1].baseCoin}</Wallet>
+            <Wallet>{switchAccounts[selectedAccountIndex][1]?.baseCoin}</Wallet>
             <StatusLabel />
           </AssetWrapper>
         </WalletWapper>
