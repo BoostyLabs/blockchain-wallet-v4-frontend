@@ -12,7 +12,7 @@ import { getCoinAccounts } from 'data/coins/selectors'
 
 import { SwitchAccount } from '../SwitchAccount'
 
-const HeaderWrapper = styled.header`
+const HeaderWrapper = styled.div`
   display: flex;
   justify-content: flex-end;
   align-items: center;
