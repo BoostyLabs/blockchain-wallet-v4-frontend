@@ -27,6 +27,7 @@ import TranslationsProvider from 'providers/TranslationsProvider'
 import { getTracking } from 'services/tracking'
 
 import CoinsList from './plugin/CoinsList'
+import CoinsListHeader from './plugin/CoinsList/CoinsListHeader'
 import Receive from './plugin/Funding/Receive'
 import HomeNavbar from './plugin/HomeNavbar'
 import SwitchAccount from './plugin/SwitchAccount'
@@ -123,6 +124,7 @@ const App = ({
                           <Route path='/app-error' component={AppError} />
                           <PluginLayout
                             path='/plugin/coinslist'
+                            header={<CoinsListHeader />}
                             footer={<HomeNavbar />}
                             component={CoinsList}
                           />
