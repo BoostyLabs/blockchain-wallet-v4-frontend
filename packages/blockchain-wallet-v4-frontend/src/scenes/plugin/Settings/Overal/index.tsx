@@ -103,7 +103,6 @@ const Overal = (props) => {
 }
 
 const mapDispatchToProps = (dispatch) => ({
-  routerActions: bindActionCreators(actions.router, dispatch),
   sessionActions: bindActionCreators(actions.session, dispatch)
 })
 

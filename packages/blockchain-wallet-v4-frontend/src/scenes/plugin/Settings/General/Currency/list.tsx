@@ -58,8 +58,33 @@ const StyledSearch = styled.input`
 `
 
 const List = (props) => {
+  const currencies = [
+    { text: 'Australian Dollar', value: 'AUD' },
+    { text: 'Argentine Peso', value: 'ARS' },
+    { text: 'Brazil Real', value: 'BRL' },
+    { text: 'Canadian Dollar', value: 'CAD' },
+    { text: 'Chilean Peso', value: 'CLP' },
+    { text: 'Chinese Yuan', value: 'CNY' },
+    { text: 'Danish Krone', value: 'DKK' },
+    { text: 'Euros', value: 'EUR' },
+    { text: 'Pounds', value: 'GBP' },
+    { text: 'Hong Kong Dollar', value: 'HKD' },
+    { text: 'Icelandic Króna', value: 'ISK' },
+    { text: 'Indian Rupee', value: 'INR' },
+    { text: 'Japanese Yen', value: 'JPY' },
+    { text: 'New Taiwan Dollar', value: 'TWD' },
+    { text: 'New Zealand Dollar', value: 'NZD' },
+    { text: 'Polish Zloty', value: 'PLN' },
+    { text: 'Russian Ruble', value: 'RUB' },
+    { text: 'Singapore Dollar', value: 'SGD' },
+    { text: 'South Korean Won', value: 'KRW' },
+    { text: 'Swedish Krona', value: 'SEK' },
+    { text: 'Swiss Franc', value: 'CHF' },
+    { text: 'Thai Baht', value: 'THB' },
+    { text: 'U.S. Dollar', value: 'USD' }
+  ]
   const [searchedCurrency, setSearchedCurrency] = useState('')
-  const { currencies, input, selectedCurrency } = props
+  const { input, selectedCurrency } = props
   const { onChange } = input
 
   const searchCurrency = (e) => {
@@ -106,31 +131,6 @@ const List = (props) => {
 }
 
 const mapStateToProps = (state) => ({
-  currencies: [
-    { text: 'Australian Dollar', value: 'AUD' },
-    { text: 'Argentine Peso', value: 'ARS' },
-    { text: 'Brazil Real', value: 'BRL' },
-    { text: 'Canadian Dollar', value: 'CAD' },
-    { text: 'Chilean Peso', value: 'CLP' },
-    { text: 'Chinese Yuan', value: 'CNY' },
-    { text: 'Danish Krone', value: 'DKK' },
-    { text: 'Euros', value: 'EUR' },
-    { text: 'Pounds', value: 'GBP' },
-    { text: 'Hong Kong Dollar', value: 'HKD' },
-    { text: 'Icelandic Króna', value: 'ISK' },
-    { text: 'Indian Rupee', value: 'INR' },
-    { text: 'Japanese Yen', value: 'JPY' },
-    { text: 'New Taiwan Dollar', value: 'TWD' },
-    { text: 'New Zealand Dollar', value: 'NZD' },
-    { text: 'Polish Zloty', value: 'PLN' },
-    { text: 'Russian Ruble', value: 'RUB' },
-    { text: 'Singapore Dollar', value: 'SGD' },
-    { text: 'South Korean Won', value: 'KRW' },
-    { text: 'Swedish Krona', value: 'SEK' },
-    { text: 'Swiss Franc', value: 'CHF' },
-    { text: 'Thai Baht', value: 'THB' },
-    { text: 'U.S. Dollar', value: 'USD' }
-  ],
   selectedCurrency: selectors.core.settings.getCurrency(state)
 })
 

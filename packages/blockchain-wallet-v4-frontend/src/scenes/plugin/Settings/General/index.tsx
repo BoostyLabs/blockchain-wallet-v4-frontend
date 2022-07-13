@@ -9,12 +9,10 @@ export const General = (props) => {
   const { path } = props.match
 
   return (
-    <>
-      <Switch>
-        <Route component={Overal} path={path} exact />
-        <Route component={Currency} path={`${path}/local-currency`} />
-        <Route component={Language} path={`${path}/language`} />
-      </Switch>
-    </>
+    <Switch>
+      <Route component={Overal} path={path} exact />
+      <Route component={Currency} path={`${path}/local-currency`} />
+      <Route component={Language} path={`${path}/language`} />
+    </Switch>
   )
 }
