@@ -9,6 +9,10 @@ import { Text } from 'blockchain-info-components'
 
 import { Continue, FundingHeading, ListItemContent } from '../SelectAccount'
 
+const AmountListItem = styled(ListItemContent)`
+  margin: 30px 0;
+`
+
 const AmountInputWrapper = styled.div`
   display: flex;
   position: relative;
@@ -46,6 +50,7 @@ const AmountCurrency = styled.span`
   line-height: 21px;
   cursor: pointer;
   white-space: nowrap;
+  text-transform: uppercase;
 `
 const ExchangedValue = styled.div`
   margin-bottom: 90px;
@@ -64,7 +69,8 @@ class CurrencyAmounts {
   }
 }
 
-enum Currencies {
+/** Exist to remove if statements for several clicks, will work as setting opposite value for boolean */
+enum ExchangeCurrecies {
   'eth' = 'usd',
   'usd' = 'eth'
 }
@@ -80,11 +86,11 @@ export const Amount = (props) => {
   } = props
 
   const changeCurrency = () => {
-    setFundingCurrency(Currencies[fundingCurrency])
+    setFundingCurrency(ExchangeCurrecies[fundingCurrency])
   }
 
   const exchangeCurrency = () => {
-    if (fundingCurrency === Currencies.eth) {
+    if (fundingCurrency === 'usd') {
       return +(Number(fundingAmount) / price).toFixed(4)
     }
     return +(Number(fundingAmount) * price).toFixed(4)
@@ -93,10 +99,14 @@ export const Amount = (props) => {
   useEffect(() => {
     setCurrencyAmounts((currencies: CurrencyAmounts) => {
       currencies[fundingCurrency] = fundingAmount
-      currencies[Currencies[fundingCurrency]] = exchangeCurrency()
+      currencies[ExchangeCurrecies[fundingCurrency]] = exchangeCurrency()
       return { ...currencies }
     })
   }, [fundingAmount])
+
+  const RightAlignedText = styled(Text)`
+    text-align: right;
+  `
 
   return (
     <>
@@ -107,36 +117,38 @@ export const Amount = (props) => {
           value={fundingAmount}
           onChange={(e) => setFundingAmount(e.target.value)}
         />
-        <AmountCurrency onClick={changeCurrency} style={{ textTransform: 'uppercase' }}>
+        <AmountCurrency onClick={changeCurrency}>
           {`${fundingCurrency} `}
           <IconChevronDown />
         </AmountCurrency>
       </AmountInputWrapper>
-      <ExchangedValue>{`${exchangeCurrency()} ${Currencies[fundingCurrency]}`}</ExchangedValue>
-      <ListItemContent style={{ margin: '30px 0' }}>
+      <ExchangedValue>{`${exchangeCurrency()} ${
+        ExchangeCurrecies[fundingCurrency]
+      }`}</ExchangedValue>
+      <AmountListItem>
         <Text size='16px' lineHeight='24px'>
           Gas Fee
         </Text>
-        <Text size='16px' lineHeight='24px' style={{ textAlign: 'right' }}>
+        <RightAlignedText size='16px' lineHeight='24px'>
           {`${0.0001} ETH`}
-        </Text>
+        </RightAlignedText>
         <Text />
-        <Text size='14px' lineHeight='20px' style={{ textAlign: 'right' }}>
+        <RightAlignedText size='14px' lineHeight='20px'>
           {`${2} USD`}
-        </Text>
-      </ListItemContent>
-      <ListItemContent style={{ margin: '30px 0' }}>
+        </RightAlignedText>
+      </AmountListItem>
+      <AmountListItem>
         <Text size='16px' lineHeight='24px'>
           Total
         </Text>
-        <Text size='16px' lineHeight='24px' style={{ textAlign: 'right' }}>
+        <RightAlignedText size='16px' lineHeight='24px'>
           {`${currencyAmounts.eth} ETH`}
-        </Text>
+        </RightAlignedText>
         <Text />
-        <Text size='14px' lineHeight='20px' style={{ textAlign: 'right' }}>
+        <RightAlignedText size='14px' lineHeight='20px'>
           {`${currencyAmounts.usd} USD`}
-        </Text>
-      </ListItemContent>
+        </RightAlignedText>
+      </AmountListItem>
       <div style={{ display: 'flex' }}>
         <Continue to='/extension/funding/select-account'>
           <FormattedMessage id='buttons.cancel' defaultMessage='Cancel' />

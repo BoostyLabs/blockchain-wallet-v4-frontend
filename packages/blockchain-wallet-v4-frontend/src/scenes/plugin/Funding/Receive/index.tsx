@@ -94,6 +94,7 @@ const Receive = (props) => {
         <InlineLink
           target='_blank'
           href='https://support.blockchain.com/hc/en-us/articles/360045140832-What-cryptocurrencies-are-supported-for-transacting-in-the-Blockchain-com-Wallet-'
+          rel='noopener noreferrer'
         >
           all compatible assets
         </InlineLink>{' '}

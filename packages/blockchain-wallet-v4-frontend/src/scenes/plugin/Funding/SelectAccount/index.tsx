@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { FormattedMessage } from 'react-intl'
-import { connect, useSelector } from 'react-redux'
+import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { Icon } from '@blockchain-com/constellation'
 import { IconCheckCircle } from '@blockchain-com/icons'
@@ -8,12 +8,8 @@ import { bindActionCreators } from 'redux'
 import styled from 'styled-components'
 
 import { Text } from 'blockchain-info-components'
-import { getBalanceSelector } from 'components/Balances/selectors'
-import { getTotalBalance } from 'components/Balances/total/selectors'
 import FiatDisplay from 'components/Display/FiatDisplay'
 import { actions } from 'data'
-
-import { RootState } from '../../../../data/rootReducer'
 
 const List = styled.ul`
   width: 100%;
@@ -70,59 +66,79 @@ export const Subtitle = styled(Text)`
   color: ${(props) => props.theme.grey400};
 `
 
-const SelectAccount = (props) => {
-  const state = useSelector((state: RootState) => state)
+const Balance = styled(Text)`
+  display: 'flex';
+  justify-content: 'right';
+`
+
+const LeftAlignedText = styled(Text)`
+  text-align: left;
+`
+const RightAlignedText = styled(Text)`
+  text-align: right;
+`
+
+const ListElement = styled.li`
+  cursor: pointer;
+`
+const AnotherWalletLabel = styled(Text)`
+  margin-left: 16px;
+`
+const SelectAccount = () => {
   const [selectedAccount, setSelectedAccount] = useState<string>('Trading')
-  const {
-    coins: {
-      data: { totalBalance }
-    }
-  } = props
-  const balance = getBalanceSelector('ETH')(state).getOrElse(0).valueOf()
 
   return (
     <>
-      <FundingHeading style={{ marginBottom: '12px' }}>Add crypto</FundingHeading>
+      <FundingHeading style={{ marginBottom: '12px' }}>
+        <FormattedMessage id='scenes.plugin.funding.add_crypto' defaultMessage='Add Crypto' />
+      </FundingHeading>
       <Subtitle>
-        You can transfer crypto from your Blockchain account or another wallet <br />
-        <Link to='/'>Learn more</Link>
+        <FormattedMessage
+          id='scenes.plugin.funding.description'
+          defaultMessage='You can transfer crypto from your Blockchain account or another wallet'
+        />
+        <br />
+        <Link to='/'>
+          <FormattedMessage id='buttons.learn_more' defaultMessage='Learn more' />
+        </Link>
       </Subtitle>
       <List>
-        <li style={{ cursor: 'pointer' }}>
+        <ListElement>
           <button type='button' className='item' onClick={() => setSelectedAccount('Trading')}>
             <Icon color='white800' label='IconCheckCircle' size='md'>
               <IconCheckCircle />
             </Icon>
             <ListItemContent>
-              <Text color='white'>Trading Account</Text>
-              <Text color='white' style={{ display: 'flex', justifyContent: 'right' }}>
-                <FiatDisplay
-                  color='grey400'
-                  size='12px'
-                  weight={500}
-                  coin='ETH'
-                  style={{ textAlign: 'right' }}
-                >
-                  {balance}
-                </FiatDisplay>
+              <Text color='white'>
+                <FormattedMessage
+                  id='scenes.debit_card.dashboard.funds.type.trading_account'
+                  defaultMessage='Trading Account'
+                />
               </Text>
-              <Text size='14px' lineHeight='20px' style={{ textAlign: 'left' }}>
-                Ethereum
-              </Text>
-              <Text size='14px' lineHeight='20px' style={{ textAlign: 'right' }}>
-                {`ETH ${(balance / 10e18).toFixed(6)}`}
-              </Text>
+              <Balance color='white'>
+                <FiatDisplay color='grey400' size='12px' weight={500} coin='ETH' />
+              </Balance>
+              <LeftAlignedText size='14px' lineHeight='20px'>
+                <FormattedMessage
+                  id='scenes.settings.addresses.menutop.eth'
+                  defaultMessage='Ethereum'
+                />
+              </LeftAlignedText>
+              <RightAlignedText size='14px' lineHeight='20px' />
             </ListItemContent>
           </button>
-        </li>
+        </ListElement>
         <li style={{ cursor: 'pointer' }}>
           <button type='button' className='item' onClick={() => setSelectedAccount('')}>
             <Icon color='white800' label='IconCheckCircle' size='md'>
               <IconCheckCircle />
             </Icon>
-            <Text color='white' style={{ marginLeft: '16px' }}>
-              Another wallet
-            </Text>
+            <AnotherWalletLabel color='white'>
+              <FormattedMessage
+                id='scenes.plugin.funding.another_wallet'
+                defaultMessage='Another wallet'
+              />
+            </AnotherWalletLabel>
           </button>
         </li>
       </List>
@@ -135,12 +151,4 @@ const SelectAccount = (props) => {
   )
 }
 
-const mapStateToProps = (state) => ({
-  coins: getTotalBalance(state)
-})
-
-const mapDispatchToProps = (dispatch) => ({
-  preferencesActions: bindActionCreators(actions.preferences, dispatch)
-})
-
-export default connect(mapStateToProps, mapDispatchToProps)(SelectAccount)
+export default SelectAccount

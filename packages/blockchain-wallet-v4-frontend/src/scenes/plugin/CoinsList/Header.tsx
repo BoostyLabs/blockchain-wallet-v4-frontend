@@ -32,7 +32,7 @@ const IconButtonStyled = styled(IconButton)`
   }
 `
 
-const ButtonWrapper = styled(Link)`
+const CoinListLink = styled(Link)`
   text-align: center;
   text-decoration: none;
 
@@ -58,7 +58,7 @@ const Header = (props: any) => {
         {balance}
       </Text>
       <Flex justifyContent='center' gap={24}>
-        <ButtonWrapper to='/plugin/receive'>
+        <CoinListLink to='/plugin/receive'>
           <IconButtonStyled
             padding='0'
             name='receive'
@@ -74,8 +74,8 @@ const Header = (props: any) => {
           <Text color='white' size='10px' weight={500}>
             Receive
           </Text>
-        </ButtonWrapper>
-        <ButtonWrapper to='/plugin/send'>
+        </CoinListLink>
+        <CoinListLink to='/plugin/send'>
           <IconButtonStyled
             padding='0'
             name='IconArrowUpRight'
@@ -91,7 +91,7 @@ const Header = (props: any) => {
           <Text color='white' size='10px' weight={500}>
             Send
           </Text>
-        </ButtonWrapper>
+        </CoinListLink>
       </Flex>
     </HeaderWrapper>
   )
