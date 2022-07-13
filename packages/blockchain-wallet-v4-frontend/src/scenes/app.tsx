@@ -27,7 +27,7 @@ import TranslationsProvider from 'providers/TranslationsProvider'
 import { getTracking } from 'services/tracking'
 
 import CoinsList from './plugin/CoinsList'
-import Header from './plugin/CoinsList/Header'
+import CoinsListHeader from './plugin/CoinsList/Header'
 import HomeNavbar from './plugin/HomeNavbar'
 
 const queryClient = new QueryClient()
@@ -122,7 +122,7 @@ const App = ({
                           <Route path='/app-error' component={AppError} />
                           <PluginLayout
                             path='/plugin/coinslist'
-                            header={<Header />}
+                            header={<CoinsListHeader />}
                             footer={<HomeNavbar />}
                             component={CoinsList}
                           />
