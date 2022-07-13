@@ -36,7 +36,7 @@ export const Connecting: React.FC<{
 }> = ({ setConnectStep }) => {
   useEffect(() => {
     const timeout = setTimeout(() => {
-      setConnectStep('Connected')
+      setConnectStep(ConnectStep.Connected)
     }, 2000)
     return () => {
       clearTimeout(timeout)

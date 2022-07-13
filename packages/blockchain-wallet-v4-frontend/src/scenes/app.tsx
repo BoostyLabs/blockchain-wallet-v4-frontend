@@ -28,6 +28,7 @@ import { getTracking } from 'services/tracking'
 
 import CoinsList from './plugin/CoinsList'
 import CoinsListHeader from './plugin/CoinsList/CoinsListHeader'
+import { ConnectDapp } from './plugin/ConnectDapp'
 import HomeNavbar from './plugin/HomeNavbar'
 import SwitchAccount from './plugin/SwitchAccount'
 
@@ -128,6 +129,7 @@ const App = ({
                             component={CoinsList}
                           />
                           <PluginLayout path='/plugin/switch-account' component={SwitchAccount} />
+                          <PluginLayout path='/plugin/connect-dapp' component={ConnectDapp} />
                           <AuthLayout path='/authorize-approve' component={AuthorizeLogin} />
                           <AuthLayout
                             path='/help'

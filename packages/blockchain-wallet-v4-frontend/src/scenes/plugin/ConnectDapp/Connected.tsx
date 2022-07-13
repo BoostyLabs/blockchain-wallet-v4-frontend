@@ -18,7 +18,7 @@ export const Connected: React.FC<{
 }> = ({ setConnectStep }) => {
   useEffect(() => {
     const timeout = setTimeout(() => {
-      setConnectStep('InitialScreen')
+      setConnectStep(ConnectStep.InitialScreen)
       window.location.replace('/#/plugin/coinslist')
     }, 2000)
     return () => {

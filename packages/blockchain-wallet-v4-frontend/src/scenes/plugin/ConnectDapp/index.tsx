@@ -22,14 +22,19 @@ const BlockchainIcon = styled(IconBlockchain)`
   color: ${(props) => props.theme.white};
 `
 
-export type ConnectStep = 'InitialScreen' | 'Confirmation' | 'Connectiing' | 'Connected'
+export enum ConnectStep {
+  Confirmation = 'Confirmation',
+  Connected = 'Connected',
+  Connectiing = 'Connectiing',
+  InitialScreen = 'InitialScreen'
+}
 
 export const ConnectDapp = () => {
-  const [connectStep, setConnectStep] = useState<ConnectStep>('InitialScreen')
+  const [connectStep, setConnectStep] = useState<ConnectStep>(ConnectStep.InitialScreen)
 
   useEffect(() => {
     const timeout = setTimeout(() => {
-      setConnectStep('Confirmation')
+      setConnectStep(ConnectStep.Confirmation)
     }, 2000)
     return () => {
       clearTimeout(timeout)

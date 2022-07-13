@@ -106,25 +106,27 @@ const DenyButton = styled(Link)`
   color: ${(props) => props.theme.white};
   cursor: pointer;
 `
-
+const BlockchainIcon = styled(IconBlockchainCircle)`
+  color: ${(props) => props.theme.white};
+`
 export const Confirmation: React.FC<{
   setConnectStep: React.Dispatch<React.SetStateAction<ConnectStep>>
 }> = ({ setConnectStep }) => {
   const MOCK_SITE_URL = 'app.uniswap.org'
 
   const connect = () => {
-    setConnectStep('Connectiing')
+    setConnectStep(ConnectStep.Connectiing)
   }
 
   const deny = () => {
-    setConnectStep('InitialScreen')
+    setConnectStep(ConnectStep.InitialScreen)
     window.location.replace('/#/plugin/coinview')
   }
   return (
     <ConfirmationWrapper>
       <IconsWrapper>
-        <IconBlockchainCircle width='78px' height='78px' color='#fff' />
-        <IconBlockchainCircle width='78px' height='78px' color='#fff' />
+        <BlockchainIcon width='78px' height='78px' />
+        <BlockchainIcon width='78px' height='78px' />
       </IconsWrapper>
       <AllowTitle>
         <FormattedMessage
@@ -175,10 +177,10 @@ export const Confirmation: React.FC<{
         </AllowListItem>
       </AllowList>
       <Flex justifyContent='center'>
-        <DenyButton to='/plugin/coinslist' onClick={() => deny()}>
+        <DenyButton to='/plugin/coinslist' onClick={deny}>
           <FormattedMessage id='scenes.plugin.settings.connect_dapp.deny' defaultMessage='Deny' />
         </DenyButton>
-        <ConnectButton onClick={() => connect()}>
+        <ConnectButton onClick={connect}>
           <FormattedMessage
             id='scenes.plugin.settings.connect_dapp.connect'
             defaultMessage='Connect'
