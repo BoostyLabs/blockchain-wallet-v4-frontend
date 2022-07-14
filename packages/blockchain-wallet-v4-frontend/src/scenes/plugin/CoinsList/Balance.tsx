@@ -9,6 +9,7 @@ import { Flex } from 'components/Flex'
 import { selectors } from 'data'
 
 const BalanceWrapper = styled.div`
+  margin-top: 70px;
   height: 207px;
   text-align: center;
   display: flex;
