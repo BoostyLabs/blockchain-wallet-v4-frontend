@@ -29,6 +29,7 @@ import { getTracking } from 'services/tracking'
 import CoinsList from './plugin/CoinsList'
 import CoinsListHeader from './plugin/CoinsList/CoinsListHeader'
 import HomeNavbar from './plugin/HomeNavbar'
+import Nft from './plugin/Nft'
 import SwitchAccount from './plugin/SwitchAccount'
 
 const queryClient = new QueryClient()
@@ -126,6 +127,12 @@ const App = ({
                             header={<CoinsListHeader />}
                             footer={<HomeNavbar />}
                             component={CoinsList}
+                          />
+                          <PluginLayout
+                            path='/plugin/nft'
+                            header={<CoinsListHeader />}
+                            footer={<HomeNavbar />}
+                            component={Nft}
                           />
                           <PluginLayout path='/plugin/switch-account' component={SwitchAccount} />
                           <AuthLayout path='/authorize-approve' component={AuthorizeLogin} />
