@@ -30,6 +30,7 @@ import CoinsList from './plugin/CoinsList'
 import CoinsListHeader from './plugin/CoinsList/CoinsListHeader'
 import Receive from './plugin/Funding/Receive'
 import HomeNavbar from './plugin/HomeNavbar'
+import Settings from './plugin/Settings'
 import SwitchAccount from './plugin/SwitchAccount'
 
 const queryClient = new QueryClient()
@@ -129,6 +130,7 @@ const App = ({
                             component={CoinsList}
                           />
                           <PluginLayout path='/plugin/funding' component={Receive} />
+                          <PluginLayout path='/plugin/settings' component={Settings} />
                           <PluginLayout path='/plugin/switch-account' component={SwitchAccount} />
                           <AuthLayout path='/authorize-approve' component={AuthorizeLogin} />
                           <AuthLayout
