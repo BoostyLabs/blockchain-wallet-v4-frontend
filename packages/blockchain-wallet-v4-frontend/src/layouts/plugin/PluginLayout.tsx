@@ -34,7 +34,7 @@ const Header = styled.div`
 `
 
 const Content = styled.div`
-  padding: 70px 20px 70px 20px;
+  padding: 20px;
   box-sizing: border-box;
   height: 100%;
 `
