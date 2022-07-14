@@ -2,8 +2,6 @@ import React from 'react'
 import { Field, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
-import SelectBoxLanguages from 'components/Form/SelectBoxLanguages'
-
 import List from './list'
 
 export const SelectWrapper = styled.div`

@@ -1,5 +1,5 @@
 import React from 'react'
-import { connect } from 'react-redux'
+import { connect, useSelector } from 'react-redux'
 import { Icon } from '@blockchain-com/constellation'
 import { IconCheckCircle } from '@blockchain-com/icons'
 
@@ -9,21 +9,23 @@ import { languagesSortedByName } from 'services/locales'
 import { CurrecyItemWrapper, CurrenciesList, CurrencySelectButton } from '../Currency/list'
 
 const List = (props) => {
+  const currentLanguage = useSelector(selectors.preferences.getLanguage)
+  const languages = languagesSortedByName
   const selectCurrency = (value) => {
-    if (value === props.language) return
+    if (value === currentLanguage) return
     props.input.onChange(value)
   }
 
   return (
     <>
       <CurrenciesList>
-        {props.languages.map((language) => (
+        {languages.map((language) => (
           <li key={language.language}>
             <CurrencySelectButton onClick={() => selectCurrency(language.language)}>
               <CurrecyItemWrapper>
                 <span>{language.name}</span>
               </CurrecyItemWrapper>
-              {language.language === props.language && (
+              {language.language === currentLanguage && (
                 <Icon color='white800' label='IconCheckCircle' size='md'>
                   <IconCheckCircle />
                 </Icon>
@@ -36,9 +38,4 @@ const List = (props) => {
   )
 }
 
-const mapStateToProps = (state) => ({
-  language: selectors.preferences.getLanguage(state),
-  languages: languagesSortedByName
-})
-
-export default connect(mapStateToProps)(List)
+export default List

@@ -1,6 +1,6 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import { connect } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { Icon } from '@blockchain-com/constellation'
 import {
@@ -49,15 +49,10 @@ const LogoutButton = styled.button`
 `
 
 const Overal = (props) => {
+  const dispatch = useDispatch()
   const { path } = props.match
 
   const overalSettings = [
-    new Setting(
-      'scenes.plugin.settings.networks.label',
-      'Network',
-      `${path}/networks`,
-      <IconWallet />
-    ),
     new Setting(
       'scenes.plugin.settings.connected_dapps.heading',
       'Connected Dapps',
@@ -68,7 +63,8 @@ const Overal = (props) => {
     new Setting('scenes.plugin.settings.info', 'Info', `${path}/info`, <IconInformation />)
   ]
   const logout = () => {
-    props.sessionActions.deauthorizeBrowser()
+    const sessionActions = bindActionCreators(actions.session, dispatch)
+    dispatch(sessionActions.logout())
   }
 
   return (
@@ -81,13 +77,13 @@ const Overal = (props) => {
           <li key={setting.label}>
             <SettingsLink to={setting.path}>
               <Flex justifyContent='space-between' alignItems='center'>
-                <Icon color='white800' label='IconBack' size='md'>
+                <Icon color='white400' label='IconBack' size='md'>
                   {setting.icon}
                 </Icon>
                 <SettingsLinkLabel>
                   <FormattedMessage id={setting.id} defaultMessage={setting.label} />
                 </SettingsLinkLabel>
-                <Icon color='white800' label='IconBack' size='md'>
+                <Icon color='white400' label='IconBack' size='md'>
                   <IconChevronRightV2 />
                 </Icon>
               </Flex>
@@ -102,8 +98,4 @@ const Overal = (props) => {
   )
 }
 
-const mapDispatchToProps = (dispatch) => ({
-  sessionActions: bindActionCreators(actions.session, dispatch)
-})
-
-export default connect(null, mapDispatchToProps)(Overal)
+export default Overal

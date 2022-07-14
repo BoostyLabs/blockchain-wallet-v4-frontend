@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { connect } from 'react-redux'
+import { useSelector } from 'react-redux'
 import { Icon } from '@blockchain-com/constellation'
 import { IconCheckCircle } from '@blockchain-com/icons'
 import styled from 'styled-components'
@@ -84,9 +84,9 @@ const List = (props) => {
     { text: 'U.S. Dollar', value: 'USD' }
   ]
   const [searchedCurrency, setSearchedCurrency] = useState('')
-  const { input, selectedCurrency } = props
+  const { input } = props
   const { onChange } = input
-
+  const selectedCurrency = useSelector(selectors.core.settings.getCurrency)
   const searchCurrency = (e) => {
     setSearchedCurrency(e.target.value.toLowerCase())
   }
@@ -130,8 +130,4 @@ const List = (props) => {
   )
 }
 
-const mapStateToProps = (state) => ({
-  selectedCurrency: selectors.core.settings.getCurrency(state)
-})
-
-export default connect(mapStateToProps)(List)
+export default List

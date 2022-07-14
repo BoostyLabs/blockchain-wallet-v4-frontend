@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { FormattedMessage } from 'react-intl'
-import { connect } from 'react-redux'
+import { connect, useDispatch, useSelector } from 'react-redux'
 import { equals, isNil } from 'ramda'
 import { bindActionCreators } from 'redux'
 import { formValueSelector } from 'redux-form'
@@ -12,20 +12,29 @@ import { actions } from 'data'
 import { SettingsHeading } from '../..'
 import Selection from './selection'
 
-const Language = (props) => {
+const Language = () => {
+  const dispatch = useDispatch()
+  const language = useSelector(getLanguage)
+  const newLanguage = useSelector((state) =>
+    formValueSelector('settingLanguage')(state, 'language')
+  )
   useEffect(() => {
-    props.formActions.initialize('settingLanguage', {
-      language: props.language
-    })
+    const formActions = bindActionCreators(actions.form, dispatch)
+    dispatch(
+      formActions.initialize('settingLanguage', {
+        language
+      })
+    )
   }, [])
 
   useEffect(() => {
-    const { language, newLanguage } = props
+    const settingsActions = bindActionCreators(actions.modules.settings, dispatch)
+    const preferencesActions = bindActionCreators(actions.preferences, dispatch)
     if (!isNil(newLanguage) && !equals(language, newLanguage)) {
-      props.settingsActions.updateLanguage(newLanguage)
-      props.preferencesActions.setLanguage(newLanguage, true)
+      dispatch(settingsActions.updateLanguage(newLanguage))
+      dispatch(preferencesActions.setLanguage(newLanguage, true))
     }
-  }, [props.language, props.newLanguage])
+  }, [language, newLanguage])
 
   return (
     <div data-e2e='prefsWalletLanguage'>
@@ -46,15 +55,4 @@ const Language = (props) => {
   )
 }
 
-const mapStateToProps = (state) => ({
-  language: getLanguage(state),
-  newLanguage: formValueSelector('settingLanguage')(state, 'language')
-})
-
-const mapDispatchToProps = (dispatch) => ({
-  formActions: bindActionCreators(actions.form, dispatch),
-  preferencesActions: bindActionCreators(actions.preferences, dispatch),
-  settingsActions: bindActionCreators(actions.modules.settings, dispatch)
-})
-
-export default connect(mapStateToProps, mapDispatchToProps)(Language)
+export default Language

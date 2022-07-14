@@ -1,14 +1,14 @@
 import React from 'react'
-import { connect } from 'react-redux'
+import { useSelector } from 'react-redux'
 
 import { selectors } from 'data'
 
 import Template from './template'
 
-const LocalCurrencyContainer = (props) => {
-  const { data } = props
+const LocalCurrencyContainer = () => {
+  const currency = useSelector(selectors.core.settings.getCurrency)
 
-  return data.cata({
+  return currency.cata({
     Failure: (message) => <>{message}</>,
     Loading: () => <Template />,
     NotAsked: () => <Template />,
@@ -16,8 +16,4 @@ const LocalCurrencyContainer = (props) => {
   })
 }
 
-const mapStateToProps = (state) => ({
-  data: selectors.core.settings.getCurrency(state)
-})
-
-export default connect(mapStateToProps)(LocalCurrencyContainer)
+export default LocalCurrencyContainer

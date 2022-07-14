@@ -51,7 +51,7 @@ const Settings = (props) => {
   }
   return (
     <SettingsContainer>
-      <Flex justifyContent='space-between'>
+      <Flex justifyContent={`#${path}` !== window.location.hash ? 'space-between' : 'flex-end'}>
         {`#${path}` !== window.location.hash ? (
           <Link to={path} onClick={goBack}>
             <Icon color='white800' label='IconBack' size='md'>
