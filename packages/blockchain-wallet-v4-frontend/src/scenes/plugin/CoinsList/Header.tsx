@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import { FormattedMessage } from 'react-intl'
-import { connect } from 'react-redux'
+import { useSelector } from 'react-redux'
 import { colors, Icon } from '@blockchain-com/constellation'
 import { IconMoreHorizontal } from '@blockchain-com/icons'
+import { CombinedState } from 'redux'
 import styled from 'styled-components'
 
 import { Text } from 'blockchain-info-components'
@@ -64,15 +65,19 @@ const SettingsButton = styled.button`
   outline: none;
 `
 
-const Header = (props) => {
+const Header = () => {
   const [isSwitchAccountVisible, setIsSwitchAccountVisible] = useState(false)
   const [selectedAccountIndex, setSelectedAccountIndex] = useState<number>(0)
-  const { accounts } = props
+  const coins = useSelector(selectors.components.swap.getCoins)
+  const balance = useSelector(selectors.balances.getTotalWalletBalance)
+  const accounts = useSelector((state) =>
+    getCoinAccounts(state as CombinedState<any>, { coins, ...SWAP_ACCOUNTS_SELECTOR })
+  )
   const switchAccounts = [accounts.ETH, accounts.BTC, accounts.BCH, accounts.XLM, accounts.STX]
-
   const setSwitchAccountVisibility = () => {
     setIsSwitchAccountVisible(true)
   }
+
   return (
     <header>
       <HeaderWrapper>
@@ -96,7 +101,9 @@ const Header = (props) => {
       </HeaderWrapper>
       {isSwitchAccountVisible && (
         <SwitchAccount
-          {...props}
+          balance={balance}
+          coins={coins}
+          accounts={accounts}
           setIsSwitchAccountVisible={setIsSwitchAccountVisible}
           selectedAccountIndex={selectedAccountIndex}
           setSelectedAccountIndex={setSelectedAccountIndex}
@@ -106,12 +113,4 @@ const Header = (props) => {
   )
 }
 
-const mapStateToProps = (state) => {
-  const data = selectors.balances.getTotalWalletBalance(state)
-  const coins = selectors.components.swap.getCoins()
-  const accounts = getCoinAccounts(state, { coins, ...SWAP_ACCOUNTS_SELECTOR })
-
-  return { accounts, coins, data }
-}
-
-export default connect(mapStateToProps, null)(Header)
+export default Header

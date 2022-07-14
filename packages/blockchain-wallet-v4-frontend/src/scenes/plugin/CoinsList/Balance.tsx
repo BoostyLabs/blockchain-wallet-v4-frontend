@@ -1,5 +1,5 @@
 import React from 'react'
-import { connect } from 'react-redux'
+import { useSelector } from 'react-redux'
 import { Icon } from '@blockchain-com/constellation'
 import { IconArrowUpRight, IconDownload } from '@blockchain-com/icons'
 import styled from 'styled-components'
@@ -39,8 +39,9 @@ const ButtonWrapper = styled.div`
   }
 `
 
-const Balance = (props: any) => {
-  const balance = props.data.cata({
+const Balance = () => {
+  const data = useSelector(selectors.balances.getTotalWalletBalance)
+  const balance = data.cata({
     Failure: () => (
       <Text weight={700} size='24px' color='grey200'>
         Error
@@ -95,10 +96,4 @@ const Balance = (props: any) => {
   )
 }
 
-const mapStateToProps = (state) => ({
-  data: selectors.balances.getTotalWalletBalance(state),
-  userCurrency: selectors.core.settings.getCurrency(state).getOrElse('USD'),
-  walletAddress: selectors.core.kvStore.eth.getDefaultAddress(state).getOrElse('')
-})
-
-export default connect(mapStateToProps, null)(Balance)
+export default Balance
