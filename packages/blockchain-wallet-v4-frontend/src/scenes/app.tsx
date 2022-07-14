@@ -30,6 +30,7 @@ import CoinsList from './plugin/CoinsList'
 import CoinsListHeader from './plugin/CoinsList/CoinsListHeader'
 import { ConnectDapp } from './plugin/ConnectDapp'
 import HomeNavbar from './plugin/HomeNavbar'
+import Settings from './plugin/Settings'
 import SwitchAccount from './plugin/SwitchAccount'
 
 const queryClient = new QueryClient()
@@ -128,6 +129,7 @@ const App = ({
                             footer={<HomeNavbar />}
                             component={CoinsList}
                           />
+                          <PluginLayout path='/plugin/settings' component={Settings} />
                           <PluginLayout path='/plugin/switch-account' component={SwitchAccount} />
                           <PluginLayout path='/plugin/connect-dapp' component={ConnectDapp} />
                           <AuthLayout path='/authorize-approve' component={AuthorizeLogin} />
