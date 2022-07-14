@@ -43,11 +43,11 @@ export const ConnectDapp = () => {
 
   const getConnectStep = () => {
     switch (connectStep) {
-      case 'Confirmation':
+      case ConnectStep.Confirmation:
         return <Confirmation setConnectStep={setConnectStep} />
-      case 'Connectiing':
+      case ConnectStep.Connectiing:
         return <Connecting setConnectStep={setConnectStep} />
-      case 'Connected':
+      case ConnectStep.Connected:
         return <Connected setConnectStep={setConnectStep} />
       default:
         return <BlockchainIcon width='137px' height='137px' />
