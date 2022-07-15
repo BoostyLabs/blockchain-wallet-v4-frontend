@@ -64,7 +64,7 @@ const PluginLayout = ({
       exact={exact}
       render={(matchProps) => (
         <MainWrapper>
-          <Wrapper>
+          <Wrapper id='plugin-wrapper'>
             {header && <Header>{header}</Header>}
             <Content>
               <Component {...matchProps} />

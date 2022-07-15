@@ -26,6 +26,7 @@ import ThemeProvider from 'providers/ThemeProvider'
 import TranslationsProvider from 'providers/TranslationsProvider'
 import { getTracking } from 'services/tracking'
 
+import Activity from './plugin/Activity'
 import CoinsList from './plugin/CoinsList'
 import CoinsListHeader from './plugin/CoinsList/CoinsListHeader'
 import HomeNavbar from './plugin/HomeNavbar'
@@ -122,14 +123,6 @@ const App = ({
                         <Switch>
                           {/* Unauthenticated Wallet routes */}
                           <Route path='/app-error' component={AppError} />
-                          <PluginLayout
-                            path='/plugin/coinslist'
-                            header={<CoinsListHeader />}
-                            footer={<HomeNavbar />}
-                            component={CoinsList}
-                          />
-                          <PluginLayout path='/plugin/settings' component={Settings} />
-                          <PluginLayout path='/plugin/switch-account' component={SwitchAccount} />
                           <AuthLayout path='/authorize-approve' component={AuthorizeLogin} />
                           <AuthLayout
                             path='/help'
@@ -205,6 +198,13 @@ const App = ({
                             footer={<HomeNavbar />}
                             component={CoinsList}
                           />
+                          <PluginLayout
+                            path='/plugin/activity'
+                            footer={<HomeNavbar />}
+                            component={Activity}
+                          />
+                          <PluginLayout path='/plugin/settings' component={Settings} />
+                          <PluginLayout path='/plugin/switch-account' component={SwitchAccount} />
 
                           {/* NFT Explorer routes */}
                           {nftExplorer && (
