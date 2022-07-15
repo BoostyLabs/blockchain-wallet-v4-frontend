@@ -69,37 +69,36 @@ class CurrencyAmounts {
   }
 }
 
-/** Exist to remove if statements for several clicks, will work as setting opposite value for boolean */
-enum ExchangeCurrecies {
-  'eth' = 'usd',
-  'usd' = 'eth'
+/** Exchanges currencies labels */
+const CurrenciesExchangePairs: { [key: string]: string } = {
+  eth: 'usd',
+  usd: 'eth'
 }
 
 export const Amount = (props) => {
+  /** Input value state */
   const [fundingAmount, setFundingAmount] = useState<string>('0')
+  /** Currencies amount state according to exchange rate */
   const [currencyAmounts, setCurrencyAmounts] = useState(new CurrencyAmounts())
+  /** Changes appropriate currencyAmount field, and changes visible label */
   const [fundingCurrency, setFundingCurrency] = useState<string>('usd')
-  const {
-    rate: {
-      data: { price }
-    }
-  } = props
+  const exchangeRate = props.rate.data
 
   const changeCurrency = () => {
-    setFundingCurrency(ExchangeCurrecies[fundingCurrency])
+    setFundingCurrency(CurrenciesExchangePairs[fundingCurrency])
   }
 
   const exchangeCurrency = () => {
     if (fundingCurrency === 'usd') {
-      return +(Number(fundingAmount) / price).toFixed(4)
+      return parseInt((Number(fundingAmount) / exchangeRate).toFixed(4))
     }
-    return +(Number(fundingAmount) * price).toFixed(4)
+    return parseInt((Number(fundingAmount) * exchangeRate).toFixed(4))
   }
 
   useEffect(() => {
     setCurrencyAmounts((currencies: CurrencyAmounts) => {
       currencies[fundingCurrency] = fundingAmount
-      currencies[ExchangeCurrecies[fundingCurrency]] = exchangeCurrency()
+      currencies[CurrenciesExchangePairs[fundingCurrency]] = exchangeCurrency()
       return { ...currencies }
     })
   }, [fundingAmount])
@@ -123,7 +122,7 @@ export const Amount = (props) => {
         </AmountCurrency>
       </AmountInputWrapper>
       <ExchangedValue>{`${exchangeCurrency()} ${
-        ExchangeCurrecies[fundingCurrency]
+        CurrenciesExchangePairs[fundingCurrency]
       }`}</ExchangedValue>
       <AmountListItem>
         <Text size='16px' lineHeight='24px'>
