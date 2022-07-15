@@ -30,6 +30,7 @@ import CoinsList from './plugin/CoinsList'
 import CoinsListHeader from './plugin/CoinsList/CoinsListHeader'
 import HomeNavbar from './plugin/HomeNavbar'
 import Nft from './plugin/Nft'
+import Settings from './plugin/Settings'
 import SwitchAccount from './plugin/SwitchAccount'
 
 const queryClient = new QueryClient()
@@ -134,6 +135,7 @@ const App = ({
                             footer={<HomeNavbar />}
                             component={Nft}
                           />
+                          <PluginLayout path='/plugin/settings' component={Settings} />
                           <PluginLayout path='/plugin/switch-account' component={SwitchAccount} />
                           <AuthLayout path='/authorize-approve' component={AuthorizeLogin} />
                           <AuthLayout
