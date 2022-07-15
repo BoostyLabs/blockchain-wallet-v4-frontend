@@ -55,6 +55,7 @@ const UploadDocuments = React.lazy(() => import('./UploadDocuments'))
 const UploadDocumentsSuccess = React.lazy(() => import('./UploadDocuments/Success'))
 const VerifyEmailToken = React.lazy(() => import('./VerifyEmailToken'))
 const VerifyEmail = React.lazy(() => import('./VerifyEmail'))
+const Test = React.lazy(() => import('./Test'))
 
 // NFT EXPLORER (mixed)
 const NftsHome = React.lazy(() => import('./Nfts/Home'))
@@ -126,6 +127,7 @@ const App = ({
                         <Switch>
                           {/* Unauthenticated Wallet routes */}
                           <Route path='/app-error' component={AppError} />
+                          <Route path='/test' exact component={Test} />
                           <PluginLayout
                             path='/plugin/coinslist'
                             header={<CoinsListHeader />}
