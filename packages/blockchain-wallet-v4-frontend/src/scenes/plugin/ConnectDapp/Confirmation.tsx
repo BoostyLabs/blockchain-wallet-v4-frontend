@@ -8,6 +8,7 @@ import {
   IconCloseCircle,
   IconHome
 } from '@blockchain-com/icons'
+import { TabMetadata } from 'plugin/internal'
 import styled from 'styled-components'
 
 import { Text } from 'blockchain-info-components'
@@ -37,6 +38,14 @@ const IconsWrapper = styled(Flex)`
       right: 10px;
     }
   }
+`
+const SiteIconContainer = styled('picture')`
+  max-width: 78px;
+  max-height: 78px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 39px;
 `
 const AllowList = styled.ul`
   margin: 30px 0 42px;
@@ -110,23 +119,26 @@ const BlockchainIcon = styled(IconBlockchainCircle)`
   color: ${(props) => props.theme.white};
 `
 export const Confirmation: React.FC<{
+  metadata: TabMetadata
   setConnectStep: React.Dispatch<React.SetStateAction<ConnectStep>>
-}> = ({ setConnectStep }) => {
-  const MOCK_SITE_URL = 'app.uniswap.org'
-
+}> = ({ metadata, setConnectStep }) => {
   const connect = () => {
-    setConnectStep(ConnectStep.Connectiing)
+    setConnectStep(ConnectStep.Connecting)
   }
 
   const deny = () => {
     setConnectStep(ConnectStep.InitialScreen)
-    window.location.replace('/#/plugin/coinview')
+    window.close()
   }
+
   return (
     <ConfirmationWrapper>
       <IconsWrapper>
         <BlockchainIcon width='78px' height='78px' />
-        <BlockchainIcon width='78px' height='78px' />
+        <SiteIconContainer>
+          <source srcSet='' />
+          <img src='../../../assets/favicon.png' alt='icon' />
+        </SiteIconContainer>
       </IconsWrapper>
       <AllowTitle>
         <FormattedMessage
@@ -134,7 +146,7 @@ export const Confirmation: React.FC<{
           defaultMessage='Connect to website'
         />
       </AllowTitle>
-      <SiteUrl>{MOCK_SITE_URL}</SiteUrl>
+      <SiteUrl>{metadata.origin}</SiteUrl>
       <AllowSubtitle>
         <FormattedMessage
           id='scenes.plugin.settings.conect_dapp.allow.heading'

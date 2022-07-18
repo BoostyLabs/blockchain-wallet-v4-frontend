@@ -8,6 +8,11 @@ export class AbstractPlugin {
   }
 }
 
+export type TabMetadata = {
+  favicon?: string
+  origin: string
+}
+
 export async function addConnection(domain: string): Promise<void> {
   if (!domain) {
     throw Error("domain can't be empty")

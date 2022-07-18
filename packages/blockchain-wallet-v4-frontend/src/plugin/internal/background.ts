@@ -1,4 +1,5 @@
 import { openPopup } from 'plugin/internal/browser'
+import { TabMetadata } from 'plugin/internal/index'
 import { ConnectionEvents, ProviderMessage, RequestArguments } from 'plugin/provider/types'
 
 chrome.runtime.onInstalled.addListener(function () {
@@ -9,23 +10,28 @@ chrome.runtime.onInstalled.addListener(function () {
 chrome.runtime.onConnect.addListener(function (port: chrome.runtime.Port) {
   port.postMessage({ data: { chainId: '1' }, type: ConnectionEvents.Connected })
 
+  const metadata: TabMetadata = {
+    favicon: port.sender?.tab?.favIconUrl,
+    origin: port.name
+  }
+
   // USE THIS TO TEST DISCONNECTION
   // setTimeout(() => {
   //   port.disconnect()
   // }, 10000)
 
   port.onMessage.addListener((msg: RequestArguments) => {
+    const listener = (msg: ProviderMessage) => {
+      port.postMessage(msg)
+
+      chrome.runtime.onMessage.removeListener(listener)
+    }
+
     if (msg.method === 'eth_requestAccounts') {
-      const listener = (msg: ProviderMessage) => {
-        port.postMessage(msg)
-
-        chrome.runtime.onMessage.removeListener(listener)
-      }
-
       chrome.runtime.onMessage.addListener(listener)
 
       // eslint-disable-next-line
-      openPopup(`/test?domain=${port.name}`).catch((e) => console.log(e))
+      openPopup(`/plugin/connect-dapp?domain=${metadata.origin}&favicon=${metadata.favicon}`).catch((e) => console.log(e))
     }
   })
 })
