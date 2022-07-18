@@ -5,11 +5,11 @@ import { Text } from 'blockchain-info-components'
 
 import { statusConfig } from '../statusConfig'
 
-export interface IStatusBadgeOwnProps {
+interface IStatusBadgeOwnProps {
   bgColor: keyof DefaultTheme | string
 }
 
-export interface IStatusBadgeProps {
+interface IStatusBadgeProps {
   status: 'FAILED' | 'PENDING' | 'CONFIRMED'
 }
 

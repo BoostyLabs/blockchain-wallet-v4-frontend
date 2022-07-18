@@ -19,7 +19,7 @@ const ArrowIconWrapper = styled(Flex)`
   margin-left: 10px;
 `
 
-export interface ICoinSelectProps {
+interface ICoinSelectProps {
   onClick(): void
   selectedCoin: string
 }

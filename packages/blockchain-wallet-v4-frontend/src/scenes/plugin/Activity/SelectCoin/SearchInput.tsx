@@ -15,12 +15,12 @@ const StyledSearch = styled.input`
   width: 100%;
 `
 
-export type TBaseComponentProps<P> = Omit<P, 'style' | 'className'>
+type TBaseComponentProps<P> = Omit<P, 'style' | 'className'>
 
-export type HTMLInputProps = React.ComponentPropsWithoutRef<'input'>
-export type HTMLInputPassedProps = TBaseComponentProps<Omit<HTMLInputProps, 'onChange' | 'type'>>
+type HTMLInputProps = React.ComponentPropsWithoutRef<'input'>
+type HTMLInputPassedProps = TBaseComponentProps<Omit<HTMLInputProps, 'onChange' | 'type'>>
 
-export interface ISearchInputProps extends HTMLInputPassedProps {
+interface ISearchInputProps extends HTMLInputPassedProps {
   onChange(e: React.ChangeEvent<HTMLInputElement>, value: string): void
   type: string
 }

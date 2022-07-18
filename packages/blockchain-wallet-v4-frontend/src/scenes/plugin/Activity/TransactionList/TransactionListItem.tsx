@@ -13,7 +13,7 @@ import { Expanded, Flex } from 'components/Flex'
 import TransactionIcon from '../TransactionIcon/TransactionIcon'
 import StatusText from './StatusText'
 
-export interface ITransactionListItemProps {
+interface ITransactionListItemProps {
   coin: string
   item: EthProcessedTxType
   onClick(tx: EthProcessedTxType): void

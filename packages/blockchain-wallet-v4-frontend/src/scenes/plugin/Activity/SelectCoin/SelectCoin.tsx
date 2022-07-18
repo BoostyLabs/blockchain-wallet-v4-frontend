@@ -24,7 +24,7 @@ const SearchInputWrapper = styled(Flex)`
   width: 100%;
 `
 
-export interface ISearchCoinProps {
+interface ISearchCoinProps {
   coins: CoinDataItem[]
   onClose(): void
   onSelectCoin(coin: string): void
@@ -42,7 +42,10 @@ const SelectCoin: React.FC<ISearchCoinProps> = ({ coins, onClose, onSelectCoin }
     setSearchInputValue(e.target.value)
   }
 
-  const ethWithBalance = coins.find((item) => item.coinfig.symbol === 'ETH')
+  const ethWithBalance = React.useMemo(
+    () => coins.find((item) => item.coinfig.symbol === 'ETH'),
+    [coins]
+  )
 
   // It's necessary to display ETH at the top of the list in any case, regardless of whether it has a balance or not
   const ethItem =
@@ -52,9 +55,11 @@ const SelectCoin: React.FC<ISearchCoinProps> = ({ coins, onClose, onSelectCoin }
       coinfig: { ...window.coins.ETH.coinfig }
     } as unknown as CoinDataItem)
 
-  const coinsWithoutEth = coins
-    .filter((item) => item.coinfig.symbol !== 'ETH')
-    .sort((a, b) => a.balance - b.balance)
+  const coinsWithoutEth = React.useMemo(
+    () =>
+      coins.filter((item) => item.coinfig.symbol !== 'ETH').sort((a, b) => a.balance - b.balance),
+    [coins]
+  )
 
   const items = [ethItem, ...coinsWithoutEth].filter(
     (item) =>
@@ -99,4 +104,4 @@ const SelectCoin: React.FC<ISearchCoinProps> = ({ coins, onClose, onSelectCoin }
   )
 }
 
-export default SelectCoin
+export default React.memo(SelectCoin)

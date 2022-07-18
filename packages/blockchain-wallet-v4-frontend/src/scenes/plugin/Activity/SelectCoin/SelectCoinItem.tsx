@@ -22,7 +22,7 @@ const IconWrapper = styled.div`
   margin-right: 16px;
 `
 
-export interface ISearchCoinItemProps {
+interface ISearchCoinItemProps {
   balance: number
   name: string
   onSelect(coin: string): void

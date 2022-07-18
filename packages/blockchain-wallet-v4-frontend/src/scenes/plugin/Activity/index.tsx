@@ -50,14 +50,14 @@ const Activity: React.FC<Props> = ({ fetchErc20Transactions, fetchTransactions, 
     }
   }, [fetchErc20Transactions, fetchTransactions, hasCoinBalances, coinBalances, selectedCoin])
 
-  const handleSelectCoin = (coin: string) => {
+  const handleSelectCoin = React.useCallback((coin: string) => {
     setSelectedCoin(coin)
     setIsSelectCoinOpen(false)
-  }
+  }, [])
 
-  const handleCloseModal = () => {
+  const handleCloseModal = React.useCallback(() => {
     setIsSelectCoinOpen(false)
-  }
+  }, [])
 
   const showEthTransactions = hasCoinBalances && selectedCoin && selectedCoin === 'ETH'
   const showErc20Transactions =

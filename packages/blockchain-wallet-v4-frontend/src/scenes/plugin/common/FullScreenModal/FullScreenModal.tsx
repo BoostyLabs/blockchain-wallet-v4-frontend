@@ -38,8 +38,6 @@ export interface IFullScreenModalProps {
 }
 
 const FullScreenModal: React.FC<IFullScreenModalProps> = ({ children, isOpen }) => {
-  const contentRef = React.useRef(null)
-
   const modalTransition = useTransition(isOpen, {
     enter: { opacity: 1 },
     from: { opacity: 0 },
@@ -52,7 +50,7 @@ const FullScreenModal: React.FC<IFullScreenModalProps> = ({ children, isOpen }) 
         (styles, item) =>
           item && (
             <ModalWrapper as={animated.div} style={styles} aria-modal='true' role='dialog'>
-              <ModalContent as={animated.div} ref={contentRef}>
+              <ModalContent as={animated.div}>
                 <InnerContent>{children}</InnerContent>
               </ModalContent>
             </ModalWrapper>

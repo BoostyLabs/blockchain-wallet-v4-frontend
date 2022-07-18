@@ -3,7 +3,7 @@ import React from 'react'
 import { Text } from 'blockchain-info-components'
 import { Flex } from 'components/Flex'
 
-export interface ITransactionDetailsItemProps {
+interface ITransactionDetailsItemProps {
   label: React.ReactNode
   subValue?: React.ReactNode
   value: React.ReactNode

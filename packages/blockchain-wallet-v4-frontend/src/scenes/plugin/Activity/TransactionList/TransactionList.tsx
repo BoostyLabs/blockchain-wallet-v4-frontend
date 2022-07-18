@@ -15,7 +15,7 @@ import { getIsConfirmed } from '../statusUtils'
 import TransactionDetails from '../TransactionDetails'
 import TransactionListItem from './TransactionListItem'
 
-export interface ITransactionListProps {
+interface ITransactionListProps {
   blockHeight: any
   coin: string
   transactions: EthProcessedTxType[]
@@ -29,21 +29,26 @@ const Wrapper = styled.div`
 const TransactionList: React.FC<ITransactionListProps> = ({ blockHeight, coin, transactions }) => {
   const [selectedTx, setSelectedTx] = React.useState<EthProcessedTxType | null>(null)
 
-  const confirmedTransactions = transactions.filter((tx) =>
-    getIsConfirmed(blockHeight.number, Number(tx.blockHeight), coin)
+  const confirmedTransactions = React.useMemo(
+    () =>
+      transactions.filter((tx) => getIsConfirmed(blockHeight.number, Number(tx.blockHeight), coin)),
+    [blockHeight.number, coin, transactions]
   )
 
-  const pendingTransactions = transactions.filter(
-    (tx) => !getIsConfirmed(blockHeight.number, Number(tx.blockHeight), coin)
+  const pendingTransactions = React.useMemo(
+    () =>
+      transactions.filter(
+        (tx) => !getIsConfirmed(blockHeight.number, Number(tx.blockHeight), coin)
+      ),
+    [blockHeight.number, coin, transactions]
   )
 
-  const handleTransactionClick = (tx: EthProcessedTxType) => {
-    setSelectedTx(tx)
-  }
+  const handleTransactionClick = React.useCallback(
+    (tx: EthProcessedTxType) => setSelectedTx(tx),
+    []
+  )
 
-  const handleCloseModal = () => {
-    setSelectedTx(null)
-  }
+  const handleCloseModal = React.useCallback(() => setSelectedTx(null), [])
 
   return (
     <Wrapper>

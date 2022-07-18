@@ -7,7 +7,7 @@ import { Padding } from 'components/Padding'
 
 import { statusConfig } from '../statusConfig'
 
-export interface IStatusBadge {
+interface IStatusBadge {
   status: string
 }
 

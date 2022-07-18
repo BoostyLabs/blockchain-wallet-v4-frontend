@@ -18,7 +18,7 @@ import TransactionIcon from '../TransactionIcon/TransactionIcon'
 import StatusBadge from './StatusBadge'
 import TransactionDetailsItem from './TransactionDetailsItem'
 
-export interface ITransactionDetailsProps {
+interface ITransactionDetailsProps {
   coin: string
   onClose(): void
   status: 'CONFIRMED' | 'PENDING'
@@ -74,7 +74,13 @@ const TransactionDetails: React.FC<ITransactionDetailsProps> = ({
         <Text size='20px' lineHeight='30px' color='white' weight={700}>
           <FormattedMessage
             id={`plugin.activity.transactionDetails.${transaction.type}`}
-            defaultMessage={transaction.type.toUpperCase()}
+            defaultMessage={
+              transaction.type === 'sent'
+                ? 'Send'
+                : transaction.type === 'received'
+                ? 'Receive'
+                : ''
+            }
           />{' '}
           {coin}
         </Text>
