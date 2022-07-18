@@ -130,6 +130,12 @@ const App = ({
                           <Route path='/app-error' component={AppError} />
                           {/* Plugin routes */}
                           <PluginLayout
+                            path='/plugin/coinslist'
+                            header={<CoinsListHeader />}
+                            footer={<HomeNavbar />}
+                            component={CoinsList}
+                          />
+                          <PluginLayout
                             path='/plugin/backup-seed-phrase'
                             component={BackupSeedPhrase}
                           />
