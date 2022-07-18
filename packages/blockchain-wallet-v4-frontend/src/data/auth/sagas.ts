@@ -1,4 +1,5 @@
 import base64url from 'base64url'
+import { savePassword } from 'plugin/internal/chromeStorage'
 import { find, propEq } from 'ramda'
 import { startSubmit, stopSubmit } from 'redux-form'
 import { call, fork, put, select, take } from 'redux-saga/effects'
@@ -22,7 +23,6 @@ import * as C from 'services/alerts'
 import { isGuid } from 'services/forms'
 import { getFiatCurrencyFromCountry } from 'services/locales'
 import { askSecondPasswordEnhancer } from 'services/sagas'
-import { savePassword } from 'utils/chromeStorage'
 
 import { initMobileWalletAuthFlow, sendMessageToMobile } from './sagas.mobile'
 import {

@@ -19,6 +19,8 @@ import { RootState } from 'data/rootReducer'
 import { required, validStrongPassword } from 'services/forms'
 
 const Wrapper = styled(Flex)`
+  height: 100%;
+
   input {
     background-color: transparent !important;
   }
@@ -57,7 +59,7 @@ const Unlock = (props: Props) => {
   const passwordError = passwordValue.length < 1 && !!validStrongPassword(passwordValue)
 
   return (
-    <Wrapper flexDirection='column' justifyContent='space-between' style={{ height: '100%' }}>
+    <Wrapper flexDirection='column' justifyContent='space-between'>
       <Flex flexDirection='column' alignItems='center'>
         <Text weight={700} size='20px' color='white'>
           <FormattedMessage

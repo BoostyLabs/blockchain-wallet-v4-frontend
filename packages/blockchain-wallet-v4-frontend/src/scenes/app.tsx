@@ -26,8 +26,6 @@ import ThemeProvider from 'providers/ThemeProvider'
 import TranslationsProvider from 'providers/TranslationsProvider'
 import { getTracking } from 'services/tracking'
 
-import CoinsListHeader from './plugin/CoinsList/CoinsListHeader'
-import Unlock from './plugin/Unlock'
 import BackupSeedPhrase from './plugin/BackupSeedPhrase'
 import CoinsList from './plugin/CoinsList'
 import CoinsListHeader from './plugin/CoinsList/Header'
@@ -37,6 +35,7 @@ import HomeNavbar from './plugin/HomeNavbar'
 import Nft from './plugin/Nft'
 import Settings from './plugin/Settings'
 import { SwitchAccount } from './plugin/SwitchAccount'
+import Unlock from './plugin/Unlock'
 
 const queryClient = new QueryClient()
 
