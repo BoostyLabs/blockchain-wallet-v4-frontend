@@ -6,7 +6,7 @@ export async function openPopup(route?: string): Promise<void> {
     }
 
     await chrome.windows.create({
-      height: 600,
+      height: 630,
       type: 'popup',
       url: popupURL,
       width: 360

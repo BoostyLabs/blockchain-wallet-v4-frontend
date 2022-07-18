@@ -24,17 +24,20 @@ const BlockchainIcon = styled(IconBlockchainCircle)`
   z-index: 2;
   animation: ${blockchainIconFrames} 2s ease-in both;
 `
-const SiteIconContainer = styled('picture')`
+const SiteIconContainer = styled('div')`
+  z-index: 1;
   animation: ${siteIconFrames} 2s ease-in both;
-  max-width: 120px;
-  max-height: 120px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 60px;
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  overflow: auto;
+`
+const SiteIcon = styled('img')`
+  width: 100%;
 `
 const ConnectingWrapper = styled(Flex)`
   width: 100%;
+  align-items: center;
   justify-content: space-between;
 `
 export const Connecting: React.FC<{
@@ -53,10 +56,13 @@ export const Connecting: React.FC<{
   return (
     <ConnectingWrapper>
       <BlockchainIcon width='120px' height='120px' />
-      <SiteIconContainer>
-        <source srcSet={metadata.favicon} />
-        <img src='../../../assets/favicon.png' alt='icon' />
-      </SiteIconContainer>
+      {metadata.favicon !== '' ? (
+        <SiteIconContainer>
+          <SiteIcon src={metadata.favicon} alt='icon' />
+        </SiteIconContainer>
+      ) : (
+        <BlockchainIcon width='120px' height='120px' />
+      )}
     </ConnectingWrapper>
   )
 }

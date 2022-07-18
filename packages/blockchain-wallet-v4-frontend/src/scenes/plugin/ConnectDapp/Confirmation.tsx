@@ -39,14 +39,6 @@ const IconsWrapper = styled(Flex)`
     }
   }
 `
-const SiteIconContainer = styled('picture')`
-  max-width: 78px;
-  max-height: 78px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 39px;
-`
 const AllowList = styled.ul`
   margin: 30px 0 42px;
   padding: 0 24px;
@@ -118,6 +110,15 @@ const DenyButton = styled(Link)`
 const BlockchainIcon = styled(IconBlockchainCircle)`
   color: ${(props) => props.theme.white};
 `
+const SiteIconContainer = styled('div')`
+  width: 78px;
+  height: 78px;
+  border-radius: 50%;
+  overflow: auto;
+`
+const SiteIcon = styled('img')`
+  width: 100%;
+`
 export const Confirmation: React.FC<{
   metadata: TabMetadata
   setConnectStep: React.Dispatch<React.SetStateAction<ConnectStep>>
@@ -135,10 +136,13 @@ export const Confirmation: React.FC<{
     <ConfirmationWrapper>
       <IconsWrapper>
         <BlockchainIcon width='78px' height='78px' />
-        <SiteIconContainer>
-          <source srcSet='' />
-          <img src='../../../assets/favicon.png' alt='icon' />
-        </SiteIconContainer>
+        {metadata.favicon !== '' ? (
+          <SiteIconContainer>
+            <SiteIcon src={metadata.favicon} alt='icon' />
+          </SiteIconContainer>
+        ) : (
+          <BlockchainIcon width='78px' height='78px' />
+        )}
       </IconsWrapper>
       <AllowTitle>
         <FormattedMessage

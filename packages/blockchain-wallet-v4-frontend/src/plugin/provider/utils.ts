@@ -20,6 +20,5 @@ export const supportedRPCMethods = [
   'eth_signTypedData',
   'eth_sendTransaction',
   'eth_signTransaction',
-  'eth_sendRawTransaction',
-  'personal_sign'
+  'eth_sendRawTransaction'
 ]

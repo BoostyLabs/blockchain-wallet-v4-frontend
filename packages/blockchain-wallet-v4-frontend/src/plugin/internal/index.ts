@@ -58,3 +58,12 @@ export async function isDomainConnected(domain: string): Promise<boolean> {
 
   return connections.includes(domain)
 }
+
+export async function getConnectionsList(): Promise<string[]> {
+  const { connections } = await chrome.storage.local.get('connections')
+  if (!connections) {
+    return []
+  }
+
+  return connections
+}
