@@ -13,10 +13,10 @@ import FormItem from 'components/Form/FormItem'
 import FormLabel from 'components/Form/FormLabel'
 import PasswordBox from 'components/Form/PasswordBox'
 import { actions, selectors } from 'data'
+import { LOGIN_FORM } from 'data/auth/model'
+import { LoginSteps } from 'data/auth/types'
 import { RootState } from 'data/rootReducer'
 import { required, validStrongPassword } from 'services/forms'
-
-const UNLOCK_FORM = 'UNLOCK_FORM'
 
 const Wrapper = styled(Flex)`
   input {
@@ -36,16 +36,25 @@ const Unlock = (props: Props) => {
     props.authActions.continueLoginProcess()
   }
 
+  const setStep = (step: LoginSteps) => {
+    props.formActions.change(LOGIN_FORM, 'step', step)
+  }
+
   useEffect(() => {
-    chrome.storage.session.get('password', (result) => {
-      props.formActions.change(UNLOCK_FORM, 'password', result.password)
-    })
+    props.authActions.initializeLogin()
+    setStep(LoginSteps.ENTER_PASSWORD_WALLET)
+    const { guidStored, lastEmail, lastGuid } = props.cache
+    if (guidStored || lastGuid) {
+      props.formActions.change(LOGIN_FORM, 'guid', lastGuid || guidStored)
+      props.formActions.change(LOGIN_FORM, 'email', lastEmail)
+      props.formActions.change(LOGIN_FORM, 'step', LoginSteps.ENTER_PASSWORD_WALLET)
+    }
   }, [])
 
   const { formValues } = props
   const passwordValue = formValues?.password || ''
 
-  const passwordError = passwordValue.length > 0 && !!validStrongPassword(passwordValue)
+  const passwordError = passwordValue.length < 1 && !!validStrongPassword(passwordValue)
 
   return (
     <Wrapper flexDirection='column' justifyContent='space-between' style={{ height: '100%' }}>
@@ -73,12 +82,7 @@ const Unlock = (props: Props) => {
               />
             </FormItem>
           </FormGroup>
-          <Button
-            disabled={!passwordValue.length || passwordError}
-            type='submit'
-            width='100%'
-            data-e2e='unlock-btn'
-          >
+          <Button disabled={passwordError} type='submit' width='100%' data-e2e='unlock-btn'>
             <Text>
               <FormattedMessage id='plugin.unlock' defaultMessage='Unlock' />
             </Text>
@@ -89,14 +93,16 @@ const Unlock = (props: Props) => {
   )
 }
 
-const mapStateToProps = (state: RootState): LinkStatePropsType => ({
-  formValues: selectors.form.getFormValues(UNLOCK_FORM)(state) as { password: string }
+const mapStateToProps = (state: RootState) => ({
+  cache: selectors.cache.getCache(state),
+  formValues: selectors.form.getFormValues(LOGIN_FORM)(state) as { password: string }
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   alertActions: bindActionCreators(actions.alerts, dispatch),
   analyticsActions: bindActionCreators(actions.analytics, dispatch),
   authActions: bindActionCreators(actions.auth, dispatch),
+  cacheActions: bindActionCreators(actions.cache, dispatch),
   formActions: bindActionCreators(actions.form, dispatch),
   signupActions: bindActionCreators(actions.signup, dispatch),
   websocketActions: bindActionCreators(actions.ws, dispatch)
@@ -104,12 +110,8 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
 
 const connector = connect(mapStateToProps, mapDispatchToProps)
 
-type LinkStatePropsType = {
-  formValues: { password: string }
-}
+export type Props = ConnectedProps<typeof connector>
 
-export type Props = ConnectedProps<typeof connector> & LinkStatePropsType
-
-const enhance = compose(reduxForm<{}, Props>({ form: UNLOCK_FORM }), connector)
+const enhance = compose(reduxForm<{}, Props>({ form: LOGIN_FORM }), connector)
 
 export default enhance(Unlock) as React.ComponentClass<Props>
