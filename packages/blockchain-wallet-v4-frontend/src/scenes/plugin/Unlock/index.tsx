@@ -83,7 +83,7 @@ const Unlock = (props: Props) => {
             </FormItem>
           </FormGroup>
           <Button disabled={passwordError} type='submit' width='100%' data-e2e='unlock-btn'>
-            <Text>
+            <Text weight={500}>
               <FormattedMessage id='plugin.unlock' defaultMessage='Unlock' />
             </Text>
           </Button>
