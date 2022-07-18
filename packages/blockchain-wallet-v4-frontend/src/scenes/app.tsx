@@ -36,6 +36,7 @@ import HomeNavbar from './plugin/HomeNavbar'
 import Nft from './plugin/Nft'
 import Settings from './plugin/Settings'
 import { SwitchAccount } from './plugin/SwitchAccount'
+import Unlock from './plugin/Unlock'
 
 const queryClient = new QueryClient()
 
@@ -127,11 +128,22 @@ const App = ({
                         <Switch>
                           {/* Unauthenticated Wallet routes */}
                           <Route path='/app-error' component={AppError} />
+                          {/* Plugin routes */}
                           <PluginLayout
                             path='/plugin/coinslist'
                             header={<CoinsListHeader />}
                             footer={<HomeNavbar />}
                             component={CoinsList}
+                          />
+                          <PluginLayout
+                            path='/plugin/activity'
+                            header={<CoinsListHeader />}
+                            footer={<HomeNavbar />}
+                            component={Activity}
+                          />
+                          <PluginLayout
+                            path='/plugin/backup-seed-phrase'
+                            component={BackupSeedPhrase}
                           />
                           <PluginLayout path='/plugin/funding' component={Receive} />
                           <PluginLayout
@@ -140,6 +152,7 @@ const App = ({
                             footer={<HomeNavbar />}
                             component={Nft}
                           />
+                          <PluginLayout path='/plugin/unlock' component={Unlock} />
                           <PluginLayout path='/plugin/settings' component={Settings} />
                           <PluginLayout path='/plugin/switch-account' component={SwitchAccount} />
                           <PluginLayout path='/plugin/connect-dapp' component={ConnectDapp} />
@@ -210,22 +223,6 @@ const App = ({
                             path='/verify-email-step'
                             component={VerifyEmail}
                             pageTitle={`${BLOCKCHAIN_TITLE} | Verify Email`}
-                          />
-
-                          {/* Plugin routes */}
-                          <PluginLayout
-                            path='/plugin/coinslist'
-                            footer={<HomeNavbar />}
-                            component={CoinsList}
-                          />
-                          <PluginLayout
-                            path='/plugin/backup-seed-phrase'
-                            component={BackupSeedPhrase}
-                          />
-                          <PluginLayout
-                            path='/plugin/activity'
-                            footer={<HomeNavbar />}
-                            component={Activity}
                           />
                           {/* NFT Explorer routes */}
                           {nftExplorer && (
