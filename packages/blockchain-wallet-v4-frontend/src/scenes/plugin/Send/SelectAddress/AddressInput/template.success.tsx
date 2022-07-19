@@ -1,7 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
 
-import { isValidAddress } from '@core/utils/eth'
 // @ts-ignore
 import { TextInput } from 'blockchain-info-components'
 

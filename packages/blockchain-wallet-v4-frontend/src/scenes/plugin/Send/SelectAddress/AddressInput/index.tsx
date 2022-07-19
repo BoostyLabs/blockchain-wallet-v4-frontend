@@ -5,7 +5,7 @@ import {
   getEthData
 } from 'blockchain-wallet-v4-frontend/src/components/Form/SelectBoxEthAddresses/selectors'
 import { AvailableCoins } from 'blockchain-wallet-v4-frontend/src/scenes/plugin/Send'
-import AddressInput from 'blockchain-wallet-v4-frontend/src/scenes/plugin/Send/SelectAddress/AddressInput/template.succes'
+import AddressInput from 'blockchain-wallet-v4-frontend/src/scenes/plugin/Send/SelectAddress/AddressInput/template.success'
 
 const Address: React.FC<Props> = (props) => {
   const { data, ...rest } = props
