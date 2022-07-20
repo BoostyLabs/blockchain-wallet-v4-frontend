@@ -9,9 +9,9 @@ import SelectAddress from './SelectAddress'
 
 // defines available steps to send amount
 export enum AvailableSteps {
-  SelectAddress = 0,
-  FirstStep = 1,
-  SecondStep = 2
+  SelectAddress,
+  FirstStep,
+  SecondStep
 }
 
 // TODO: finalize with erc20 tokens list
@@ -36,10 +36,6 @@ const Send = (props) => {
   const changeStep = (step: AvailableSteps) => {
     setStep(step)
   }
-
-  useEffect(() => {
-    sendActions.initialized(coin)
-  }, [])
 
   useEffect(() => {
     sendActions.initialized(coin)
