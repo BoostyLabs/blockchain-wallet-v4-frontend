@@ -183,11 +183,7 @@ const FirstStepSuccess: React.FC<FirstStepSuccessProps> = (props) => {
 
   const confirm = () => {
     const isEnoughBalanceToSendCrypto: boolean = Number(amount) <= Number(effectiveBalance)
-    if (!isEnoughBalanceToSendCrypto) {
-      setIsNotEnoughCoins(true)
-      return
-    }
-    if (!effectiveBalance) {
+    if (!(isEnoughBalanceToSendCrypto && effectiveBalance)) {
       setIsNotEnoughCoins(true)
       return
     }

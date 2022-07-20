@@ -65,8 +65,6 @@ const Success: React.FC<Props> = (props) => {
     history.goBack(-1)
   }
 
-  const isFromCustody = from && from.type === 'CUSTODIAL'
-
   return (
     <Wrapper>
       <IconWrapper>
@@ -87,7 +85,7 @@ const Success: React.FC<Props> = (props) => {
           changeAddress={changeAddress}
           isCreatable
           isValidNewOption={() => false}
-          includeCustodial={!isFromCustody}
+          includeCustodial={false}
           forceCustodialFirst
           name='to'
           noOptionsMessage={() => null}
