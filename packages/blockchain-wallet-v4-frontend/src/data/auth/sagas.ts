@@ -570,9 +570,6 @@ export default ({ api, coreSagas, networks }) => {
                 session
               })
               yield call(loginRoutineSaga, {})
-              if (isPlugin()) {
-                yield setSessionExpireTime()
-              }
               // }
             } catch (e) {
               // If error is that 2fa is required
@@ -909,6 +906,9 @@ export default ({ api, coreSagas, networks }) => {
         yield put(
           actions.auth.login({ code: auth, guid, mobileLogin: null, password, sharedKey: null })
         )
+        if (isPlugin()) {
+          yield setSessionExpireTime()
+        }
       } else if (
         (unificationFlowType === AccountUnificationFlows.UNIFIED || unified) &&
         userType !== AuthUserType.INSTITUTIONAL

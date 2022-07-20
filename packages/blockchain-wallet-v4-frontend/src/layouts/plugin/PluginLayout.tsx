@@ -1,4 +1,4 @@
-import React, { ComponentType, useEffect } from 'react'
+import React, { ComponentType, useEffect, useState } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import { Route, withRouter } from 'react-router-dom'
 import { isSessionActive } from 'plugin/internal/chromeStorage'
@@ -63,6 +63,10 @@ const PluginLayout = (props: Props) => {
     routerActions
   } = props
 
+  const [isLoading, setLoading] = useState(true)
+
+  const isReady = isCoinDataLoaded && !isLoading
+
   const checkAuth = async () => {
     const isAuthed = await isSessionActive()
     if (!isAuthed) {
@@ -73,10 +77,12 @@ const PluginLayout = (props: Props) => {
   }
 
   useEffect(() => {
-    checkAuth()
+    checkAuth().then(() => {
+      setLoading(false)
+    })
   }, [])
 
-  if (!isCoinDataLoaded) return null
+  if (!isReady) return null
 
   return (
     <Route

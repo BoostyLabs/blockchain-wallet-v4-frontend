@@ -8,8 +8,9 @@ export const savePassword = async (password: string): Promise<void> => {
 }
 
 export const setSessionExpireTime = async (): Promise<void> => {
-  const sessionExpiresAt = new Date()
+  let sessionExpiresAt: string | Date = new Date()
   sessionExpiresAt.setHours(sessionExpiresAt.getHours() + 2)
+  sessionExpiresAt = sessionExpiresAt.toString()
   await chrome.storage.local.set({ sessionExpiresAt })
 }
 
@@ -20,7 +21,7 @@ export const getSessionPayload = async (): Promise<any> => {
 
 export const isSessionActive = async (): Promise<boolean> => {
   const { sessionExpiresAt } = await chrome.storage.local.get('sessionExpiresAt')
-  return sessionExpiresAt > new Date()
+  return new Date(sessionExpiresAt) > new Date()
 }
 
 export const saveSessionPayload = async (sessionPayload: any): Promise<void> => {
