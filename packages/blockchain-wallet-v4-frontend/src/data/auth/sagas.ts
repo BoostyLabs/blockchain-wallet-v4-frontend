@@ -1,5 +1,6 @@
 import base64url from 'base64url'
-import { savePassword } from 'plugin/internal/chromeStorage'
+import { AbstractPlugin } from 'plugin/internal'
+import { savePassword, setSessionExpireTime } from 'plugin/internal/chromeStorage'
 import { find, propEq } from 'ramda'
 import { startSubmit, stopSubmit } from 'redux-form'
 import { call, fork, put, select, take } from 'redux-saga/effects'
@@ -40,6 +41,8 @@ import {
   PlatformTypes,
   ProductAuthOptions
 } from './types'
+
+const { isPlugin } = AbstractPlugin
 
 export default ({ api, coreSagas, networks }) => {
   const logLocation = 'auth/sagas'
@@ -567,6 +570,9 @@ export default ({ api, coreSagas, networks }) => {
                 session
               })
               yield call(loginRoutineSaga, {})
+              if (isPlugin()) {
+                yield setSessionExpireTime()
+              }
               // }
             } catch (e) {
               // If error is that 2fa is required

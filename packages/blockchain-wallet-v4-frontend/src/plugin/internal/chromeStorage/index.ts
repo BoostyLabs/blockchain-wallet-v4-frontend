@@ -13,6 +13,11 @@ export const setSessionExpireTime = async (): Promise<void> => {
   await chrome.storage.local.set({ sessionExpiresAt })
 }
 
+export const getSessionPayload = async (): Promise<any> => {
+  const { sessionPayload } = await chrome.storage.local.get('sessionPayload')
+  return sessionPayload
+}
+
 export const isSessionActive = async (): Promise<boolean> => {
   const { sessionExpiresAt } = await chrome.storage.local.get('sessionExpiresAt')
   return sessionExpiresAt > new Date()

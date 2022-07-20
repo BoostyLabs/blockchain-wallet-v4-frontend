@@ -1,9 +1,11 @@
-import React, { ComponentType } from 'react'
+import React, { ComponentType, useEffect } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
-import { Route } from 'react-router-dom'
+import { Route, withRouter } from 'react-router-dom'
+import { isSessionActive } from 'plugin/internal/chromeStorage'
+import { bindActionCreators } from 'redux'
 import styled from 'styled-components'
 
-import { selectors } from 'data'
+import { actions, selectors } from 'data'
 
 const MainWrapper = styled.div`
   width: 100%;
@@ -50,14 +52,30 @@ const Footer = styled.div`
   width: 100%;
 `
 
-const PluginLayout = ({
-  component: Component,
-  exact = false,
-  footer,
-  header,
-  isCoinDataLoaded,
-  path
-}: Props) => {
+const PluginLayout = (props: Props) => {
+  const {
+    component: Component,
+    exact = false,
+    footer,
+    header,
+    isCoinDataLoaded,
+    path,
+    routerActions
+  } = props
+
+  const checkAuth = async () => {
+    const isAuthed = await isSessionActive()
+    if (!isAuthed) {
+      if (path !== '/plugin/unlock') {
+        routerActions.push('/plugin/unlock')
+      }
+    }
+  }
+
+  useEffect(() => {
+    checkAuth()
+  }, [])
+
   if (!isCoinDataLoaded) return null
 
   return (
@@ -83,7 +101,11 @@ const mapStateToProps = (state) => ({
   isCoinDataLoaded: selectors.core.data.coins.getIsCoinDataLoaded(state)
 })
 
-const connector = connect(mapStateToProps)
+const mapDispatchToProps = (dispatch) => ({
+  routerActions: bindActionCreators(actions.router, dispatch)
+})
+
+const connector = connect(mapStateToProps, mapDispatchToProps)
 
 type Props = ConnectedProps<typeof connector> & {
   component: ComponentType<any>
