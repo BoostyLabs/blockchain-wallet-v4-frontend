@@ -1,4 +1,5 @@
 import { openPopup } from 'plugin/internal/browser'
+import { setSessionExpireTime } from 'plugin/internal/chromeStorage'
 import { TabMetadata } from 'plugin/internal/index'
 import { ConnectionEvents, ProviderMessage, RequestArguments } from 'plugin/provider/types'
 
@@ -19,6 +20,10 @@ chrome.runtime.onConnect.addListener(function (port: chrome.runtime.Port) {
   // setTimeout(() => {
   //   port.disconnect()
   // }, 10000)
+
+  port.onDisconnect.addListener(function () {
+    setSessionExpireTime()
+  })
 
   port.onMessage.addListener((msg: RequestArguments) => {
     const listener = (msg: ProviderMessage) => {
