@@ -52,10 +52,8 @@ const CloseIconWrapper = styled(IconClose)`
 `
 export const SwitchAccount = (props) => {
   const [copiedAccountIndex, setCopiedAccountIndex] = useState<string | number>('')
-  const { accounts, selectedAccountIndex, setIsSwitchAccountVisible, setSelectedAccountIndex } =
-    props
+  const { setIsSwitchAccountVisible, switchAccounts } = props
 
-  const switchAccounts = [accounts.ETH, accounts.BTC, accounts.BCH, accounts.XLM, accounts.STX]
   const closeSwitchAccount = () => {
     setIsSwitchAccountVisible(false)
   }
@@ -79,8 +77,6 @@ export const SwitchAccount = (props) => {
             key={account[0].coin}
             index={index}
             account={account}
-            setSelectedAccountIndex={setSelectedAccountIndex}
-            selectedAccountIndex={selectedAccountIndex}
             setCopiedAccountIndex={setCopiedAccountIndex}
             copiedAccountIndex={copiedAccountIndex}
           />

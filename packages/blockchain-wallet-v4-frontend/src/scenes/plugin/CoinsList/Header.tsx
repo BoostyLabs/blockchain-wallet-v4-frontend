@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { useSelector } from 'react-redux'
 import { colors, Icon } from '@blockchain-com/constellation'
@@ -67,9 +67,9 @@ const SettingsButton = styled.button`
 
 const Header = () => {
   const [isSwitchAccountVisible, setIsSwitchAccountVisible] = useState(false)
-  const [selectedAccountIndex, setSelectedAccountIndex] = useState<number>(0)
+
+  const selectedAccount = useSelector((state) => selectors.cache.getCache(state).selectedAccount)
   const coins = useSelector(selectors.components.swap.getCoins)
-  const balance = useSelector(selectors.balances.getTotalWalletBalance)
   const accounts = useSelector((state) =>
     getCoinAccounts(state as CombinedState<any>, { coins, ...SWAP_ACCOUNTS_SELECTOR })
   )
@@ -89,7 +89,7 @@ const Header = () => {
             />
           </Wallet>
           <AssetWrapper>
-            <Wallet>{switchAccounts[selectedAccountIndex][1]?.baseCoin}</Wallet>
+            <Wallet>{selectedAccount && selectedAccount[0]?.baseCoin}</Wallet>
             <StatusLabel />
           </AssetWrapper>
         </WalletWapper>
@@ -101,12 +101,9 @@ const Header = () => {
       </HeaderWrapper>
       {isSwitchAccountVisible && (
         <SwitchAccount
-          balance={balance}
           coins={coins}
-          accounts={accounts}
+          switchAccounts={switchAccounts}
           setIsSwitchAccountVisible={setIsSwitchAccountVisible}
-          selectedAccountIndex={selectedAccountIndex}
-          setSelectedAccountIndex={setSelectedAccountIndex}
         />
       )}
     </header>
