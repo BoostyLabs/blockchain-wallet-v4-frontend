@@ -1,5 +1,4 @@
 import { openPopup } from 'plugin/internal/browser'
-import { setSessionExpireTime } from 'plugin/internal/chromeStorage'
 import { TabMetadata } from 'plugin/internal/index'
 import { ConnectionEvents, ProviderMessage, RequestArguments } from 'plugin/provider/types'
 import { SupportedRPCMethods } from 'plugin/provider/utils'
