@@ -1,7 +1,7 @@
 import React, { ComponentType, useEffect, useState } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import { Route, withRouter } from 'react-router-dom'
-import { isSessionActive } from 'plugin/internal/chromeStorage'
+import { isSessionActive, setSessionExpireTime } from 'plugin/internal/chromeStorage'
 import { bindActionCreators } from 'redux'
 import styled from 'styled-components'
 
@@ -80,6 +80,10 @@ const PluginLayout = (props: Props) => {
     checkAuth().then(() => {
       setLoading(false)
     })
+
+    return () => {
+      setSessionExpireTime()
+    }
   }, [])
 
   if (!isReady) return null

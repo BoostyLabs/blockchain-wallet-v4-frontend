@@ -21,10 +21,6 @@ chrome.runtime.onConnect.addListener(function (port: chrome.runtime.Port) {
   //   port.disconnect()
   // }, 10000)
 
-  port.onDisconnect.addListener(function () {
-    setSessionExpireTime()
-  })
-
   port.onMessage.addListener((msg: RequestArguments) => {
     const listener = (msg: ProviderMessage) => {
       port.postMessage(msg)
