@@ -1,7 +1,12 @@
 import React, { ComponentType, useEffect, useState } from 'react'
-import { connect, ConnectedProps } from 'react-redux'
+import { connect, ConnectedProps, useSelector } from 'react-redux'
 import { Route, withRouter } from 'react-router-dom'
-import { isSessionActive, setSessionExpireTime } from 'plugin/internal/chromeStorage'
+import {
+  getSelectedAddress,
+  isSessionActive,
+  setSelectedAddress,
+  setSessionExpireTime
+} from 'plugin/internal/chromeStorage'
 import { bindActionCreators } from 'redux'
 import styled from 'styled-components'
 
@@ -63,6 +68,10 @@ const PluginLayout = (props: Props) => {
     routerActions
   } = props
 
+  const walletAddress = useSelector((state) =>
+    selectors.core.kvStore.eth.getDefaultAddress(state).getOrElse('')
+  )
+
   const [isLoading, setLoading] = useState(true)
 
   const isReady = isCoinDataLoaded && !isLoading
@@ -85,6 +94,11 @@ const PluginLayout = (props: Props) => {
       setSessionExpireTime()
     }
   }, [])
+
+  useEffect(() => {
+    if (!walletAddress) return
+    setSelectedAddress(walletAddress)
+  }, [walletAddress])
 
   if (!isReady) return null
 
