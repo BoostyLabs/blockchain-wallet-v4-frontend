@@ -17,7 +17,7 @@ const MainWrapper = styled.div`
 
 const Wrapper = styled.div`
   position: relative;
-  background: ${(props) => props.theme.exchangeLogin};
+  background: ${(props) => props.theme.black};
   width: 360px;
   height: 600px;
 `
@@ -29,7 +29,7 @@ const Header = styled.div`
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  background: ${(props) => props.theme.exchangeLogin};
+  background: ${(props) => props.theme.black};
   top: 0;
   width: 100%;
   padding: 20px;
@@ -47,7 +47,7 @@ const Footer = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  background: ${(props) => props.theme.exchangeLogin};
+  background: ${(props) => props.theme.black};
   bottom: 0;
   width: 100%;
 `
@@ -94,7 +94,7 @@ const PluginLayout = (props: Props) => {
       exact={exact}
       render={(matchProps) => (
         <MainWrapper>
-          <Wrapper>
+          <Wrapper id='plugin-wrapper'>
             {header && <Header>{header}</Header>}
             <Content>
               <Component {...matchProps} />

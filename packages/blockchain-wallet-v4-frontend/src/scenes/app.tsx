@@ -26,6 +26,7 @@ import ThemeProvider from 'providers/ThemeProvider'
 import TranslationsProvider from 'providers/TranslationsProvider'
 import { getTracking } from 'services/tracking'
 
+import Activity from './plugin/Activity'
 import BackupSeedPhrase from './plugin/BackupSeedPhrase'
 import CoinsList from './plugin/CoinsList'
 import CoinsListHeader from './plugin/CoinsList/Header'
@@ -33,8 +34,8 @@ import { ConnectDapp } from './plugin/ConnectDapp'
 import Receive from './plugin/Funding/Receive'
 import HomeNavbar from './plugin/HomeNavbar'
 import Nft from './plugin/Nft'
+import Send from './plugin/Send'
 import Settings from './plugin/Settings'
-import { SwitchAccount } from './plugin/SwitchAccount'
 import Unlock from './plugin/Unlock'
 
 const queryClient = new QueryClient()
@@ -135,6 +136,12 @@ const App = ({
                             component={CoinsList}
                           />
                           <PluginLayout
+                            path='/plugin/activity'
+                            header={<CoinsListHeader />}
+                            footer={<HomeNavbar />}
+                            component={Activity}
+                          />
+                          <PluginLayout
                             path='/plugin/backup-seed-phrase'
                             component={BackupSeedPhrase}
                           />
@@ -146,8 +153,8 @@ const App = ({
                             component={Nft}
                           />
                           <PluginLayout path='/plugin/unlock' component={Unlock} />
+                          <PluginLayout path='/plugin/send' component={Send} />
                           <PluginLayout path='/plugin/settings' component={Settings} />
-                          <PluginLayout path='/plugin/switch-account' component={SwitchAccount} />
                           <PluginLayout path='/plugin/connect-dapp' component={ConnectDapp} />
                           <AuthLayout path='/authorize-approve' component={AuthorizeLogin} />
                           <AuthLayout
