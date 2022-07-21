@@ -52,7 +52,7 @@ const CloseIconWrapper = styled(IconClose)`
 `
 export const SwitchAccount = (props) => {
   const [copiedAccountIndex, setCopiedAccountIndex] = useState<string | number>('')
-  const { setIsSwitchAccountVisible, switchAccounts } = props
+  const { accounts, setIsSwitchAccountVisible } = props
 
   const closeSwitchAccount = () => {
     setIsSwitchAccountVisible(false)
@@ -71,8 +71,8 @@ export const SwitchAccount = (props) => {
       <BalanceText>
         <TotalBalance size='14px' weight={500} />
       </BalanceText>
-      {switchAccounts.length &&
-        switchAccounts.map((account: SwapAccountType[], index: number) => (
+      {accounts &&
+        accounts.map((account: SwapAccountType[], index: number) => (
           <Account
             key={account[0].coin}
             index={index}

@@ -73,6 +73,7 @@ const Header = () => {
   const accounts = useSelector((state) =>
     getCoinAccounts(state as CombinedState<any>, { coins, ...SWAP_ACCOUNTS_SELECTOR })
   )
+  const activeAccountCoin = selectedAccount && selectedAccount[0].baseCoin
 
   const switchAccounts = [accounts.ETH, accounts.BTC, accounts.BCH, accounts.XLM, accounts.STX]
 
@@ -91,7 +92,7 @@ const Header = () => {
             />
           </Wallet>
           <AssetWrapper>
-            <Wallet>{selectedAccount && selectedAccount[0]?.baseCoin}</Wallet>
+            <Wallet>{activeAccountCoin}</Wallet>
             <StatusLabel />
           </AssetWrapper>
         </WalletWapper>
@@ -104,7 +105,7 @@ const Header = () => {
       {isSwitchAccountVisible && (
         <SwitchAccount
           coins={coins}
-          switchAccounts={switchAccounts}
+          accounts={switchAccounts}
           setIsSwitchAccountVisible={setIsSwitchAccountVisible}
         />
       )}
