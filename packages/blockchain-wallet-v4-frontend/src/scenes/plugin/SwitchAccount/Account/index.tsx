@@ -204,7 +204,7 @@ const Account: React.FC<AccountProps & any> = ({
           </CoinTextBlock>
         </Flex>
       </AccountInfo>
-      {selectedAccount[0].coin === account[0].coin ? (
+      {selectedAccount && selectedAccount[0].coin === account[0].coin ? (
         <ConnectBlock>
           <IconCheckWrapper height='24px' width='24px' />
           <Tooltip
