@@ -68,8 +68,8 @@ const PluginLayout = (props: Props) => {
   const isReady = isCoinDataLoaded && !isLoading
 
   const checkAuth = async () => {
-    const isAuthed = await isSessionActive()
-    if (!isAuthed) {
+    const isAuthenticated = await isSessionActive()
+    if (!isAuthenticated) {
       if (path !== '/plugin/unlock') {
         routerActions.push('/plugin/unlock')
       }
