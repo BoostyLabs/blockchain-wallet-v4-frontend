@@ -73,7 +73,9 @@ const Header = () => {
   const accounts = useSelector((state) =>
     getCoinAccounts(state as CombinedState<any>, { coins, ...SWAP_ACCOUNTS_SELECTOR })
   )
+
   const switchAccounts = [accounts.ETH, accounts.BTC, accounts.BCH, accounts.XLM, accounts.STX]
+
   const setSwitchAccountVisibility = () => {
     setIsSwitchAccountVisible(true)
   }
