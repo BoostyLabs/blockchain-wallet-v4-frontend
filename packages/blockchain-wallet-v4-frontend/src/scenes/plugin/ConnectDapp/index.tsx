@@ -1,10 +1,13 @@
 import React, { FC, useEffect, useState } from 'react'
+import { useDispatch } from 'react-redux'
 import { IconBlockchain } from '@blockchain-com/icons'
 import { TabMetadata } from 'plugin/internal'
+import { getSessionPayload } from 'plugin/internal/chromeStorage'
 import { SupportedRPCMethods } from 'plugin/provider/utils'
 import styled, { keyframes } from 'styled-components'
 
 import { Flex } from 'components/Flex'
+import { actions } from 'data'
 
 import { Confirmation } from './Confirmation'
 import { Connected } from './Connected'
@@ -42,6 +45,9 @@ type Props = {
 export const ConnectDapp: FC<Props> = (props) => {
   const [connectStep, setConnectStep] = useState<ConnectStep>(ConnectStep.InitialScreen)
   const [metadata, setMetadata] = useState<TabMetadata>({ origin: '' })
+  const [password, setPassword] = useState('')
+
+  const dispatch = useDispatch()
 
   useEffect(() => {
     window.onbeforeunload = () => {
@@ -50,6 +56,11 @@ export const ConnectDapp: FC<Props> = (props) => {
         type: SupportedRPCMethods.RequestAccounts
       })
     }
+    ;(async function () {
+      const wrapper = await getSessionPayload()
+      setPassword(wrapper.password)
+      dispatch(actions.core.wallet.setWrapper(wrapper))
+    })()
   }, [])
 
   useEffect(() => {
@@ -74,7 +85,7 @@ export const ConnectDapp: FC<Props> = (props) => {
       case ConnectStep.Connecting:
         return <Connecting setConnectStep={setConnectStep} metadata={metadata} />
       case ConnectStep.Connected:
-        return <Connected metadata={metadata} />
+        return <Connected metadata={metadata} password={password} />
       default:
         return <BlockchainIcon width='137px' height='137px' />
     }

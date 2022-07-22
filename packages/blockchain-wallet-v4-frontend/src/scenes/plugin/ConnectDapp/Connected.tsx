@@ -1,8 +1,12 @@
 import React, { useEffect } from 'react'
+import { useSelector } from 'react-redux'
 import { IconCheckCircle } from '@blockchain-com/icons'
 import { addConnection, TabMetadata } from 'plugin/internal'
+import { getSigner } from 'plugin/internal/signer'
 import { SupportedRPCMethods } from 'plugin/provider/utils'
 import styled, { keyframes } from 'styled-components'
+
+import { selectors } from 'data'
 
 const showingFrames = keyframes`
   from { opacity: 0; transform: scale(0.1) }
@@ -15,13 +19,19 @@ const ConnectedIcon = styled(IconCheckCircle)`
 `
 export const Connected: React.FC<{
   metadata: TabMetadata
-}> = ({ metadata }) => {
+  password: string
+}> = ({ metadata, password }) => {
+  const mnemonicTask = useSelector((state) => selectors.core.wallet.getMnemonic(state, password))
+
   useEffect(() => {
     const timeout = setTimeout(async () => {
       try {
         await addConnection(metadata.origin)
+
+        const signer = await getSigner(mnemonicTask)
+        const address = await signer.getAddress()
         await chrome.runtime.sendMessage({
-          data: 'random address',
+          data: address,
           type: SupportedRPCMethods.RequestAccounts
         })
         window.close()
