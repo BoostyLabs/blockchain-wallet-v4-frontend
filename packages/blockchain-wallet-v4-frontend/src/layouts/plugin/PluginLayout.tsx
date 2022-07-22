@@ -70,9 +70,7 @@ const PluginLayout = (props: Props) => {
   const checkAuth = async () => {
     const isAuthenticated = await isSessionActive()
     if (!isAuthenticated) {
-      if (path !== '/plugin/unlock') {
-        routerActions.push('/plugin/unlock')
-      }
+      routerActions.push('/login')
     }
   }
 
