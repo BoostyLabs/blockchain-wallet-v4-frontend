@@ -2,7 +2,6 @@ import React, { ComponentType, useEffect, useState } from 'react'
 import { connect, ConnectedProps, useSelector } from 'react-redux'
 import { Route, withRouter } from 'react-router-dom'
 import {
-  getSelectedAddress,
   isSessionActive,
   setSelectedAddress,
   setSessionExpireTime
@@ -79,9 +78,7 @@ const PluginLayout = (props: Props) => {
   const checkAuth = async () => {
     const isAuthenticated = await isSessionActive()
     if (!isAuthenticated) {
-      if (path !== '/plugin/unlock') {
-        routerActions.push('/plugin/unlock')
-      }
+      routerActions.push('/login')
     }
   }
 
