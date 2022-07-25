@@ -18,39 +18,29 @@ chrome.runtime.onConnect.addListener(function (port: chrome.runtime.Port) {
     origin: port.name
   }
 
+  const listener = (msg: ProviderMessage) => {
+    port.postMessage(msg)
+
+    chrome.runtime.onMessage.removeListener(listener)
+  }
+
   port.onMessage.addListener(async function (msg: RequestArguments) {
-    const listener = (msg: ProviderMessage) => {
-      port.postMessage(msg)
-
-      chrome.runtime.onMessage.removeListener(listener)
-    }
-
-    console.log('1')
-
-    console.log('2')
-    const isCurrentSessionActive = await isSessionActive()
-    console.log('3')
-    // if (!isCurrentSessionActive) {
-    //   // await clearSession()
-    //   // port.postMessage({
-    //   //   data: 'BCDC session expired. Please reauthenticate',
-    //   //   type: ConnectionEvents.Error
-    //   // })
-    //   console.log('4')
-    //   chrome.tabs.create({ url: chrome.runtime.getURL('index-tab.html') })
-    // }
-
     // try {
-    //
+    //   const isCurrentSessionActive = await isSessionActive()
+    //   if (!isCurrentSessionActive) {
+    //     await clearSession()
+    //     port.postMessage({
+    //       data: 'BCDC session expired. Please reauthenticate',
+    //       type: ConnectionEvents.Error
+    //     })
+    //     await chrome.tabs.create({ url: chrome.runtime.getURL('index-tab.html') })
+    //   }
     // } catch (e) {
-    //   console.log('5')
     //   port.postMessage({
     //     data: e.message,
     //     type: ConnectionEvents.Error
     //   })
     // }
-
-    console.log('6')
 
     switch (msg.method) {
       case SupportedRPCMethods.RequestAccounts:

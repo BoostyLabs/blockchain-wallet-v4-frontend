@@ -45,7 +45,6 @@ type Props = {
 export const ConnectDapp: FC<Props> = (props) => {
   const [connectStep, setConnectStep] = useState<ConnectStep>(ConnectStep.InitialScreen)
   const [metadata, setMetadata] = useState<TabMetadata>({ origin: '' })
-  const [password, setPassword] = useState('')
 
   const dispatch = useDispatch()
 
@@ -58,10 +57,9 @@ export const ConnectDapp: FC<Props> = (props) => {
     }
     ;(async function () {
       const wrapper = await getSessionPayload()
-      setPassword(wrapper.password)
       dispatch(actions.core.wallet.setWrapper(wrapper))
     })()
-  }, [])
+  }, [dispatch])
 
   useEffect(() => {
     const params = new URLSearchParams(props.history.location.search)
@@ -85,7 +83,7 @@ export const ConnectDapp: FC<Props> = (props) => {
       case ConnectStep.Connecting:
         return <Connecting setConnectStep={setConnectStep} metadata={metadata} />
       case ConnectStep.Connected:
-        return <Connected metadata={metadata} password={password} />
+        return <Connected metadata={metadata} />
       default:
         return <BlockchainIcon width='137px' height='137px' />
     }

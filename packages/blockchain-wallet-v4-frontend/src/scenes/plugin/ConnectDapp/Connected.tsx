@@ -1,12 +1,12 @@
 import React, { useEffect } from 'react'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { IconCheckCircle } from '@blockchain-com/icons'
 import { addConnection, TabMetadata } from 'plugin/internal'
-import { getSigner } from 'plugin/internal/signer'
 import { SupportedRPCMethods } from 'plugin/provider/utils'
 import styled, { keyframes } from 'styled-components'
 
-import { selectors } from 'data'
+import { actions, selectors } from 'data'
+import { RootState } from 'data/rootReducer'
 
 const showingFrames = keyframes`
   from { opacity: 0; transform: scale(0.1) }
@@ -19,17 +19,23 @@ const ConnectedIcon = styled(IconCheckCircle)`
 `
 export const Connected: React.FC<{
   metadata: TabMetadata
-  password: string
-}> = ({ metadata, password }) => {
-  const mnemonicTask = useSelector((state) => selectors.core.wallet.getMnemonic(state, password))
+}> = ({ metadata }) => {
+  const dispatch = useDispatch()
+  const address = useSelector((state: RootState) =>
+    selectors.components.plugin.getPublicAddress(state)
+  )
 
   useEffect(() => {
+    dispatch(actions.components.plugin.getPublicAddress())
+  }, [dispatch])
+
+  useEffect(() => {
+    if (!address) return
+
     const timeout = setTimeout(async () => {
       try {
         await addConnection(metadata.origin)
-
-        const signer = await getSigner(mnemonicTask)
-        const address = await signer.getAddress()
+        console.log('address', address)
         await chrome.runtime.sendMessage({
           data: address,
           type: SupportedRPCMethods.RequestAccounts
@@ -43,7 +49,7 @@ export const Connected: React.FC<{
     return () => {
       clearTimeout(timeout)
     }
-  }, [])
+  }, [dispatch, metadata.origin, address])
 
   return <ConnectedIcon width='137px' height='137px' />
 }
