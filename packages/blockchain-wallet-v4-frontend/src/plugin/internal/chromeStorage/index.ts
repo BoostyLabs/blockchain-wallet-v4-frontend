@@ -28,3 +28,13 @@ export const isSessionActive = async (): Promise<boolean> => {
 export const saveSessionPayload = async (sessionPayload: any): Promise<void> => {
   await chrome.storage.session.set({ sessionPayload })
 }
+
+export const getSelectedAddress = async (): Promise<string> => {
+  const { walletAddress } = await chrome.storage.session.get('walletAddress')
+
+  return walletAddress
+}
+
+export const setSelectedAddress = async (walletAddress: string): Promise<void> => {
+  await chrome.storage.session.set({ walletAddress })
+}
