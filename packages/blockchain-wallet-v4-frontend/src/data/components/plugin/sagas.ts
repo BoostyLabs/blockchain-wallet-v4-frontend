@@ -16,10 +16,14 @@ export default ({ api }: { api: APIType }) => {
   const getEthSigner = function* () {
     try {
       const password = yield call(promptForSecondPassword)
+      console.log("password", password);
       const getMnemonic = (state) => selectors.core.wallet.getMnemonic(state, password)
+      console.log("getMnemonic", getMnemonic);
       const mnemonicT = yield select(getMnemonic)
       const mnemonic = yield call(() => taskToPromise(mnemonicT))
       const privateKey = getPrivateKey(mnemonic)
+      console.log("privateKey", privateKey);
+
       const wallet = new ethers.Wallet(privateKey, api.ethProvider)
       return wallet
     } catch (e) {
@@ -28,10 +32,13 @@ export default ({ api }: { api: APIType }) => {
   }
 
   const getPublicAddress = function* () {
-    console.log('called')
     try {
       const signer: ethers.Wallet = yield call(getEthSigner)
+      console.log("signer", signer);
+      
       const address = yield signer.getAddress()
+      console.log("addressFromSigner", address);
+      
       yield put(A.setPublicAddress(address))
     } catch (e) {
       throw new Error(`Failed to get address. ${e}`)

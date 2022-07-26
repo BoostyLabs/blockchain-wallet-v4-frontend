@@ -16,6 +16,7 @@ import interestUploadDocument from './interestUploadDocument/sagaRegister'
 import manageAddresses from './manageAddresses/sagaRegister'
 import nfts from './nfts/sagaRegister'
 import onboarding from './onboarding/sagaRegister'
+import plugin from './plugin/sagaRegister'
 import priceChart from './priceChart/sagaRegister'
 import recurringBuy from './recurringBuy/sagaRegister'
 import refresh from './refresh/sagaRegister'
@@ -48,6 +49,7 @@ export default ({ api, coreSagas, networks }) =>
     yield fork(xlmTransactions())
     yield fork(fiatTransactions())
     yield fork(fundRecovery({ api }))
+    yield fork(plugin({ api }))
     yield fork(identityVerification({ api, coreSagas }))
     yield fork(interest({ api, coreSagas, networks }))
     yield fork(interestUploadDocument({ api }))

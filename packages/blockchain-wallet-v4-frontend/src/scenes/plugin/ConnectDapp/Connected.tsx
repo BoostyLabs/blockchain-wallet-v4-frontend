@@ -21,13 +21,17 @@ export const Connected: React.FC<{
   metadata: TabMetadata
 }> = ({ metadata }) => {
   const dispatch = useDispatch()
-  const address = useSelector((state: RootState) =>
-    selectors.components.plugin.getPublicAddress(state)
-  )
+  const address = useSelector((state) => state)
 
   useEffect(() => {
-    dispatch(actions.components.plugin.getPublicAddress())
-  }, [dispatch])
+    ;(async () => {
+      try {
+        await dispatch(actions.components.plugin.getPublicAddress())
+      } catch (error) {
+        console.log('dispathError', error)
+      }
+    })()
+  }, [])
 
   useEffect(() => {
     if (!address) return
@@ -35,12 +39,11 @@ export const Connected: React.FC<{
     const timeout = setTimeout(async () => {
       try {
         await addConnection(metadata.origin)
-        console.log('address', address)
         await chrome.runtime.sendMessage({
           data: address,
           type: SupportedRPCMethods.RequestAccounts
         })
-        window.close()
+        // window.close()
       } catch (e) {
         // eslint-disable-next-line
         console.log(e)
@@ -49,7 +52,7 @@ export const Connected: React.FC<{
     return () => {
       clearTimeout(timeout)
     }
-  }, [dispatch, metadata.origin, address])
+  }, [metadata.origin, address])
 
   return <ConnectedIcon width='137px' height='137px' />
 }

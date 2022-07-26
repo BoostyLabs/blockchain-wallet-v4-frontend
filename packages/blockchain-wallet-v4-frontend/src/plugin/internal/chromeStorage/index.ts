@@ -10,6 +10,8 @@ export const setSessionExpireTime = async (): Promise<void> => {
 export const getSessionPayload = async (): Promise<Wrapper | null> => {
   const { sessionPayload } = await chrome.storage.session.get('sessionPayload')
   if (!sessionPayload) return null
+  console.log(sessionPayload);
+  
 
   return fromJS(sessionPayload)
 }

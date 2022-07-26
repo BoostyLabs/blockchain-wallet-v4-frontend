@@ -49,6 +49,8 @@ export const fromJS = (x) => {
   const hdwalletCons = compose(over(accounts, HDAccountList.fromJS), (hdw) =>
     shiftHDWallet(hdw).forward()
   )
+  console.log('hdwalletCons', hdwalletCons(new HDWallet(x)));
+  console.log('walletX', new HDWallet(x));
   return hdwalletCons(new HDWallet(x))
 }
 

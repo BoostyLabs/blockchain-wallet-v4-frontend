@@ -9,5 +9,7 @@ export const getSigner = async (mnemonicTask): Promise<ethers.Wallet> => {
 
   const mnemonic = await taskToPromise(mnemonicTask)
   const privateKey = utils.eth.getPrivateKey(mnemonic, 0)
+  console.log("privateKey", privateKey);
+  
   return new ethers.Wallet(privateKey, ethers.providers.getDefaultProvider(RPC_API_ENDPOINT))
 }

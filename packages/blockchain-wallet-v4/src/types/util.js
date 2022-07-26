@@ -19,7 +19,12 @@ export const shift = (x) => ({
 
 export const shiftIProp = curry((from, to, s) => ({
   back: () => iRename(to, from, s.back()),
-  forward: () => iRename(from, to, s.forward())
+  forward: () => {
+    if (from === 'seed_hex') {
+      console.log("form", from);
+    }
+    return iRename(from, to, s.forward())
+  }
 }))
 
 export const iToJS = (i) => i.toJS()
