@@ -88,7 +88,7 @@ const Settings = ({ setIsSettingsVisible }) => {
       <SettingsItemsWrapper>
         <Switch>
           <Route component={Overal} path='/plugin/coinslist' exact />
-          <Route component={Account} path='/plugin/coinslist/account' exct />
+          <Route component={Account} path='/plugin/coinslist/account' />
           <Route component={Networks} path='//plugincoinslist/networks' />
           <Route component={Connected} path='/plugin/coinslist/connected-dapps' />
           <Route component={General} path='/plugin/coinslist/general' />
