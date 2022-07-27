@@ -1,4 +1,4 @@
-import { fromJS, Wrapper } from '@core/types/Wrapper'
+import { fromJS, toJS, Wrapper } from '@core/types/Wrapper'
 
 export const setSessionExpireTime = async (): Promise<void> => {
   let sessionExpiresAt: string | Date = new Date()
@@ -20,7 +20,7 @@ export const isSessionActive = async (): Promise<boolean> => {
 }
 
 export const saveSessionPayload = async (sessionPayload: Wrapper): Promise<void> => {
-  await chrome.storage.session.set({ sessionPayload: sessionPayload.toJS() })
+  await chrome.storage.session.set({ sessionPayload: toJS(sessionPayload) })
 }
 
 export const clearSession = async (): Promise<void> => {

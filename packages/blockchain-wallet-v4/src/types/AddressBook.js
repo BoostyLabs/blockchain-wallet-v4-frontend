@@ -1,4 +1,4 @@
-import { compose, curry, indexBy, is, isEmpty, map, pipe, prop } from 'ramda'
+import { compose, curry, indexBy, is, map, pipe, prop } from 'ramda'
 import { view } from 'ramda-lens'
 
 import * as AddressBookEntry from './AddressBookEntry'
@@ -22,7 +22,8 @@ export const fromJS = (labels) => {
   if (is(AddressBook, labels)) {
     return labels
   }
-  if (!labels || isEmpty(labels)) {
+
+  if (labels == null) {
     return new AddressBook()
   }
   const addressBook = compose(indexBy(prop('addr')), map(AddressBookEntry.fromJS))(labels)

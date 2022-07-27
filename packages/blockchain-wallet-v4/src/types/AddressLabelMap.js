@@ -1,4 +1,4 @@
-import { compose, curry, indexBy, is, isEmpty, map, pipe, prop } from 'ramda'
+import { compose, curry, indexBy, is, map, pipe, prop } from 'ramda'
 import { view } from 'ramda-lens'
 
 import * as AddressLabel from './AddressLabel'
@@ -33,10 +33,6 @@ export const setLabel = curry((index, label, addressLabelMap) =>
 export const fromJS = (labels = []) => {
   if (is(AddressLabelMap, labels)) {
     return labels
-  }
-
-  if (isEmpty(labels)) {
-    return new AddressLabelMap()
   }
 
   const addressLabels = compose(indexBy(prop('index')), map(AddressLabel.fromJS))(labels)

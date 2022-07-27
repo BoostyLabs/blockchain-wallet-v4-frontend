@@ -35,7 +35,6 @@ export const Connected: React.FC<{
     const timeout = setTimeout(async () => {
       try {
         await addConnection(metadata.origin)
-        console.log('address', address)
         await chrome.runtime.sendMessage({
           data: address,
           type: SupportedRPCMethods.RequestAccounts
@@ -49,7 +48,7 @@ export const Connected: React.FC<{
     return () => {
       clearTimeout(timeout)
     }
-  }, [dispatch, metadata.origin, address])
+  }, [metadata.origin, address])
 
   return <ConnectedIcon width='137px' height='137px' />
 }
