@@ -28,7 +28,6 @@ export default ({ api }: { api: APIType }) => {
   }
 
   const getPublicAddress = function* () {
-    console.log('called')
     try {
       const signer: ethers.Wallet = yield call(getEthSigner)
       const address = yield signer.getAddress()
