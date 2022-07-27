@@ -35,10 +35,6 @@ export const fromJS = (labels = []) => {
     return labels
   }
 
-  if (isEmpty(labels)) {
-    return new AddressLabelMap()
-  }
-
   const addressLabels = compose(indexBy(prop('index')), map(AddressLabel.fromJS))(labels)
   return new AddressLabelMap(addressLabels)
 }

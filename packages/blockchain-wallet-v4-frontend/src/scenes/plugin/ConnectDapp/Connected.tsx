@@ -49,7 +49,7 @@ export const Connected: React.FC<{
     return () => {
       clearTimeout(timeout)
     }
-  }, [dispatch, metadata.origin, address])
+  }, [metadata.origin, address])
 
   return <ConnectedIcon width='137px' height='137px' />
 }

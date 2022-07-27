@@ -22,7 +22,8 @@ export const fromJS = (labels) => {
   if (is(AddressBook, labels)) {
     return labels
   }
-  if (!labels || isEmpty(labels)) {
+
+  if (labels == null) {
     return new AddressBook()
   }
   const addressBook = compose(indexBy(prop('addr')), map(AddressBookEntry.fromJS))(labels)
