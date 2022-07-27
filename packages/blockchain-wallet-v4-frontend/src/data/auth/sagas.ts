@@ -1,5 +1,6 @@
 import base64url from 'base64url'
-import { savePassword } from 'plugin/internal/chromeStorage'
+import { AbstractPlugin } from 'plugin/internal'
+import { setSessionExpireTime } from 'plugin/internal/chromeStorage'
 import { find, propEq } from 'ramda'
 import { startSubmit, stopSubmit } from 'redux-form'
 import { call, fork, put, select, take } from 'redux-saga/effects'
@@ -40,6 +41,8 @@ import {
   PlatformTypes,
   ProductAuthOptions
 } from './types'
+
+const { isPlugin } = AbstractPlugin
 
 export default ({ api, coreSagas, networks }) => {
   const logLocation = 'auth/sagas'
@@ -363,7 +366,11 @@ export default ({ api, coreSagas, networks }) => {
             return
           }
           if (product === ProductAuthOptions.WALLET) {
-            yield put(actions.router.push('/home'))
+            if (isPlugin()) {
+              yield put(actions.router.push('/plugin/coinslist'))
+            } else {
+              yield put(actions.router.push('/home'))
+            }
           } else {
             yield put(actions.router.push('/select-product'))
           }
@@ -371,7 +378,17 @@ export default ({ api, coreSagas, networks }) => {
           yield put(actions.router.push('/verify-email-step'))
         }
       } else {
-        yield put(actions.router.push('/home'))
+        const isPluginTabPath = window.location.pathname === '/index-tab.html'
+
+        if (isPlugin()) {
+          if (isPluginTabPath) {
+            yield put(actions.router.push('/plugin/backup-seed-phrase'))
+          } else {
+            yield put(actions.router.push('/plugin/coinslist'))
+          }
+        } else {
+          yield put(actions.router.push('/home'))
+        }
       }
       yield call(fetchBalances)
       yield call(saveGoals, firstLogin)
@@ -542,7 +559,6 @@ export default ({ api, coreSagas, networks }) => {
       // heartbeat loader would stop for a second before
       // opening exchange window
 
-      yield savePassword(password)
       if (product !== ProductAuthOptions.EXCHANGE) {
         yield put(stopSubmit(LOGIN_FORM))
       }
@@ -903,6 +919,9 @@ export default ({ api, coreSagas, networks }) => {
         yield put(
           actions.auth.login({ code: auth, guid, mobileLogin: null, password, sharedKey: null })
         )
+        if (isPlugin()) {
+          yield setSessionExpireTime()
+        }
       } else if (
         (unificationFlowType === AccountUnificationFlows.UNIFIED || unified) &&
         userType !== AuthUserType.INSTITUTIONAL

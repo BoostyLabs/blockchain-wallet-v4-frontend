@@ -1,9 +1,11 @@
-import React, { ComponentType } from 'react'
+import React, { ComponentType, useEffect, useState } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
-import { Route } from 'react-router-dom'
+import { Route, withRouter } from 'react-router-dom'
+import { isSessionActive, setSessionExpireTime } from 'plugin/internal/chromeStorage'
+import { bindActionCreators } from 'redux'
 import styled from 'styled-components'
 
-import { selectors } from 'data'
+import { actions, selectors } from 'data'
 
 const MainWrapper = styled.div`
   width: 100%;
@@ -15,7 +17,7 @@ const MainWrapper = styled.div`
 
 const Wrapper = styled.div`
   position: relative;
-  background: ${(props) => props.theme.exchangeLogin};
+  background: ${(props) => props.theme.black};
   width: 360px;
   height: 600px;
 `
@@ -27,7 +29,7 @@ const Header = styled.div`
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  background: ${(props) => props.theme.exchangeLogin};
+  background: ${(props) => props.theme.black};
   top: 0;
   width: 100%;
   padding: 20px;
@@ -45,20 +47,44 @@ const Footer = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  background: ${(props) => props.theme.exchangeLogin};
+  background: ${(props) => props.theme.black};
   bottom: 0;
   width: 100%;
 `
 
-const PluginLayout = ({
-  component: Component,
-  exact = false,
-  footer,
-  header,
-  isCoinDataLoaded,
-  path
-}: Props) => {
-  if (!isCoinDataLoaded) return null
+const PluginLayout = (props: Props) => {
+  const {
+    component: Component,
+    exact = false,
+    footer,
+    header,
+    isCoinDataLoaded,
+    path,
+    routerActions
+  } = props
+
+  const [isLoading, setLoading] = useState(true)
+
+  const isReady = isCoinDataLoaded && !isLoading
+
+  const checkAuth = async () => {
+    const isAuthenticated = await isSessionActive()
+    if (!isAuthenticated) {
+      routerActions.push('/login')
+    }
+  }
+
+  useEffect(() => {
+    checkAuth().then(() => {
+      setLoading(false)
+    })
+
+    return () => {
+      setSessionExpireTime()
+    }
+  }, [])
+
+  if (!isReady) return null
 
   return (
     <Route
@@ -83,7 +109,11 @@ const mapStateToProps = (state) => ({
   isCoinDataLoaded: selectors.core.data.coins.getIsCoinDataLoaded(state)
 })
 
-const connector = connect(mapStateToProps)
+const mapDispatchToProps = (dispatch) => ({
+  routerActions: bindActionCreators(actions.router, dispatch)
+})
+
+const connector = connect(mapStateToProps, mapDispatchToProps)
 
 type Props = ConnectedProps<typeof connector> & {
   component: ComponentType<any>
