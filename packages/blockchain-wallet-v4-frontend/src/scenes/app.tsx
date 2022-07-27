@@ -157,6 +157,16 @@ const App = ({
                         <Switch>
                           {/* Unauthenticated Wallet routes */}
                           <Route path='/app-error' component={AppError} />
+                          <AuthLayout
+                            path='/signup'
+                            component={Signup}
+                            pageTitle={`${BLOCKCHAIN_TITLE} | Sign up`}
+                          />
+                          <AuthLayout
+                            path='/login'
+                            component={Login}
+                            pageTitle={`${BLOCKCHAIN_TITLE} | Login`}
+                          />
                           {isPlugin() ? (
                             <PluginRoutes />
                           ) : (
@@ -294,16 +304,6 @@ const App = ({
                               />
                             </>
                           )}
-                          <AuthLayout
-                            path='/signup'
-                            component={Signup}
-                            pageTitle={`${BLOCKCHAIN_TITLE} | Sign up`}
-                          />
-                          <AuthLayout
-                            path='/login'
-                            component={Login}
-                            pageTitle={`${BLOCKCHAIN_TITLE} | Login`}
-                          />
                           {isAuthenticated ? <Redirect to='/home' /> : <Redirect to='/login' />}
                         </Switch>
                       </Suspense>
