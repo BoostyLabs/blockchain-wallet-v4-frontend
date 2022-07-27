@@ -39,6 +39,13 @@ const DisconnectAllButton = styled.button`
   cursor: pointer;
 `
 
+const DomainAddress = styled(Text)`
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: normal;
+  width: 312px;
+`
+
 export const Connected = () => {
   const [connectedDomains, setConnectedDomains] = useState<string[]>([])
 
@@ -71,7 +78,7 @@ export const Connected = () => {
       <SettingsList>
         {connectedDomains.map((domain: string) => (
           <Dapp key={domain}>
-            <Text>{domain}</Text>
+            <DomainAddress>{domain}</DomainAddress>
             <DisconnectButton onClick={() => disconnect(domain)}>
               <Icon color='grey700' label='IconClose' size='md'>
                 <IconCloseV2 />
