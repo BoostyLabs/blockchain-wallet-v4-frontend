@@ -75,7 +75,7 @@ export const SwitchAccount = (props) => {
         accounts[0][0] &&
         accounts.map((account: SwapAccountType[], index: number) => (
           <Account
-            key={account[0]?.coin}
+            key={account[0].coin}
             index={index}
             account={account}
             setCopiedAccountIndex={setCopiedAccountIndex}
