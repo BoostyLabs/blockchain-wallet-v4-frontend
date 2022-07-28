@@ -23,28 +23,36 @@ chrome.runtime.onConnect.addListener(async (port: chrome.runtime.Port) => {
   }
 
   await port.onMessage.addListener(async (msg: RequestArguments) => {
-    switch (msg.method) {
-      case SupportedRPCMethods.RequestAccounts:
-        await chrome.runtime.onMessage.addListener(listener)
-        try {
-          const { sessionExpiresAt } = await chrome.storage.local.get('sessionExpiresAt')
-          const isSessionActive = sessionExpiresAt ? new Date(sessionExpiresAt) > new Date() : false
-          if (isSessionActive) {
-            // eslint-disable-next-line
-            openPopup(`/plugin/connect-dapp?domain=${metadata.origin}&favicon=${metadata.favicon}`).catch((e) => console.log(e))
-          } else {
-            await chrome.storage.session.clear()
-            // eslint-disable-next-line
-            await chrome.tabs.create({ url: chrome.runtime.getURL('index-tab.html') }).catch((err) => console.log(err))
+    try {
+      const { sessionExpiresAt } = await chrome.storage.local.get('sessionExpiresAt')
+      const isSessionActive = sessionExpiresAt ? new Date(sessionExpiresAt) > new Date() : false
+
+      switch (msg.method) {
+        case SupportedRPCMethods.RequestAccounts:
+          await chrome.runtime.onMessage.addListener(listener)
+          try {
+            if (isSessionActive) {
+              // eslint-disable-next-line
+              openPopup(`/plugin/connect-dapp?domain=${metadata.origin}&favicon=${metadata.favicon}`).catch((e) => console.log(e))
+            } else {
+              await chrome.storage.session.clear()
+              // eslint-disable-next-line
+              await chrome.tabs.create({ url: chrome.runtime.getURL('index-tab.html') }).catch((err) => console.log(err))
+            }
+          } catch (e) {
+            await port.postMessage({
+              data: e.message,
+              type: ConnectionEvents.Error
+            })
           }
-        } catch (e) {
-          await port.postMessage({
-            data: e.message,
-            type: ConnectionEvents.Error
-          })
-        }
-        break
-      default:
+          break
+        default:
+      }
+    } catch (e) {
+      await port.postMessage({
+        data: e.message,
+        type: ConnectionEvents.Error
+      })
     }
   })
 })
