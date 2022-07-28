@@ -35,7 +35,6 @@ export const Connected: React.FC<{
     const timeout = setTimeout(async () => {
       try {
         await addConnection(metadata.origin)
-        console.log('address', address)
         await chrome.runtime.sendMessage({
           data: address,
           type: SupportedRPCMethods.RequestAccounts
