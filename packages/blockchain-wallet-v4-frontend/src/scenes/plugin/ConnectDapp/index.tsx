@@ -69,11 +69,7 @@ export const ConnectDapp: FC<Props> = (props) => {
     })
 
     const timeout = setTimeout(() => {
-      if (params.get('connected')) {
-        setConnectStep(ConnectStep.Connected)
-      } else {
-        setConnectStep(ConnectStep.Confirmation)
-      }
+      setConnectStep(ConnectStep.Confirmation)
     }, 2000)
 
     return () => {

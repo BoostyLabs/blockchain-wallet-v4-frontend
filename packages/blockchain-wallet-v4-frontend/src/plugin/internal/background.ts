@@ -34,8 +34,11 @@ chrome.runtime.onConnect.addListener(async (port: chrome.runtime.Port) => {
             const isConnected = await isDomainConnected(metadata.origin)
             if (isSessionActive) {
               if (isConnected) {
-                // eslint-disable-next-line
-                openPopup(`/plugin/connect-dapp?domain=${metadata.origin}&favicon=${metadata.favicon}&connected=true`)
+                const { walletAddress } = await chrome.storage.session.get('walletAddress')
+                await port.postMessage({
+                  data: walletAddress,
+                  type: ConnectionEvents.Connected
+                })
               } else {
                 // eslint-disable-next-line
                 openPopup(`/plugin/connect-dapp?domain=${metadata.origin}&favicon=${metadata.favicon}`).catch((e) => console.log(e))
