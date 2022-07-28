@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { useSelector } from 'react-redux'
 import { Link, Route, Switch } from 'react-router-dom'
@@ -77,7 +77,7 @@ const Header = () => {
   const accounts = useSelector((state) =>
     getCoinAccounts(state as CombinedState<any>, { coins, ...SWAP_ACCOUNTS_SELECTOR })
   )
-  const activeAccountCoin = selectedAccount && selectedAccount[0].baseCoin
+  const activeAccountCoin = selectedAccount ? selectedAccount[0]?.baseCoin : 'ETH'
 
   const switchAccounts = [accounts.ETH, accounts.BTC, accounts.BCH, accounts.XLM, accounts.STX]
 
