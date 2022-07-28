@@ -10,7 +10,10 @@ export const useSelfCustodyCoinsBalances = () => {
   const state = useSelector((state: RootState) => state)
   const [coins, setCoins] = useState<CoinDataItem[] | null>(null)
 
+  const selectedAccount = useSelector((state) => selectors.cache.getCache(state).selectedAccount)
+
   const allowedChains = ['ETH', 'BTC', 'XLM', 'BCH', 'STX']
+  const activeAccountCoin = selectedAccount && selectedAccount[0].baseCoin
 
   useEffect(() => {
     const getCoins = () => {
@@ -22,7 +25,8 @@ export const useSelfCustodyCoinsBalances = () => {
         if (
           (allowedChains.includes(coinfig.symbol) ||
             allowedChains.includes(coinfig.type.parentChain)) &&
-          balance > 0
+          balance > 0 &&
+          activeAccountCoin === coinfig.symbol
         ) {
           coinsArr.push({ balance, coinfig })
         }

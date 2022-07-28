@@ -9,9 +9,9 @@ body,
 html,
 body {
     background-color: rgb(18, 29, 51);
-    overflow: auto;
     max-height: 600px;
     width: 360px;
+    overflow: hidden;
 }
 
 ::-webkit-scrollbar {
