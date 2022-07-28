@@ -1,4 +1,4 @@
-import { compose, curry, indexBy, is, isEmpty, map, pipe, prop } from 'ramda'
+import { compose, curry, indexBy, is, map, pipe, prop } from 'ramda'
 import { view } from 'ramda-lens'
 
 import * as AddressLabel from './AddressLabel'
