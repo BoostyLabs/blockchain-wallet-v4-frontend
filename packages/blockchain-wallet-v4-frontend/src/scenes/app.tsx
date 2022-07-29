@@ -99,23 +99,6 @@ const App = ({
 }: Props) => {
   const Loading = isAuthenticated ? WalletLoading : AuthLoading
 
-  useEffect(() => {
-    const checkAuth = async () => {
-      if (isPlugin()) {
-        const isAuthenticated = await isSessionActive()
-        if (
-          !isAuthenticated &&
-          window.location.pathname !== '/login' &&
-          window.location.pathname !== '/signup'
-        ) {
-          await chrome.tabs.create({ url: chrome.runtime.getURL('index-tab.html/login') })
-          window.close()
-        }
-      }
-    }
-    checkAuth()
-  }, [])
-
   // parse and log UTMs
   useEffect(() => {
     const utm = utmParser()
@@ -187,7 +170,11 @@ const App = ({
                               <PluginLayout path='/plugin/send' component={Send} />
                               <PluginLayout path='/plugin/settings' component={Settings} />
                               <PluginLayout path='/plugin/connect-dapp' component={ConnectDapp} />
-                              {isAuthenticated ? <Redirect to='/home' /> : <Redirect to='/login' />}
+                              {isAuthenticated ? (
+                                <Redirect to='/plugin/coinslist' />
+                              ) : (
+                                <Redirect to='/login' />
+                              )}
                             </Switch>
                           ) : (
                             <Switch>
