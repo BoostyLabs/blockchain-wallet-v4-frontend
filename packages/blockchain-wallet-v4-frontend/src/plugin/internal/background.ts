@@ -55,6 +55,11 @@ chrome.runtime.onConnect.addListener(async (port: chrome.runtime.Port) => {
             })
           }
           break
+        case SupportedRPCMethods.Send:
+          await chrome.runtime.onMessage.addListener(listener)
+          // eslint-disable-next-line
+          await openPopup(`/plugin/send`).catch((e) => console.log(e))
+          break
         default:
       }
     } catch (e) {

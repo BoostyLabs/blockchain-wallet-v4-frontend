@@ -20,5 +20,7 @@ export default ({ api, coreSagas, networks }) => {
       actions.sendLoginMessageToMobile,
       authSagas.sendLoginMessageToExchangeMobileApp
     )
+    //@ts-ignore
+    yield takeLatest(actions.loginRoutineSaga.type, authSagas.loginRoutineSaga)
   }
 }

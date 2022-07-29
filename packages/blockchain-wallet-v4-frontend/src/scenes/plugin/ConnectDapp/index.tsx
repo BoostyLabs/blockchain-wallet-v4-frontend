@@ -57,6 +57,7 @@ export const ConnectDapp: FC<Props> = (props) => {
     }
     ;(async function () {
       const wrapper = await getSessionPayload()
+      console.log('wrapper: ', wrapper)
       dispatch(actions.core.wallet.setWrapper(wrapper))
     })()
   }, [dispatch])

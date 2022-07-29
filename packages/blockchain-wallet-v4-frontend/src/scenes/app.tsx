@@ -36,6 +36,9 @@ import HomeNavbar from './plugin/HomeNavbar'
 import Nft from './plugin/Nft'
 import Send from './plugin/Send'
 import Settings from './plugin/Settings'
+import { AbstractPlugin } from 'plugin/internal'
+
+const { isPlugin } = AbstractPlugin
 
 const queryClient = new QueryClient()
 
@@ -94,6 +97,7 @@ const App = ({
   userData,
   walletDebitCardEnabled
 }: Props) => {
+  console.log('isAuthenticated: ', isAuthenticated)
   const Loading = isAuthenticated ? WalletLoading : AuthLoading
   // parse and log UTMs
   useEffect(() => {
@@ -292,7 +296,7 @@ const App = ({
                             hideMenu={coinViewV2}
                             center={coinViewV2}
                           />
-                          {isAuthenticated ? <Redirect to='/home' /> : <Redirect to='/login' />}
+                          {isAuthenticated ? (isPlugin() ? <Redirect to='/plugin/coinslist'/> : <Redirect to='/home'/>) : <Redirect to='/login' />}
                         </Switch>
                       </Suspense>
                     </ConnectedRouter>

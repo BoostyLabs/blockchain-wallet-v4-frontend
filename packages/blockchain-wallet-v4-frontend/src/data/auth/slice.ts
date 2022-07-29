@@ -89,6 +89,7 @@ const authSlice = createSlice({
     ) => {
       state.exchangeAuth.resetPassword = Remote.Success(action.payload)
     },
+    loginRoutineSaga: () => {},
     initializeLogin: () => {},
     login: (state, action: PayloadAction<LoginPayloadType>) => {
       state.isLoggingIn = true

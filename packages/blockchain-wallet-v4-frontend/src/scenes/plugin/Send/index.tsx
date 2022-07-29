@@ -26,7 +26,7 @@ const Send = (props) => {
   const { step } = props
   const [coin, setCoin] = useState<string>(AvailableCoins.ETH)
 
-  const { sendActions } = props
+  const { authActions, sendActions } = props
   // indicates if recents wallets are shown
   const isRecentsWalletsShown: boolean = step === AvailableSteps.SelectAddress
   // indicates if first and second steps are shown
@@ -37,6 +37,10 @@ const Send = (props) => {
     sendActions.initialized(coin)
   }, [coin])
 
+  // useEffect(() => {
+  //   // props.authActions.continueLoginProcess()
+  // }, [])
+  console.log('prosp: ', props)
   // changes coin
   const changeCoin = (coin: string) => {
     setCoin(coin)
@@ -56,7 +60,9 @@ const mapStateToProps = (state) => ({
 })
 
 const mapDispatchToProps = (dispatch) => ({
-  sendActions: bindActionCreators(actions.components.sendEth, dispatch)
+  sendActions: bindActionCreators(actions.components.sendEth, dispatch),
+  authActions: bindActionCreators(actions.auth, dispatch),
+  cacheActions: bindActionCreators(actions.cache, dispatch),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Send)

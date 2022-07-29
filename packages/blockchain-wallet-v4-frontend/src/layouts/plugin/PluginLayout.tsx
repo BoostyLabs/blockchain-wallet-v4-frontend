@@ -8,9 +8,8 @@ import {
 } from 'plugin/internal/chromeStorage'
 import { bindActionCreators } from 'redux'
 import styled from 'styled-components'
-
 import { actions, selectors } from 'data'
-
+import Form from './form'
 const MainWrapper = styled.div`
   width: 100%;
   height: 100%;
@@ -117,6 +116,7 @@ const PluginLayout = (props: Props) => {
       exact={exact}
       render={(matchProps) => (
         <MainWrapper>
+          {/* <Form /> */}
           <Wrapper id='plugin-wrapper'>
             {header && <Header>{header}</Header>}
             <Content>
