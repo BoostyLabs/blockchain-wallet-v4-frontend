@@ -105,12 +105,11 @@ const App = ({
         const isAuthenticated = await isSessionActive()
         if (
           !isAuthenticated &&
-          // @ts-ignore
-          history.location.pathname !== '/login' &&
-          // @ts-ignore
-          history.location.pathname !== '/signup'
+          window.location.pathname !== '/login' &&
+          window.location.pathname !== '/signup'
         ) {
-          await chrome.tabs.create({ url: chrome.runtime.getURL('index-tab.html') })
+          await chrome.tabs.create({ url: chrome.runtime.getURL('index-tab.html/login') })
+          window.close()
         }
       }
     }

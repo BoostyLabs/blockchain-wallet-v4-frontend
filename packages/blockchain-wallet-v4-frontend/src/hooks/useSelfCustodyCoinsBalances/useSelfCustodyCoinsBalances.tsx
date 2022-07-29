@@ -10,7 +10,6 @@ export const useSelfCustodyCoinsBalances = () => {
   const state = useSelector((state: RootState) => state)
   const [coins, setCoins] = useState<CoinDataItem[] | null>(null)
 
-  // const allowedChains = ['ETH', 'BTC', 'XLM', 'BCH', 'STX']
   const selectedAccount = useSelector((state) => selectors.cache.getCache(state).selectedAccount)
   const activeAccountCoin = selectedAccount && selectedAccount[0].baseCoin
 
