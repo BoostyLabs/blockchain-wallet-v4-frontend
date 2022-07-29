@@ -87,7 +87,7 @@ const Balance = (props) => {
             Receive
           </Text>
         </ButtonWrapper>
-        {activeAccountCoin !== 'ETH' ? (
+        {activeAccountCoin === 'ETH' ? (
           <ButtonWrapper onClick={goToSendScene}>
             <IconButtonStyled
               padding='0'
