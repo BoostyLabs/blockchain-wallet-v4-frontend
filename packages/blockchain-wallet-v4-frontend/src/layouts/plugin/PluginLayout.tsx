@@ -1,19 +1,16 @@
 import React, { ComponentType, useEffect, useState } from 'react'
 import { connect, ConnectedProps, useDispatch, useSelector } from 'react-redux'
 import { Route } from 'react-router-dom'
-import { AbstractPlugin } from 'plugin/internal'
 import {
   getSessionPayload,
   isSessionActive,
-  setSelectedAddress,
-  setSessionExpireTime
+  setSelectedAddress
 } from 'plugin/internal/chromeStorage'
 import { bindActionCreators } from 'redux'
 import styled from 'styled-components'
 
 import { actions, selectors } from 'data'
-
-const { isPlugin } = AbstractPlugin
+import { RootState } from 'data/rootReducer'
 
 const MainWrapper = styled.div`
   width: 100%;
@@ -63,37 +60,41 @@ const Footer = styled.div`
 const ethOnlyPaths = ['/plugin/activity', '/plugin/nft']
 
 const PluginLayout = (props: Props) => {
-  const {
-    component: Component,
-    exact = false,
-    footer,
-    header,
-    isAuthenticated,
-    isCoinDataLoaded,
-    path,
-    routerActions
-  } = props
-  const dispatch = useDispatch()
-  const selectedAccount = useSelector((state) => selectors.cache.getCache(state).selectedAccount)
-  const walletAddress = useSelector((state) =>
-    selectors.core.kvStore.eth.getDefaultAddress(state).getOrElse('')
-  )
-  const isEthAccountSelected =
-    selectedAccount && selectedAccount[0] && selectedAccount[0].baseCoin === 'ETH'
+  const { component: Component, exact = false, footer, header, path, routerActions } = props
+
   const [isLoading, setLoading] = useState(true)
-  const isReady = isCoinDataLoaded
-  const isPluginTabPath = window.location.pathname === '/index-tab.html'
 
-  if (!isReady) return null
+  const dispatch = useDispatch()
 
-  const checkAuth = async () => {
-    if (isPlugin()) {
+  const isAuthenticated = useSelector(
+    (state: RootState) => selectors.auth.isAuthenticated(state) as boolean
+  )
+
+  console.log('0')
+
+  const isCoinDataLoaded = useSelector((state) =>
+    selectors.core.data.coins.getIsCoinDataLoaded(state)
+  )
+
+  console.log('isReady', isCoinDataLoaded)
+
+  if (!isCoinDataLoaded) return <></>
+
+  useEffect(() => {
+    console.log('1')
+    console.log('window.coins', window.coins)
+    console.log('isAuthenticated', isAuthenticated)
+    if (isAuthenticated) {
+      setLoading(false)
+      return
+    }
+
+    ;(async function () {
+      const wrapper = await getSessionPayload()
+      dispatch(actions.core.wallet.setWrapper(wrapper))
+    })()
+    ;(async () => {
       const isPluginAuthenticated = await isSessionActive()
-
-      if (isAuthenticated) {
-        return
-      }
-
       if (!isPluginAuthenticated) {
         await chrome.tabs.create({ url: chrome.runtime.getURL('index-tab.html#/login') })
         window.close()
@@ -104,26 +105,24 @@ const PluginLayout = (props: Props) => {
         ) {
           routerActions.push('/plugin/coinslist')
         }
-        console.log('autologin')
         dispatch(actions.pluginAuth.autoLogin())
-        routerActions.push('/plugin/coinslist')
         setLoading(false)
       }
-    }
-  }
-
-  /*eslint-disable */
-  useEffect(() => {
-    if (isAuthenticated) {
-      return
-    }
-
-    ;(async function () {
-      const wrapper = await getSessionPayload()
-      dispatch(actions.core.wallet.setWrapper(wrapper))
     })()
-    checkAuth()
-  }, [isReady])
+  }, [dispatch, isAuthenticated, routerActions])
+
+  console.log('2')
+
+  if (isLoading) return <></>
+
+  console.log('3')
+
+  const selectedAccount = useSelector((state) => selectors.cache.getCache(state).selectedAccount)
+  const walletAddress = useSelector((state) =>
+    selectors.core.kvStore.eth.getDefaultAddress(state).getOrElse('')
+  )
+  const isEthAccountSelected =
+    selectedAccount && selectedAccount[0] && selectedAccount[0].baseCoin === 'ETH'
 
   useEffect(() => {
     if (!walletAddress) return
@@ -133,8 +132,6 @@ const PluginLayout = (props: Props) => {
   if (!isEthAccountSelected && ethOnlyPaths.includes(path)) {
     routerActions.push('/plugin/coinslist')
   }
-
-  if (isLoading) return null
 
   return (
     <Route
@@ -155,16 +152,11 @@ const PluginLayout = (props: Props) => {
   )
 }
 
-const mapStateToProps = (state) => ({
-  isAuthenticated: selectors.auth.isAuthenticated(state) as boolean,
-  isCoinDataLoaded: selectors.core.data.coins.getIsCoinDataLoaded(state)
-})
-
 const mapDispatchToProps = (dispatch) => ({
   routerActions: bindActionCreators(actions.router, dispatch)
 })
 
-const connector = connect(mapStateToProps, mapDispatchToProps)
+const connector = connect(null, mapDispatchToProps)
 
 type Props = ConnectedProps<typeof connector> & {
   component: ComponentType<any>
