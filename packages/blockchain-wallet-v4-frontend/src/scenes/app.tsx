@@ -144,6 +144,10 @@ const App = ({
                           />
                           {isPlugin() ? (
                             <Switch>
+                              <BackupSeedPhrase
+                                path='/plugin/backup-seed-phrase'
+                                component={BackupSeedPhrase}
+                              />
                               <PluginLayout
                                 path='/plugin/backup-seed-phrase'
                                 component={BackupSeedPhrase}
