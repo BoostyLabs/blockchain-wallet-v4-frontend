@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from 'react'
 import { FormattedMessage } from 'react-intl'
+import { useDispatch, useSelector } from 'react-redux'
 import { IconBlockchainCircle } from '@blockchain-com/icons'
-import BIP39 from 'bip39-light'
 import { BigNumberish, BytesLike, ethers, providers, utils } from 'ethers'
 import { TabMetadata } from 'plugin/internal'
-import { getSessionPayload } from 'plugin/internal/chromeStorage'
+import { CombinedState } from 'redux'
 import styled from 'styled-components'
 
-import { getPrivateKey } from '@core/utils/eth'
 import { Text } from 'blockchain-info-components'
+import { actions, selectors } from 'data'
 
 const Wrapper = styled.div`
   height: 100%;
@@ -81,16 +81,12 @@ class Transaction implements providers.TransactionRequest {
 }
 
 const SignTransaction = (props) => {
+  const dispatch = useDispatch()
   const [metadata, setMetedata] = useState<TabMetadata>({ origin: '' })
   const [transactionRequest, setTransactionRequest] = useState<Transaction>(new Transaction())
-
-  const signTransaction = async () => {
-    const wrapper = await getSessionPayload()
-    const mnemonic = BIP39.entropyToMnemonic(wrapper.wallet.hd_wallets._tail.array[0].seedHex)
-    const privateKey = getPrivateKey(mnemonic)
-    const wallet = new ethers.Wallet(privateKey)
-    const signedTransaction = await wallet.signTransaction(transactionRequest)
-  }
+  const signer = useSelector((state: CombinedState<any>) =>
+    selectors.components.plugin.getWallet(state)
+  )
 
   useEffect(() => {
     const params = new URLSearchParams(props.history.location.search)
@@ -112,6 +108,10 @@ const SignTransaction = (props) => {
       )
     )
   }, [props.history.location.search])
+
+  useEffect(() => {
+    dispatch(actions.components.plugin.getWallet())
+  }, [])
 
   return (
     <Wrapper>
