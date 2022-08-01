@@ -5,6 +5,7 @@ import { call, put, select } from 'redux-saga/effects'
 
 import { APIType } from '@core/network/api'
 import { getPrivateKey } from '@core/utils/eth'
+import { WALLET_SIGNER_ERR } from 'data/components/nfts/sagas'
 
 import { actions as A } from './slice'
 
@@ -21,7 +22,7 @@ export default ({ api }: { api: APIType }) => {
       yield put(A.setWallet(wallet))
       return wallet
     } catch (e) {
-      throw new Error(`Failed to get address. ${e}`)
+      throw new Error(WALLET_SIGNER_ERR)
     }
   }
 
