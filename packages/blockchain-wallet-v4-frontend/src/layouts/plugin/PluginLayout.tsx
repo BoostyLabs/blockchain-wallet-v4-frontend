@@ -1,7 +1,9 @@
 import React, { ComponentType, useEffect, useState } from 'react'
-import { connect, ConnectedProps, useSelector } from 'react-redux'
+import { connect, ConnectedProps, useDispatch, useSelector } from 'react-redux'
 import { Route } from 'react-router-dom'
+import { AbstractPlugin } from 'plugin/internal'
 import {
+  getSessionPayload,
   isSessionActive,
   setSelectedAddress,
   setSessionExpireTime
@@ -10,6 +12,8 @@ import { bindActionCreators } from 'redux'
 import styled from 'styled-components'
 
 import { actions, selectors } from 'data'
+
+const { isPlugin } = AbstractPlugin
 
 const MainWrapper = styled.div`
   width: 100%;
@@ -64,52 +68,73 @@ const PluginLayout = (props: Props) => {
     exact = false,
     footer,
     header,
+    isAuthenticated,
     isCoinDataLoaded,
     path,
     routerActions
   } = props
-
+  const dispatch = useDispatch()
   const selectedAccount = useSelector((state) => selectors.cache.getCache(state).selectedAccount)
   const walletAddress = useSelector((state) =>
     selectors.core.kvStore.eth.getDefaultAddress(state).getOrElse('')
   )
-
   const isEthAccountSelected =
     selectedAccount && selectedAccount[0] && selectedAccount[0].baseCoin === 'ETH'
-
   const [isLoading, setLoading] = useState(true)
+  const isReady = isCoinDataLoaded
+  const isPluginTabPath = window.location.pathname === '/index-tab.html'
 
-  const isReady = isCoinDataLoaded && !isLoading
+  if (!isReady) return null
 
   const checkAuth = async () => {
-    const isAuthenticated = await isSessionActive()
-    if (!isAuthenticated) {
-      routerActions.push('/login')
+    if (isPlugin()) {
+      const isPluginAuthenticated = await isSessionActive()
+
+      if (isAuthenticated) {
+        return
+      }
+
+      if (!isPluginAuthenticated) {
+        await chrome.tabs.create({ url: chrome.runtime.getURL('index-tab.html#/login') })
+        window.close()
+      } else {
+        if (
+          window.location.pathname !== '/plugin/coinslist' &&
+          window.location.pathname !== '/plugin/backup-seed-phrase'
+        ) {
+          routerActions.push('/plugin/coinslist')
+        }
+        console.log('autologin')
+        dispatch(actions.pluginAuth.autoLogin())
+        routerActions.push('/plugin/coinslist')
+        setLoading(false)
+      }
     }
   }
 
+  /*eslint-disable */
   useEffect(() => {
-    checkAuth().then(() => {
-      setLoading(false)
-    })
-
-    return () => {
-      setSessionExpireTime()
+    if (isAuthenticated) {
+      return
     }
-  }, [])
+
+    ;(async function () {
+      const wrapper = await getSessionPayload()
+      dispatch(actions.core.wallet.setWrapper(wrapper))
+    })()
+    checkAuth()
+  }, [isReady])
 
   useEffect(() => {
     if (!walletAddress) return
     setSelectedAddress(walletAddress)
   }, [walletAddress])
 
-  if (!isReady) return null
-
   if (!isEthAccountSelected && ethOnlyPaths.includes(path)) {
     routerActions.push('/plugin/coinslist')
-
-    return null
   }
+
+  if (isLoading) return null
 
   return (
     <Route
@@ -131,6 +156,7 @@ const PluginLayout = (props: Props) => {
 }
 
 const mapStateToProps = (state) => ({
+  isAuthenticated: selectors.auth.isAuthenticated(state) as boolean,
   isCoinDataLoaded: selectors.core.data.coins.getIsCoinDataLoaded(state)
 })
 

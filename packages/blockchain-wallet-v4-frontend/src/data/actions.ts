@@ -17,6 +17,7 @@ import { actions as misc } from './misc/slice'
 import { actions as modals } from './modals/slice'
 // import * as modals from './modals/actions'
 import * as modules from './modules/actions'
+import { actions as pluginAuth } from './pluginAuth/slice'
 import * as preferences from './preferences/actions'
 import { actions as prices } from './prices/slice'
 import { actions as session } from './session/slice'
@@ -38,6 +39,7 @@ export {
   misc,
   modals,
   modules,
+  pluginAuth,
   preferences,
   prices,
   router,

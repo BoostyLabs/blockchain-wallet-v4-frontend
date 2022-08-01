@@ -145,6 +145,10 @@ const App = ({
                           {isPlugin() ? (
                             <Switch>
                               <PluginLayout
+                                path='/plugin/backup-seed-phrase'
+                                component={BackupSeedPhrase}
+                              />
+                              <PluginLayout
                                 path='/plugin/coinslist'
                                 header={<CoinsListHeader />}
                                 footer={<HomeNavbar />}
@@ -156,10 +160,6 @@ const App = ({
                                 footer={<HomeNavbar />}
                                 component={Activity}
                               />
-                              <PluginLayout
-                                path='/plugin/backup-seed-phrase'
-                                component={BackupSeedPhrase}
-                              />
                               <PluginLayout path='/plugin/funding' component={Funding} />
                               <PluginLayout
                                 path='/plugin/nft'
@@ -170,11 +170,7 @@ const App = ({
                               <PluginLayout path='/plugin/send' component={Send} />
                               <PluginLayout path='/plugin/settings' component={Settings} />
                               <PluginLayout path='/plugin/connect-dapp' component={ConnectDapp} />
-                              {isAuthenticated ? (
-                                <Redirect to='/plugin/coinslist' />
-                              ) : (
-                                <Redirect to='/login' />
-                              )}
+                              <Redirect to='/plugin/coinslist' />
                             </Switch>
                           ) : (
                             <Switch>
