@@ -113,20 +113,20 @@ class Transaction implements providers.TransactionRequest {
   constructor(
     public to: string = '',
     public from: string = '',
-    public nonce: string = '',
-    public gasLimit: string = '',
-    public gasPrice: string = '',
+    public nonce: BigNumberish = '',
+    public gasLimit: BigNumberish = '',
+    public gasPrice: BigNumberish = '',
     public data: BytesLike = '',
-    public value: string = '',
+    public value: BigNumberish = '',
     public chainId: number = 0
   ) {}
 }
 
 class FeeState {
   constructor(
-    public gasPrice: string = '0',
-    public maxFeePerGas: string = '0',
-    public maxPriorityFeePerGas: string = '0'
+    public gasPrice: BigNumberish = '',
+    public maxFeePerGas: BigNumberish = '',
+    public maxPriorityFeePerGas: BigNumberish = ''
   ) {}
 }
 
@@ -168,8 +168,7 @@ const SignTransaction = (props) => {
       if (!transactionParams[key]) {
         delete transactionParams[key]
       } else if (key === 'gasPrice' || key === 'gasLimit' || key === 'value') {
-        //@ts-ignore
-        transactionParams[key] = ethers.utils.parseEther(transactionParams[key])
+        transactionParams[key] = ethers.utils.parseEther(String(transactionParams[key]))
       }
     }
 
