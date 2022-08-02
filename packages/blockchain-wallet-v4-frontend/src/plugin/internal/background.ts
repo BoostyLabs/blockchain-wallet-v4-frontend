@@ -1,7 +1,10 @@
+import { providers } from 'ethers'
 import { openPopup } from 'plugin/internal/browser'
 import { isDomainConnected, TabMetadata } from 'plugin/internal/index'
 import { ConnectionEvents, ProviderMessage, RequestArguments } from 'plugin/provider/types'
 import { SupportedRPCMethods } from 'plugin/provider/utils'
+
+import { transactionRequestToQueryParameters } from './transactions'
 
 chrome.runtime.onInstalled.addListener(function () {
   // eslint-disable-next-line
@@ -27,6 +30,8 @@ chrome.runtime.onConnect.addListener(async (port: chrome.runtime.Port) => {
       const { sessionExpiresAt } = await chrome.storage.local.get('sessionExpiresAt')
       const isSessionActive = sessionExpiresAt ? new Date(sessionExpiresAt) > new Date() : false
 
+      const transactionParams = msg.params ? msg.params[0] : ({} as providers.TransactionRequest)
+
       switch (msg.method) {
         case SupportedRPCMethods.RequestAccounts:
           await chrome.runtime.onMessage.addListener(listener)
@@ -43,6 +48,24 @@ chrome.runtime.onConnect.addListener(async (port: chrome.runtime.Port) => {
                 // eslint-disable-next-line
                 openPopup(`/plugin/connect-dapp?domain=${metadata.origin}&favicon=${metadata.favicon}`).catch((e) => console.log(e))
               }
+            } else {
+              await chrome.storage.session.clear()
+              // eslint-disable-next-line
+              await chrome.tabs.create({ url: chrome.runtime.getURL('index-tab.html') }).catch((err) => console.log(err))
+            }
+          } catch (e) {
+            await port.postMessage({
+              data: e.message,
+              type: ConnectionEvents.Error
+            })
+          }
+          break
+        case SupportedRPCMethods.Send:
+          try {
+            await chrome.runtime.onMessage.addListener(listener)
+            if (isSessionActive) {
+              // eslint-disable-next-line
+              openPopup(`/plugin/send-transaction?${transactionRequestToQueryParameters(transactionParams)}`).catch((e) => console.log(e))
             } else {
               await chrome.storage.session.clear()
               // eslint-disable-next-line

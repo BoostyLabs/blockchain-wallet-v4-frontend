@@ -37,6 +37,7 @@ import Funding from './plugin/Funding'
 import HomeNavbar from './plugin/HomeNavbar'
 import Nft from './plugin/Nft'
 import Send from './plugin/Send'
+import SendTransaction from './plugin/SendTransaction'
 import Settings from './plugin/Settings'
 
 const queryClient = new QueryClient()
@@ -170,6 +171,10 @@ const App = ({
                               <PluginLayout path='/plugin/send' component={Send} />
                               <PluginLayout path='/plugin/settings' component={Settings} />
                               <PluginLayout path='/plugin/connect-dapp' component={ConnectDapp} />
+                              <PluginLayout
+                                path='/plugin/send-transaction'
+                                component={SendTransaction}
+                              />
                               {isAuthenticated ? (
                                 <Redirect to='/plugin/coinslist' />
                               ) : (
