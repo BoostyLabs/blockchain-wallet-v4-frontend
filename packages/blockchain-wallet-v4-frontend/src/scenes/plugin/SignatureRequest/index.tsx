@@ -110,11 +110,11 @@ const SignatureRequest = (props) => {
 
       <Padding top={33}>
         <Flex justifyContent='space-between'>
-          <Button height='48px' data-e2e='transaction-details-go-back-button' onClick={deny}>
+          <Button height='48px' data-e2e='sintature-request-deny' onClick={deny}>
             <FormattedMessage id='plugin.signatureRequest.cancel' defaultMessage='Cancel' />
           </Button>
 
-          <Button height='48px' data-e2e='transaction-details-go-back-button' onClick={confirm}>
+          <Button height='48px' data-e2e='sintature-request-confirm' onClick={confirm}>
             <FormattedMessage id='plugin.signatureRequest.confirm' defaultMessage='Confirm' />
           </Button>
         </Flex>
