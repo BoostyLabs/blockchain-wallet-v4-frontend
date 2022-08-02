@@ -61,10 +61,6 @@ const ethOnlyPaths = ['/plugin/activity', '/plugin/nft']
 
 const PluginLayout = (props: Props) => {
   const { component: Component, exact = false, footer, header, path, routerActions } = props
-  const selectedAccount = useSelector((state) => selectors.cache.getCache(state).selectedAccount)
-
-  const isEthAccountSelected =
-    selectedAccount && selectedAccount[0] && selectedAccount[0].baseCoin === 'ETH'
 
   const [isLoading, setLoading] = useState(true)
 
@@ -74,62 +70,55 @@ const PluginLayout = (props: Props) => {
     (state: RootState) => selectors.auth.isAuthenticated(state) as boolean
   )
 
-  console.log('0')
-
-  const isCoinDataLoaded = useSelector((state) =>
-    selectors.core.data.coins.getIsCoinDataLoaded(state)
-  )
-
-  console.log('isReady', isCoinDataLoaded)
-
   useEffect(() => {
-    console.log('1')
-    console.log('isAuthenticated', isAuthenticated)
     if (isAuthenticated) {
       setLoading(false)
       return
     }
 
-    ;(async function () {
+    const setup = async () => {
       const wrapper = await getSessionPayload()
-      console.log('wrapper', wrapper)
       dispatch(actions.core.wallet.setWrapper(wrapper))
-    })()
-    ;(async () => {
+
       const isPluginAuthenticated = await isSessionActive()
       if (!isPluginAuthenticated) {
         await chrome.tabs.create({ url: chrome.runtime.getURL('index-tab.html#/login') })
         window.close()
       } else {
-        if (
-          window.location.pathname !== '/plugin/coinslist' &&
-          window.location.pathname !== '/plugin/backup-seed-phrase'
-        ) {
+        if (window.location.pathname !== '/plugin/coinslist') {
           routerActions.push('/plugin/coinslist')
         }
         dispatch(actions.pluginAuth.autoLogin())
         setLoading(false)
       }
-    })()
-  }, [dispatch, isAuthenticated, routerActions])
+    }
 
-  console.log('3')
+    setup()
+  }, [dispatch, isAuthenticated, routerActions])
 
   const walletAddress = useSelector((state) =>
     selectors.core.kvStore.eth.getDefaultAddress(state).getOrElse('')
   )
 
   useEffect(() => {
-    if (!walletAddress) return
+    if (!walletAddress || isLoading) return
     setSelectedAddress(walletAddress)
-  }, [walletAddress])
+  }, [walletAddress, isLoading])
+
+  const selectedAccount = useSelector((state) => selectors.cache.getCache(state).selectedAccount)
+
+  const isEthAccountSelected =
+    selectedAccount && selectedAccount[0] && selectedAccount[0].baseCoin === 'ETH'
 
   if (!isEthAccountSelected && ethOnlyPaths.includes(path)) {
     routerActions.push('/plugin/coinslist')
   }
-  console.log('4')
 
-  if (isLoading) return <></>
+  const isCoinDataLoaded = useSelector((state) =>
+    selectors.core.data.coins.getIsCoinDataLoaded(state)
+  )
+
+  if (isLoading || !isCoinDataLoaded) return <></>
 
   return (
     <Route
