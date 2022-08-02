@@ -25,7 +25,7 @@ const EmptyState = () => (
       <Wrapper style={{ height, width }}>
         <div>
           <Text color='white' size='14px' weight={500}>
-            Receive
+            Empty state image
           </Text>
         </div>
         <ButtonStyled style={{ marginTop: '150px' }} data-e2e='coinview-empty-add-crypto-btn'>

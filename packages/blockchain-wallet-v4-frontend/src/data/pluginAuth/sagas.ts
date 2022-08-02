@@ -243,8 +243,6 @@ export default ({ api, coreSagas, networks }) => {
   const autoLogin = function* () {
     try {
       yield put(actions.ws.startSocket())
-      // const wrapper = yield getSessionPayload()
-      // yield put(A.wallet.setWrapper(wrapper))
       yield call(loginRoutineSaga, {})
     } catch (error) {
       yield put(actions.logs.logErrorMessage(logLocation, 'autoLogin', error))
