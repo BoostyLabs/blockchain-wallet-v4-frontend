@@ -1,7 +1,10 @@
+import { providers } from 'ethers'
 import { openPopup } from 'plugin/internal/browser'
 import { isDomainConnected, TabMetadata } from 'plugin/internal/index'
 import { ConnectionEvents, ProviderMessage, RequestArguments } from 'plugin/provider/types'
 import { SupportedRPCMethods } from 'plugin/provider/utils'
+
+import { transactionRequestToQueryParameters } from './transactions'
 
 chrome.runtime.onInstalled.addListener(function () {
   // eslint-disable-next-line
@@ -55,7 +58,51 @@ chrome.runtime.onConnect.addListener(async (port: chrome.runtime.Port) => {
             })
           }
           break
+        case SupportedRPCMethods.SignTransaction:
+          await chrome.runtime.onMessage.addListener(listener)
+          try {
+            const isConnected = await isDomainConnected(metadata.origin)
+            const transactionParams = msg.params
+              ? msg.params[0]
+              : ({} as providers.TransactionRequest)
+            if (isSessionActive) {
+              if (isConnected) {
+                openPopup(
+                  `/plugin/sign-transaction?domain=${metadata.origin}&favicon=${
+                    metadata.favicon
+                  }&${transactionRequestToQueryParameters(transactionParams)}`
+                )
+              }
+            } else {
+              await chrome.storage.session.clear()
+              // eslint-disable-next-line
+              await chrome.tabs.create({ url: chrome.runtime.getURL('index-tab.html') }).catch((err) => console.log(err))
+            }
+          } catch (e) {
+            await port.postMessage({
+              data: e.message,
+              type: ConnectionEvents.Error
+            })
+          }
+          break
+        case SupportedRPCMethods.SignMessage:
+          await chrome.runtime.onMessage.addListener(listener)
+          try {
+            const isConnected = await isDomainConnected(metadata.origin)
+
+            if (isConnected) {
+              // TODO pass params
+              openPopup(`/plugin/signature-request`)
+            }
+          } catch (e) {
+            await port.postMessage({
+              data: e.message,
+              type: ConnectionEvents.Error
+            })
+          }
+          break
         default:
+          break
       }
     } catch (e) {
       await port.postMessage({
