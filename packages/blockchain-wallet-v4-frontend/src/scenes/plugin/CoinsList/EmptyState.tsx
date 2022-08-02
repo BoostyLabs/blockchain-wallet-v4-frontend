@@ -1,7 +1,6 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect } from 'react-redux'
-import { Link } from 'react-router-dom'
 import AutoSizer from 'react-virtualized-auto-sizer'
 import { bindActionCreators } from 'redux'
 import styled from 'styled-components'
