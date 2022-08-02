@@ -44,9 +44,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
       let payment = coreSagas.payment.eth.create({
         network: networks.eth
       })
-
       payment = yield payment.init({ coin: 'ETH', isErc20: false })
-
 
       if (!from) {
         from = yield wallet.getAddress()
