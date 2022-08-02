@@ -1,18 +1,20 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { FormattedMessage } from 'react-intl'
+import { useDispatch, useSelector } from 'react-redux'
+import { TabMetadata } from 'plugin/internal'
+import { ConnectionEvents } from 'plugin/provider/types'
+import { SupportedRPCMethods } from 'plugin/provider/utils'
+import { CombinedState } from 'redux'
 import styled from 'styled-components'
 
 import { Button, Text } from 'blockchain-info-components'
 import CryptoAddress from 'components/CryptoAddress/CryptoAddress'
 import { Flex } from 'components/Flex'
 import { Padding } from 'components/Padding'
+import { actions, selectors } from 'data'
 
 const TITLE = 'Your signature is being requested by Uniswap'
 const ADDRESS = 'Oxf56aab5cE63eF6ABC39f2F6A0586999716d465'
-const MESSAGE =
-  'https://uniswap.org/ wants you to sign in with your Ethereum account:\n' +
-  'Oxf56aab5cE63eF6ABC39f2F6A0586999716d465'
-const URL = 'app.uniswap.org'
 
 const Wrapper = styled(Flex)`
   height: 100%;
@@ -26,7 +28,59 @@ const TextWithBreak = styled(Text)`
   word-break: break-all;
 `
 
-const SignatureRequest = () => {
+const SignatureRequest = (props) => {
+  const dispatch = useDispatch()
+  const [metadata, setMetedata] = useState<TabMetadata>({ origin: '' })
+  const [message, setMessage] = useState<string>('')
+  const signer = useSelector((state: CombinedState<any>) =>
+    selectors.components.plugin.getWallet(state)
+  )
+
+  const deny = () => {
+    window.onbeforeunload = () => {
+      chrome.runtime.sendMessage({
+        data: null,
+        type: SupportedRPCMethods.SignTransaction
+      })
+    }
+    window.close()
+  }
+
+  const confirm = async () => {
+    try {
+      const signedMessage = await signer?.signMessage(message)
+      await chrome.runtime.sendMessage({
+        data: signedMessage,
+        type: SupportedRPCMethods.SignTransaction
+      })
+    } catch (e) {
+      await chrome.runtime.sendMessage({
+        data: e.message,
+        type: ConnectionEvents.Error
+      })
+    }
+    window.close()
+  }
+
+  useEffect(() => {
+    const params = new URLSearchParams(props.history.location.search)
+    setMetedata({
+      favicon: params.get('favicon') || '',
+      origin: params.get('domain') || ''
+    })
+    setMessage(params.get('message') || '')
+  }, [props.history.location.search])
+
+  useEffect(() => {
+    dispatch(actions.components.plugin.getWallet())
+    window.onbeforeunload = () => {
+      chrome.runtime.sendMessage({
+        data: null,
+        type: SupportedRPCMethods.SignTransaction
+      })
+    }
+  }, [])
+
   return (
     <Wrapper flexDirection='column' justifyContent='space-between'>
       <div>
@@ -39,7 +93,7 @@ const SignatureRequest = () => {
             </Padding>
 
             <Text size='14px' lineHeight='21px' color='grey400' weight={500}>
-              {URL}
+              {metadata.origin}
             </Text>
           </Flex>
         </Padding>
@@ -66,17 +120,17 @@ const SignatureRequest = () => {
         </Padding>
 
         <TextWithBreak size='14px' lineHeight='21px' color='white' weight={500}>
-          {MESSAGE}
+          {message}
         </TextWithBreak>
       </div>
 
       <Padding top={33}>
         <Flex justifyContent='space-between'>
-          <Button height='48px' data-e2e='transaction-details-go-back-button'>
+          <Button height='48px' data-e2e='transaction-details-go-back-button' onClick={deny}>
             <FormattedMessage id='plugin.signatureRequest.cancel' defaultMessage='Cancel' />
           </Button>
 
-          <Button height='48px' data-e2e='transaction-details-go-back-button'>
+          <Button height='48px' data-e2e='transaction-details-go-back-button' onClick={confirm}>
             <FormattedMessage id='plugin.signatureRequest.confirm' defaultMessage='Confirm' />
           </Button>
         </Flex>
