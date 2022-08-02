@@ -76,7 +76,7 @@ const SignatureRequest = (props) => {
     window.onbeforeunload = () => {
       chrome.runtime.sendMessage({
         data: null,
-        type: SupportedRPCMethods.SignTransaction
+        type: SupportedRPCMethods.SignMessage
       })
     }
   }, [])
@@ -110,11 +110,11 @@ const SignatureRequest = (props) => {
 
       <Padding top={33}>
         <Flex justifyContent='space-between'>
-          <Button height='48px' data-e2e='sintature-request-deny' onClick={deny}>
+          <Button height='48px' data-e2e='signature-request-deny' onClick={deny}>
             <FormattedMessage id='plugin.signatureRequest.cancel' defaultMessage='Cancel' />
           </Button>
 
-          <Button height='48px' data-e2e='sintature-request-confirm' onClick={confirm}>
+          <Button height='48px' data-e2e='signature-request-confirm' onClick={confirm}>
             <FormattedMessage id='plugin.signatureRequest.confirm' defaultMessage='Confirm' />
           </Button>
         </Flex>
