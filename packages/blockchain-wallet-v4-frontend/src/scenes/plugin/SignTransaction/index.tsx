@@ -188,6 +188,12 @@ const SignTransaction = (props) => {
   }
 
   const deny = () => {
+    window.onbeforeunload = () => {
+      chrome.runtime.sendMessage({
+        data: null,
+        type: SupportedRPCMethods.SignTransaction
+      })
+    }
     window.close()
   }
 
