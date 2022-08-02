@@ -2,10 +2,11 @@ import BIP39 from 'bip39-light'
 import { ethers } from 'ethers'
 import { getSessionPayload } from 'plugin/internal/chromeStorage'
 import { path } from 'ramda'
-import { call, put } from 'redux-saga/effects'
+import { call, put, select } from 'redux-saga/effects'
 
 import { APIType } from '@core/network/api'
 import { getPrivateKey } from '@core/utils/eth'
+import { WALLET_SIGNER_ERR } from 'data/components/nfts/sagas'
 
 import { actions as A } from './slice'
 

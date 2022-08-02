@@ -8,6 +8,7 @@ export default ({ api, coreSagas, networks }) => {
 
   return function* pluginSaga() {
     yield takeLatest(actions.getPublicAddress, pluginSagas.getPublicAddress)
+    yield takeLatest(actions.getWallet, pluginSagas.getWallet)
     yield takeLatest(
       actions.initTransactionRequestParameters,
       pluginSagas.initTransactionRequestParameters

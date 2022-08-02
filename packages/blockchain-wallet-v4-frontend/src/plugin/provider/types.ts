@@ -5,7 +5,7 @@ export interface RequestArguments {
   method: string
 
   /** The params of the RPC method, if any. */
-  params?: unknown[] | providers.TransactionRequest[] | Record<string, unknown>
+  params?: unknown[] | Record<string, unknown> | providers.TransactionRequest
 }
 
 export interface ProviderMessage {

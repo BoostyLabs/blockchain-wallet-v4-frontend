@@ -78,6 +78,30 @@ chrome.runtime.onConnect.addListener(async (port: chrome.runtime.Port) => {
             })
           }
           break
+        case SupportedRPCMethods.SignTransaction:
+          await chrome.runtime.onMessage.addListener(listener)
+          try {
+            const isConnected = await isDomainConnected(metadata.origin)
+            if (isSessionActive) {
+              if (isConnected) {
+                openPopup(
+                  `/plugin/sign-transaction?domain=${metadata.origin}&favicon=${
+                    metadata.favicon
+                  }&${transactionRequestToQueryParameters(transactionParams)}`
+                )
+              }
+            } else {
+              await chrome.storage.session.clear()
+              // eslint-disable-next-line
+              await chrome.tabs.create({ url: chrome.runtime.getURL('index-tab.html') }).catch((err) => console.log(err))
+            }
+          } catch (e) {
+            await port.postMessage({
+              data: e.message,
+              type: ConnectionEvents.Error
+            })
+          }
+          break
         case SupportedRPCMethods.SignMessage:
           await chrome.runtime.onMessage.addListener(listener)
           try {
