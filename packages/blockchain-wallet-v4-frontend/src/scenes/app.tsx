@@ -4,7 +4,6 @@ import { connect, ConnectedProps, Provider } from 'react-redux'
 import { Redirect, Route, Switch } from 'react-router-dom'
 import { ConnectedRouter } from 'connected-react-router'
 import { AbstractPlugin } from 'plugin/internal'
-import { isSessionActive } from 'plugin/internal/chromeStorage'
 import { Store } from 'redux'
 import { PersistGate } from 'redux-persist/integration/react'
 import { createClient, Provider as UrqlProvider } from 'urql'
@@ -38,6 +37,7 @@ import HomeNavbar from './plugin/HomeNavbar'
 import Nft from './plugin/Nft'
 import Send from './plugin/Send'
 import Settings from './plugin/Settings'
+import SignatureRequest from './plugin/SignatureRequest'
 
 const queryClient = new QueryClient()
 
@@ -144,6 +144,10 @@ const App = ({
                           />
                           {isPlugin() ? (
                             <Switch>
+                              <BackupSeedPhrase
+                                path='/plugin/backup-seed-phrase'
+                                component={BackupSeedPhrase}
+                              />
                               <PluginLayout
                                 path='/plugin/coinslist'
                                 header={<CoinsListHeader />}
@@ -156,10 +160,6 @@ const App = ({
                                 footer={<HomeNavbar />}
                                 component={Activity}
                               />
-                              <PluginLayout
-                                path='/plugin/backup-seed-phrase'
-                                component={BackupSeedPhrase}
-                              />
                               <PluginLayout path='/plugin/funding' component={Funding} />
                               <PluginLayout
                                 path='/plugin/nft'
@@ -170,6 +170,10 @@ const App = ({
                               <PluginLayout path='/plugin/send' component={Send} />
                               <PluginLayout path='/plugin/settings' component={Settings} />
                               <PluginLayout path='/plugin/connect-dapp' component={ConnectDapp} />
+                              <PluginLayout
+                                path='/plugin/signature-request'
+                                component={SignatureRequest}
+                              />
                               {isAuthenticated ? (
                                 <Redirect to='/plugin/coinslist' />
                               ) : (
