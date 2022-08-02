@@ -113,9 +113,9 @@ class Transaction implements providers.TransactionRequest {
   constructor(
     public to: string = '',
     public from: string = '',
-    public nonce: BigNumberish = '',
-    public gasLimit: BigNumberish = '',
-    public gasPrice: BigNumberish = '',
+    public nonce: string = '',
+    public gasLimit: string = '',
+    public gasPrice: string = '',
     public data: BytesLike = '',
     public value: string = '',
     public chainId: number = 0
@@ -167,11 +167,14 @@ const SignTransaction = (props) => {
     for (let key in transactionParams) {
       if (!transactionParams[key]) {
         delete transactionParams[key]
+      } else if (key === 'gasPrice' || key === 'gasLimit' || key === 'value') {
+        //@ts-ignore
+        transactionParams[key] = ethers.utils.parseEther(transactionParams[key])
       }
     }
 
     try {
-      const signedTransaction = await signer?.signTransaction({ ...transactionParams, value: ethers.utils.parseEther(transactionParams.value) })
+      const signedTransaction = await signer?.signTransaction(transactionParams)
       await chrome.runtime.sendMessage({
         data: signedTransaction,
         type: SupportedRPCMethods.SignTransaction
@@ -231,7 +234,7 @@ const SignTransaction = (props) => {
       const defaultValue = ethers.BigNumber.from(0)
       setFees(
         new FeeState(
-          ethers.utils.formatEther(fees.gasPrice || defaultValue),
+          transactionRequest.gasPrice ? transactionRequest.gasPrice : ethers.utils.formatEther(fees.gasPrice || defaultValue),
           ethers.utils.formatEther(fees.maxFeePerGas || defaultValue),
           ethers.utils.formatEther(fees.maxPriorityFeePerGas || defaultValue),
         ));
@@ -279,8 +282,8 @@ const SignTransaction = (props) => {
         </DenyButton>
         <AcceptButton onClick={accept}>
           <FormattedMessage
-            id='scenes.plugin.settings.connect_dapp.connect'
-            defaultMessage='Connect'
+            id='scenes.plugin.sign_transaction.sign'
+            defaultMessage='Sign'
           />
         </AcceptButton>
       </ButtonsWrapper>
