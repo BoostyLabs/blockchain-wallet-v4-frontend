@@ -40,7 +40,7 @@ const SignatureRequest = (props) => {
     window.onbeforeunload = () => {
       chrome.runtime.sendMessage({
         data: null,
-        type: SupportedRPCMethods.SignTransaction
+        type: SupportedRPCMethods.SignMessage
       })
     }
     window.close()
@@ -51,7 +51,7 @@ const SignatureRequest = (props) => {
       const signedMessage = await signer?.signMessage(message)
       await chrome.runtime.sendMessage({
         data: signedMessage,
-        type: SupportedRPCMethods.SignTransaction
+        type: SupportedRPCMethods.SignMessage
       })
     } catch (e) {
       await chrome.runtime.sendMessage({
@@ -97,22 +97,6 @@ const SignatureRequest = (props) => {
             </Text>
           </Flex>
         </Padding>
-
-        <Padding bottom={40}>
-          <Padding bottom={5}>
-            <Text size='12px' lineHeight='18px' color='grey400' weight={500}>
-              <FormattedMessage
-                id='plugin.signatureRequest.toAccount'
-                defaultMessage='To account'
-              />
-            </Text>
-          </Padding>
-
-          <Text size='14px' lineHeight='21px' color='white' weight={500}>
-            <CryptoAddress>{ADDRESS}</CryptoAddress>
-          </Text>
-        </Padding>
-
         <Padding bottom={5}>
           <Text size='12px' lineHeight='18px' color='grey400' weight={500}>
             <FormattedMessage id='plugin.signatureRequest.message' defaultMessage='Message' />
