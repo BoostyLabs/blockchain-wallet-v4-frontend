@@ -22,7 +22,7 @@ import { askSecondPasswordEnhancer } from 'services/sagas'
 
 import { actions as signerActions } from './slice'
 
-const logLocation = 'components/nfts/sagas'
+const logLocation = 'components/plugin/sagas'
 
 export default ({ api, coreSagas, networks }) => {
   const {
