@@ -90,7 +90,7 @@ const TransactionList: React.FC<ITransactionListProps> = ({ blockHeight, coin, t
                   coin={coin}
                   item={item}
                   key={item.hash}
-                  status='CONFIRMED'
+                  status={item.state}
                   onClick={handleTransactionClick}
                 />
               ))}
