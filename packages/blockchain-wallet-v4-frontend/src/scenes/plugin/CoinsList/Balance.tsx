@@ -46,7 +46,10 @@ const Balance = (props) => {
   const balance = data.cata({
     Failure: () => (
       <Text weight={700} size='24px' color='grey200'>
-        Failed to get total balance
+        <FormattedMessage
+          id='plugin.coinslist.failed.balance'
+          defaultMessage='Failed to get total balance'
+        />
       </Text>
     ),
     Loading: () => <SkeletonRectangle width='120px' height='25px' />,
