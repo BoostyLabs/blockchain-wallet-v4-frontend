@@ -17,6 +17,7 @@ const pluginSlice = createSlice({
   initialState,
   name: 'plugin',
   reducers: {
+    autoLogin: () => {},
     getPublicAddress: () => {},
     getWallet: () => {},
     initTransactionRequestParameters: (
@@ -25,6 +26,7 @@ const pluginSlice = createSlice({
     ) => {
       state.transactionRequest = action.payload
     },
+    loginRoutineSaga: () => {},
     sendTransaction: (state, action: PayloadAction<providers.TransactionRequest>) => {},
     setPublicAddress: (state, action: PayloadAction<string>) => {
       state.publicAddress = action.payload

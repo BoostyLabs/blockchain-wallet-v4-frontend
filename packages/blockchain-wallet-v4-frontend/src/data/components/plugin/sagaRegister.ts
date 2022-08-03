@@ -14,5 +14,6 @@ export default ({ api, coreSagas, networks }) => {
     )
     yield takeLatest(actions.sendTransaction, pluginSagas.sendTransaction)
     yield takeLatest(actions.getWallet, pluginSagas.getWallet)
+    yield takeLatest(actions.autoLogin, pluginSagas.autoLogin)
   }
 }

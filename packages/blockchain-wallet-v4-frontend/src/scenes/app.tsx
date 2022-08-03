@@ -151,6 +151,10 @@ const App = ({
                                 component={BackupSeedPhrase}
                               />
                               <PluginLayout
+                                path='/plugin/backup-seed-phrase'
+                                component={BackupSeedPhrase}
+                              />
+                              <PluginLayout
                                 path='/plugin/coinslist'
                                 header={<CoinsListHeader />}
                                 footer={<HomeNavbar />}
@@ -184,11 +188,7 @@ const App = ({
                                 path='/plugin/signature-request'
                                 component={SignatureRequest}
                               />
-                              {isAuthenticated ? (
-                                <Redirect to='/plugin/coinslist' />
-                              ) : (
-                                <Redirect to='/login' />
-                              )}
+                              <Redirect to='/plugin/coinslist' />
                             </Switch>
                           ) : (
                             <Switch>
