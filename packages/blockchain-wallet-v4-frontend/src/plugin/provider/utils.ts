@@ -1,4 +1,4 @@
-import { ethErrors } from 'eth-rpc-errors'
+import { serializeError } from 'eth-rpc-errors'
 import { providers } from 'ethers'
 
 export const messages = {
@@ -11,7 +11,8 @@ export const messages = {
     invalidSendTransactionRequestParamsMissingTo: () =>
       `Invalid transaction params: must specify 'to' for all other types of transactions. `,
     invalidSendTransactionRequestParamsTo: () => `Invalid 'to' address.`,
-    invalidSendTransactionRequestParamsValue: () => `Invalid 'value'`,
+    invalidSendTransactionRequestParamsValue: (value) =>
+      `Invalid transaction value: '${value}' not a positive number `,
     permanentlyDisconnected: () =>
       'Blockchain.com: Disconnected from extension background. Page reload required.',
     unsupportedRPCMethod: (method: string) =>
@@ -25,8 +26,8 @@ export const messages = {
 
 export enum SupportedRPCMethods {
   RequestAccounts = 'eth_requestAccounts',
-  Send = 'eth_sendTransaction',
-  SendRaw = 'eth_sendRawTransaction',
+  SendRawTransaction = 'eth_sendRawTransaction',
+  SendTransaction = 'eth_sendTransaction',
   SignMessage = 'eth_sign',
   SignTransaction = 'eth_signTransaction'
 }
@@ -39,30 +40,30 @@ export const isValidEthAddress = (address: string) => /^0x[a-fA-F0-9]{40}$/.test
 export const validateSendTransactionRequestParams = (params) => {
   ;(params as providers.TransactionRequest[]).forEach((param) => {
     if (!isTransactionParametersType(param)) {
-      throw ethErrors.provider.custom({
-        code: 1001,
+      throw serializeError({
+        code: -32602,
         message: messages.errors.invalidSendTransactionRequestParams()
       })
     }
 
     if (!param.to) {
-      throw ethErrors.provider.custom({
-        code: 1001,
+      throw serializeError({
+        code: -32602,
         message: messages.errors.invalidSendTransactionRequestParamsMissingTo()
       })
     }
 
     if (!isValidEthAddress(param.to)) {
-      throw ethErrors.provider.custom({
-        code: 1001,
-        message: messages.errors.invalidSendTransactionRequestParamsMissingTo()
+      throw serializeError({
+        code: -32602,
+        message: messages.errors.invalidSendTransactionRequestParamsTo()
       })
     }
 
     if (parseInt(String(param.value), 16) < 0) {
-      throw ethErrors.provider.custom({
-        code: 1001,
-        message: messages.errors.invalidSendTransactionRequestParamsValue()
+      throw serializeError({
+        code: -32602,
+        message: messages.errors.invalidSendTransactionRequestParamsValue(param.value)
       })
     }
   })

@@ -60,7 +60,7 @@ chrome.runtime.onConnect.addListener(async (port: chrome.runtime.Port) => {
             })
           }
           break
-        case SupportedRPCMethods.Send:
+        case SupportedRPCMethods.SendTransaction:
           try {
             await chrome.runtime.onMessage.addListener(listener)
             if (isSessionActive) {

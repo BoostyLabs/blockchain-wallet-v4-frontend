@@ -79,7 +79,7 @@ export class BCDCInpageProvider extends SafeEventEmitter {
       })
     }
 
-    if ((method as SupportedRPCMethods) === SupportedRPCMethods.Send) {
+    if ((method as SupportedRPCMethods) === SupportedRPCMethods.SendTransaction) {
       validateSendTransactionRequestParams(params)
     }
 

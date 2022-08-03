@@ -2,6 +2,7 @@ import React, { useEffect } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { useDispatch, useSelector } from 'react-redux'
 import { IconArrowUpRight } from '@blockchain-com/icons'
+import { useQueryTransactionRequestPameters } from 'blockchain-wallet-v4-frontend/src/hooks/useQueryTransactionRequestPameters'
 import { Transaction } from 'plugin/internal/transactions'
 import { SupportedRPCMethods } from 'plugin/provider/utils'
 import { CombinedState } from 'redux'
@@ -42,6 +43,10 @@ const TextWrapper = styled(Text)`
 
 const SendTransaction = (props) => {
   const dispatch = useDispatch()
+
+  const queryTransactionRequestParameters = useQueryTransactionRequestPameters(
+    props.history.location.search
+  )
 
   const transactionRequest = useSelector((state: CombinedState<any>) =>
     selectors.components.plugin.getTransactionRequest(state)
@@ -97,27 +102,14 @@ const SendTransaction = (props) => {
   }
 
   useEffect(() => {
-    (async () => {
-      const params = new URLSearchParams(props.history.location.search)
-
-      dispatch(actions.components.plugin.initTransactionRequestParameters(new Transaction(
-        params.get('to') || '',
-        params.get('from') || '',
-        params.get('nonce') || '',
-        params.get('gasLimit') || 0,
-        params.get('gasPrice') || '',
-        params.get('data') || '',
-        params.get('value') || 0,
-        Number(params.get('chainId')) || 0
-      )))
-    })()
-  }, [])
+    queryTransactionRequestParameters && dispatch(actions.components.plugin.initTransactionRequestParameters(queryTransactionRequestParameters))
+  }, [queryTransactionRequestParameters])
 
   useEffect(() => {
     window.onbeforeunload = () => {
       chrome.runtime.sendMessage({
         data: null,
-        type: SupportedRPCMethods.Send
+        type: SupportedRPCMethods.SendTransaction
       })
     }
   }, [])

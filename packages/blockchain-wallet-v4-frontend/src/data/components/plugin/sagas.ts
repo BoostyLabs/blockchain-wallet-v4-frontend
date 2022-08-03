@@ -22,7 +22,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
       yield put(A.setWallet(wallet))
       return wallet
     } catch (e) {
-      throw new Error(`Failed to get address. ${e}`)
+      throw new Error(`Failed to get wallet. ${e}`)
     }
   }
 
@@ -32,7 +32,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
       const address = yield signer.getAddress()
       yield put(A.setPublicAddress(address))
     } catch (e) {
-      throw new Error(`Failed to get wallet. ${e}`)
+      throw new Error(`Failed to get address. ${e}`)
     }
   }
 
