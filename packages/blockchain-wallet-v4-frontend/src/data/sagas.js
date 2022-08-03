@@ -5,7 +5,6 @@ import * as custodial from './custodial/sagas'
 import * as middleware from './middleware/sagas'
 import * as misc from './misc/sagas'
 import * as modules from './modules/sagas'
-import * as pluginAuth from './pluginAuth/sagas'
 import * as preferences from './preferences/sagas'
 import * as prices from './prices/sagas'
 import * as router from './router/sagas'
@@ -20,7 +19,6 @@ export {
   middleware,
   misc,
   modules,
-  pluginAuth,
   preferences,
   prices,
   router,

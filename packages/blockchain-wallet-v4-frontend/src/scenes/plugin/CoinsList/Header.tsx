@@ -80,7 +80,7 @@ const Header = () => {
   const dispatch = useDispatch()
   const [isSwitchAccountVisible, setIsSwitchAccountVisible] = useState(false)
   const [isSettingsVisible, setIsSettingsVisible] = useState(false)
-  const [isLoadingAcconts, setIsLoadingAcconts] = useState(true)
+  const [isLoadingAccounts, setIsLoadingAccounts] = useState(true)
   const selectedAccount = useSelector((state) => selectors.cache.getCache(state).selectedAccount)
   const coins = useSelector(selectors.components.swap.getCoins)
   const accounts = useSelector((state) =>
@@ -101,7 +101,7 @@ const Header = () => {
 
   useEffect(() => {
     if (accounts.ETH && accounts.ETH[0]) {
-      setIsLoadingAcconts(false)
+      setIsLoadingAccounts(false)
     }
     if (accounts.ETH && accounts.ETH[0] && !selectedAccount) {
       dispatch(actions.setSelectedAccount(accounts.ETH[0].address))
@@ -110,7 +110,7 @@ const Header = () => {
 
   return (
     <>
-      {isLoadingAcconts ? (
+      {isLoadingAccounts ? (
         <LoadingWrapper>
           <SpinningLoader />
         </LoadingWrapper>

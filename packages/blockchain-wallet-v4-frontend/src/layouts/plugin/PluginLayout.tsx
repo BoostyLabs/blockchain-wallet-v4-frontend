@@ -88,7 +88,7 @@ const PluginLayout = (props: Props) => {
         if (window.location.pathname !== '/plugin/coinslist') {
           routerActions.push('/plugin/coinslist')
         }
-        dispatch(actions.pluginAuth.autoLogin())
+        dispatch(actions.components.plugin.autoLogin())
         setLoading(false)
       }
     }
