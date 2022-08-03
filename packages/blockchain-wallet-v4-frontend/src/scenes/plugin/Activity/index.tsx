@@ -77,6 +77,7 @@ const Activity: React.FC<Props> = ({ fetchErc20Transactions, fetchTransactions, 
         </TitleWrapper>
 
         {showEthTransactions &&
+          transactions.eth[0] &&
           transactions.eth[0].cata({
             Failure: (message) => <>{message}</>,
             Loading: () => (
@@ -94,6 +95,7 @@ const Activity: React.FC<Props> = ({ fetchErc20Transactions, fetchTransactions, 
           })}
 
         {showErc20Transactions &&
+          transactions[selectedCoin][0] &&
           transactions[selectedCoin][0].cata({
             Failure: (message) => <>{message}</>,
             Loading: () => (
@@ -129,7 +131,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   fetchErc20Transactions: (token: string) =>
     dispatch(actions.core.data.eth.fetchErc20Transactions(token, true)),
-  fetchTransactions: () => dispatch(actions.core.data.eth.fetchTransactions(null, true))
+  fetchTransactions: () => dispatch(actions.core.data.eth.fetchTransactions('', true))
 })
 
 const connector = connect(mapStateToProps, mapDispatchToProps)

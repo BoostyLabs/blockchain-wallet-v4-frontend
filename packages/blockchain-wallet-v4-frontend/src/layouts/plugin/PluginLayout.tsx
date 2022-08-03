@@ -74,6 +74,8 @@ const PluginLayout = (props: Props) => {
     selectors.core.kvStore.eth.getDefaultAddress(state).getOrElse('')
   )
 
+  const activeAccountCoin = selectedAccount && selectedAccount[0].baseCoin
+
   const isEthAccountSelected =
     selectedAccount && selectedAccount[0] && selectedAccount[0].baseCoin === 'ETH'
 
@@ -122,7 +124,7 @@ const PluginLayout = (props: Props) => {
             <Content>
               <Component {...matchProps} />
             </Content>
-            {footer && <Footer>{footer}</Footer>}
+            {footer && isEthAccountSelected && <Footer>{footer}</Footer>}
           </Wrapper>
         </MainWrapper>
       )}
