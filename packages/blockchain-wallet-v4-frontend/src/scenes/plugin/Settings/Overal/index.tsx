@@ -47,6 +47,7 @@ const LogoutButton = styled.button`
   border: 1px solid ${(props) => props.theme.grey400};
   background: transparent;
   border-radius: 10px;
+  cursor: pointer;
 `
 
 const Overal = (props) => {
@@ -64,9 +65,8 @@ const Overal = (props) => {
     new Setting('scenes.plugin.settings.info', 'About', `${path}/about`, <IconInformation />)
   ]
   const logout = async () => {
-    await removeAllConnections()
-    const sessionActions = bindActionCreators(actions.session, dispatch)
-    dispatch(sessionActions.logout())
+    await chrome.storage.session.clear()
+    window.close()
   }
 
   return (
