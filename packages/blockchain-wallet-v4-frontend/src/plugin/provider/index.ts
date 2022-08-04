@@ -7,10 +7,16 @@ import {
   Maybe,
   ProviderConnectInfo,
   ProviderMessage,
+  ProviderMessageData,
   RequestArguments,
   StandardEvents
 } from './types'
-import { messages, SupportedRPCMethods } from './utils'
+import {
+  messages,
+  SupportedRPCMethods,
+  validateSendTransactionRequestParams,
+  validateSignMessageRequestParams
+} from './utils'
 
 export class BCDCInpageProvider extends SafeEventEmitter {
   private connection: Duplex
@@ -77,6 +83,17 @@ export class BCDCInpageProvider extends SafeEventEmitter {
       throw ethErrors.provider.unsupportedMethod({
         message: messages.errors.unsupportedRPCMethod(method)
       })
+    }
+
+    switch (method as SupportedRPCMethods) {
+      case SupportedRPCMethods.SendTransaction:
+        validateSendTransactionRequestParams(params)
+        break
+      case SupportedRPCMethods.SignMessage:
+        validateSignMessageRequestParams(params)
+        break
+      default:
+        break
     }
 
     this.connection.write(args)
@@ -147,8 +164,17 @@ export class BCDCInpageProvider extends SafeEventEmitter {
       }
 
       if (msg.type === ConnectionEvents.Error) {
+        const data = msg.data as ProviderMessageData
+
+        if (data.code) {
+          throw ethErrors.provider.custom({
+            code: data.code,
+            message: data.message
+          })
+        }
+
         throw ethErrors.provider.custom({
-          code: 0,
+          code: 1001,
           message: msg.data as string
         })
       }

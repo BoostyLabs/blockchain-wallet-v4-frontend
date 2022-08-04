@@ -35,9 +35,12 @@ import { ConnectDapp } from './plugin/ConnectDapp'
 import Funding from './plugin/Funding'
 import HomeNavbar from './plugin/HomeNavbar'
 import Nft from './plugin/Nft'
+import RPCMethodsLayout from './plugin/RPCMethodsLayout'
 import Send from './plugin/Send'
+import SendTransaction from './plugin/SendTransaction'
 import Settings from './plugin/Settings'
 import SignatureRequest from './plugin/SignatureRequest'
+import SignTransaction from './plugin/SignTransaction'
 
 const queryClient = new QueryClient()
 
@@ -154,6 +157,10 @@ const App = ({
                                 footer={<HomeNavbar />}
                                 component={CoinsList}
                               />
+                              <RPCMethodsLayout
+                                path='/plugin/sign-transaction'
+                                component={SignTransaction}
+                              />
                               <PluginLayout
                                 path='/plugin/activity'
                                 header={<CoinsListHeader />}
@@ -170,16 +177,19 @@ const App = ({
                               />
                               <PluginLayout path='/plugin/send' component={Send} />
                               <PluginLayout path='/plugin/settings' component={Settings} />
-                              <PluginLayout path='/plugin/connect-dapp' component={ConnectDapp} />
-                              <PluginLayout
+                              <RPCMethodsLayout
+                                path='/plugin/connect-dapp'
+                                component={ConnectDapp}
+                              />
+                              <RPCMethodsLayout
+                                path='/plugin/send-transaction'
+                                component={SendTransaction}
+                              />
+                              <RPCMethodsLayout
                                 path='/plugin/signature-request'
                                 component={SignatureRequest}
                               />
-                              {isAuthenticated ? (
-                                <Redirect to='/plugin/coinslist' />
-                              ) : (
-                                <Redirect to='/login' />
-                              )}
+                              <Redirect to='/plugin/coinslist' />
                             </Switch>
                           ) : (
                             <Switch>
