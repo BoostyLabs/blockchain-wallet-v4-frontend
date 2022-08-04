@@ -10,7 +10,12 @@ import {
   RequestArguments,
   StandardEvents
 } from './types'
-import { messages, SupportedRPCMethods, validateSendTransactionRequestParams } from './utils'
+import {
+  messages,
+  SupportedRPCMethods,
+  validateSendTransactionRequestParams,
+  validateSignMessageRequestParams
+} from './utils'
 
 export class BCDCInpageProvider extends SafeEventEmitter {
   private connection: Duplex
@@ -79,8 +84,15 @@ export class BCDCInpageProvider extends SafeEventEmitter {
       })
     }
 
-    if ((method as SupportedRPCMethods) === SupportedRPCMethods.SendTransaction) {
-      validateSendTransactionRequestParams(params)
+    switch (method as SupportedRPCMethods) {
+      case SupportedRPCMethods.SendTransaction:
+        validateSendTransactionRequestParams(params)
+        break
+      case SupportedRPCMethods.SignMessage:
+        validateSignMessageRequestParams(params)
+        break
+      default:
+        break
     }
 
     this.connection.write(args)
