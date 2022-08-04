@@ -161,6 +161,7 @@ const App = ({
                                 component={Activity}
                               />
                               <PluginLayout path='/plugin/funding' component={Funding} />
+                              <PluginLayout path='/plugin/settings' component={Settings} />
                               <PluginLayout
                                 path='/plugin/nft'
                                 header={<CoinsListHeader />}

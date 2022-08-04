@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { useDispatch, useSelector } from 'react-redux'
-import { Link, Route, Switch } from 'react-router-dom'
+import { Link, withRouter } from 'react-router-dom'
 import { colors, Icon } from '@blockchain-com/constellation'
 import { IconMoreHorizontal } from '@blockchain-com/icons'
 import { CombinedState } from 'redux'
@@ -69,7 +69,7 @@ const SettingsButton = styled.button`
   cursor: pointer;
 `
 
-const Header = () => {
+const Header = (props) => {
   const dispatch = useDispatch()
   const [isSwitchAccountVisible, setIsSwitchAccountVisible] = useState(false)
   const [isSettingsVisible, setIsSettingsVisible] = useState(false)
@@ -112,7 +112,7 @@ const Header = () => {
             <StatusLabel />
           </AssetWrapper>
         </WalletWapper>
-        <Link to='/plugin/coinslist' onClick={setSettingsVisibility}>
+        <Link to={{ pathname: '/plugin/settings', state: { prevPath: props.location.pathname } }}>
           <Icon label='IconMore' size='md'>
             <IconMoreHorizontal />
           </Icon>
@@ -125,9 +125,8 @@ const Header = () => {
           setIsSwitchAccountVisible={setIsSwitchAccountVisible}
         />
       )}
-      {isSettingsVisible && <Settings setIsSettingsVisible={setIsSettingsVisible} />}
     </header>
   )
 }
 
-export default Header
+export default withRouter(Header)
