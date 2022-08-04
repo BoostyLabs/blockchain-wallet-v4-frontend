@@ -7,6 +7,7 @@ import {
   Maybe,
   ProviderConnectInfo,
   ProviderMessage,
+  ProviderMessageData,
   RequestArguments,
   StandardEvents
 } from './types'
@@ -163,6 +164,15 @@ export class BCDCInpageProvider extends SafeEventEmitter {
       }
 
       if (msg.type === ConnectionEvents.Error) {
+        const data = msg.data as ProviderMessageData
+
+        if (data.code) {
+          throw ethErrors.provider.custom({
+            code: data.code,
+            message: data.message
+          })
+        }
+
         throw ethErrors.provider.custom({
           code: 1001,
           message: msg.data as string
