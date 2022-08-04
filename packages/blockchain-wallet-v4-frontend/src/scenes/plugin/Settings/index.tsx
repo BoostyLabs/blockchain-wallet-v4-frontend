@@ -67,11 +67,10 @@ export class Setting {
   }
 }
 
-const isRootPath = () => {
-  return props.location.pathname === '/plugin/settings'
-}
-
 const Settings = (props) => {
+  const isRootPath = () => {
+    return props.location.pathname === '/plugin/settings'
+  }
   return (
     <SettingsContainer>
       <SettingsLinksWrapper justifyContent={`${isRootPath() ? 'flex-end' : 'space-between'}`}>
