@@ -10,12 +10,10 @@ import {
   IconWallet
 } from '@blockchain-com/icons'
 import { removeAllConnections } from 'plugin/internal'
-import { bindActionCreators } from 'redux'
 import styled from 'styled-components'
 
 import { Text } from 'blockchain-info-components'
 import { Flex } from 'components/Flex'
-import { actions } from 'data'
 
 import { Setting, SettingsHeading } from '..'
 
@@ -65,6 +63,7 @@ const Overal = (props) => {
     new Setting('scenes.plugin.settings.info', 'About', `${path}/about`, <IconInformation />)
   ]
   const logout = async () => {
+    await removeAllConnections()
     await chrome.storage.session.clear()
     window.close()
   }
