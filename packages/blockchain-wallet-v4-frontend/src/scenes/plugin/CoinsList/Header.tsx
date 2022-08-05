@@ -79,7 +79,6 @@ const LoadingWrapper = styled.div`
 const Header = (props) => {
   const dispatch = useDispatch()
   const [isSwitchAccountVisible, setIsSwitchAccountVisible] = useState(false)
-  const [isSettingsVisible, setIsSettingsVisible] = useState(false)
   const [isLoadingAccounts, setIsLoadingAccounts] = useState(true)
   const selectedAccount = useSelector((state) => selectors.cache.getCache(state).selectedAccount)
   const coins = useSelector(selectors.components.swap.getCoins)
@@ -93,10 +92,6 @@ const Header = (props) => {
 
   const setSwitchAccountVisibility = () => {
     setIsSwitchAccountVisible(true)
-  }
-
-  const setSettingsVisibility = () => {
-    setIsSettingsVisible(true)
   }
 
   useEffect(() => {
@@ -129,7 +124,7 @@ const Header = (props) => {
                 <StatusLabel />
               </AssetWrapper>
             </WalletWapper>
-            <Link to='/plugin/coinslist' onClick={setSettingsVisibility}>
+            <Link to='/plugin/settings'>
               <Icon label='IconMore' size='md'>
                 <IconMoreHorizontal />
               </Icon>

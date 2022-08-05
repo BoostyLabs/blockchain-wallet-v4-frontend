@@ -68,21 +68,20 @@ export class Setting {
 }
 
 const Settings = (props) => {
+  const isRootPath = () => {
+    return props.location.pathname === '/plugin/settings'
+  }
   return (
     <SettingsContainer>
-      <SettingsLinksWrapper justifyContent='space-between'>
-        <div
-          role='button'
-          style={{ cursor: 'pointer' }}
-          tabIndex={-1}
-          onKeyDown={props.history.goBack}
-          onClick={props.history.goBack}
-        >
-          <Icon color='grey700' label='IconBack' size='md'>
-            <IconArrowLeft />
-          </Icon>
-        </div>
-        <Link to={props.location.state.prevPath}>
+      <SettingsLinksWrapper justifyContent={`${isRootPath() ? 'flex-end' : 'space-between'}`}>
+        {!isRootPath() && (
+          <Link to='/plugin/settings'>
+            <Icon color='grey700' label='IconBack' size='md'>
+              <IconArrowLeft />
+            </Icon>
+          </Link>
+        )}
+        <Link to='/plugin/coinslist'>
           <Icon color='grey700' label='IconClose' size='md'>
             <IconClose />
           </Icon>
