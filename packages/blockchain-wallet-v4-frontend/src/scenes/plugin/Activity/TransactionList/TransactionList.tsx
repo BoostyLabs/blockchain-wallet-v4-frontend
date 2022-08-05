@@ -56,7 +56,7 @@ const TransactionList: React.FC<ITransactionListProps> = ({ blockHeight, coin, t
         <>
           <Text size='14px' lineHeight='150%' color='grey400' weight={500}>
             <FormattedMessage id='plugin.activity.transactionList.queue' defaultMessage='Queue' /> (
-            {pendingTransactions.length}
+            {pendingTransactions.length})
           </Text>
           <Padding top={16} bottom={45}>
             <Flex flexDirection='column'>
@@ -65,7 +65,7 @@ const TransactionList: React.FC<ITransactionListProps> = ({ blockHeight, coin, t
                   coin={coin}
                   item={item}
                   key={item.hash}
-                  status='PENDING'
+                  status={item.state}
                   onClick={handleTransactionClick}
                 />
               ))}

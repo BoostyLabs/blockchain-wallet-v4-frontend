@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { useDispatch, useSelector } from 'react-redux'
-import { Link, withRouter } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { colors, Icon } from '@blockchain-com/constellation'
 import { IconMoreHorizontal } from '@blockchain-com/icons'
 import { CombinedState } from 'redux'
@@ -76,7 +76,7 @@ const LoadingWrapper = styled.div`
   background: ${(props) => props.theme.black};
 `
 
-const Header = (props) => {
+const Header = () => {
   const dispatch = useDispatch()
   const [isSwitchAccountVisible, setIsSwitchAccountVisible] = useState(false)
   const [isLoadingAccounts, setIsLoadingAccounts] = useState(true)
@@ -136,27 +136,11 @@ const Header = (props) => {
               accounts={switchAccounts}
               setIsSwitchAccountVisible={setIsSwitchAccountVisible}
             />
-          </Wallet>
-          <AssetWrapper>
-            <Wallet>{activeAccountCoin}</Wallet>
-            <StatusLabel />
-          </AssetWrapper>
-        </WalletWapper>
-        <Link to={{ pathname: '/plugin/settings', state: { prevPath: props.location.pathname } }}>
-          <Icon label='IconMore' size='md'>
-            <IconMoreHorizontal />
-          </Icon>
-        </Link>
-      </HeaderWrapper>
-      {isSwitchAccountVisible && (
-        <SwitchAccount
-          coins={coins}
-          accounts={switchAccounts}
-          setIsSwitchAccountVisible={setIsSwitchAccountVisible}
-        />
+          )}
+        </header>
       )}
-    </header>
+    </>
   )
 }
 
-export default withRouter(Header)
+export default Header

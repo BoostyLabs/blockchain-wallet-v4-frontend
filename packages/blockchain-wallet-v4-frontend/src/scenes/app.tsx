@@ -176,7 +176,6 @@ const App = ({
                                 component={Nft}
                               />
                               <PluginLayout path='/plugin/send' component={Send} />
-                              <PluginLayout path='/plugin/settings' component={Settings} />
                               <RPCMethodsLayout
                                 path='/plugin/connect-dapp'
                                 component={ConnectDapp}
