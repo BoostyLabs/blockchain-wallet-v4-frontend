@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
 import { isEmpty } from 'ramda'
@@ -34,21 +34,15 @@ const Activity: React.FC<Props> = ({ fetchErc20Transactions, fetchTransactions, 
 
   const hasCoinBalances = coinBalances && !isEmpty(coinBalances)
 
-  React.useEffect(() => {
+  useEffect(() => {
+    setSelectedCoin('ETH')
+  }, [])
+
+  useEffect(() => {
     if (hasCoinBalances) {
-      setSelectedCoin('ETH')
+      fetchTransactions()
     }
   }, [hasCoinBalances])
-
-  React.useEffect(() => {
-    if (hasCoinBalances && selectedCoin) {
-      if (selectedCoin === 'ETH') {
-        fetchTransactions()
-      } else {
-        fetchErc20Transactions(selectedCoin)
-      }
-    }
-  }, [fetchErc20Transactions, fetchTransactions, hasCoinBalances, coinBalances, selectedCoin])
 
   const handleSelectCoin = React.useCallback((coin: string) => {
     setSelectedCoin(coin)
